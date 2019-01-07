@@ -33,7 +33,6 @@ git clone https://github.com/andela/ah-code-titans-frontend.git
 ```
 
 Then cd into the projects folder and checkout to the specific branch
-
 ```
 cd ah-code-titans-frontend
 git checkout ch-create-react-app-161967080
