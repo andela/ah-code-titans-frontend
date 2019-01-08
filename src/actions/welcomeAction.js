@@ -1,6 +1,8 @@
+import * as types from "./ActionTypes";
+
 export const welcomeAction = message => {
   return {
-    type: "WELCOME_TO_APP",
+    type: types.WELCOME_MESSAGE,
     message
   };
 };
