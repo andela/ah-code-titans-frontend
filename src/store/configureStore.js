@@ -5,7 +5,7 @@ import reduxImmutableStateInvariant from "redux-immutable-state-invariant";
 import createHistory from "history/createBrowserHistory";
 import { routerMiddleware } from "connected-react-router";
 
-import creactRootReducer from "../reducers";
+import createRootReducer from "../reducers";
 
 export const history = createHistory();
 
@@ -19,7 +19,7 @@ function configureStoreDev(initialState) {
   ];
 
   return createStore(
-    creactRootReducer(history),
+    createRootReducer(history),
     initialState,
     applyMiddleware(...middleWare)
   );
@@ -33,7 +33,7 @@ function configureStoreProd(initialState) {
   ];
 
   return createStore(
-    creactRootReducer(history),
+    createRootReducer(history),
     initialState,
     applyMiddleware(...middleWare)
   );
