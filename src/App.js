@@ -15,6 +15,7 @@ class App extends React.Component {
   componentDidMount() {
     const { actions } = this.props;
     const { welcomeMessage } = this.state;
+    actions.welcomeAction(welcomeMessage);
   }
 
   render() {
@@ -30,7 +31,9 @@ class App extends React.Component {
 
 App.propTypes = {
   message: PropTypes.string.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.shape({
+    welcomeAction: PropTypes.func.isRequired
+  }).isRequired
 };
 
 function mapStateToProps(state, ownState) {
