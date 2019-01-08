@@ -1,8 +1,7 @@
-import * as types from "./ActionTypes";
+/* eslint-disable import/prefer-default-export */
+import * as types from "./actionTypes";
 
-export const welcomeAction = message => {
-  return {
-    type: types.WELCOME_MESSAGE,
-    message
-  };
-};
+export const welcomeAction = message => ({
+  type: types.WELCOME_MESSAGE,
+  message
+});
