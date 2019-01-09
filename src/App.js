@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as WelcomeAction from "./actions/welcomeAction";
+import "./assets/style/main.scss";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>{message}</h1>
+        <h1 className="text">{message}</h1>
       </div>
     );
   }
