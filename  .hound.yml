@@ -6,4 +6,3 @@ eslint:
   config_file: .eslintrc
 
 esversion: 6
-
