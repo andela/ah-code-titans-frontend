@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { Switch, Route } from "react-router";
 import * as WelcomeAction from "../actions/welcomeAction";
 import HomePage from "./containers/homePage";
-import NotFoundPage from "./views/NotFoundPageg";
+import NotFoundPage from "./views/NotFoundPage";
 
 class App extends React.Component {
   constructor(props) {
@@ -58,5 +58,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(App);
-
-
