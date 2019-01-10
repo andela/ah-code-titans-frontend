@@ -1,6 +1,7 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/f029fa69e8fbc6173e2a/maintainability)](https://codeclimate.com/github/andela/ah-code-titans-frontend/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/f029fa69e8fbc6173e2a/test_coverage)](https://codeclimate.com/github/andela/ah-code-titans-frontend/test_coverage)
-
 ## Authors Haven
+[![Maintainability](https://api.codeclimate.com/v1/badges/f029fa69e8fbc6173e2a/maintainability)](https://codeclimate.com/github/andela/ah-code-titans-frontend/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/f029fa69e8fbc6173e2a/test_coverage)](https://codeclimate.com/github/andela/ah-code-titans-frontend/test_coverage)
+[![Build Status](https://travis-ci.org/andela/ah-code-titans-frontend.svg?branch=develop)](https://travis-ci.org/andela/ah-code-titans-frontend)
+[![CircleCI](https://circleci.com/gh/andela/ah-code-titans-frontend.svg?style=svg)](https://circleci.com/gh/andela/ah-code-titans-frontend)
 
 A Social platform for the creative at heart.
 

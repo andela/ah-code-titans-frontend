@@ -8,3 +8,6 @@ before-script:
   - npm install
 script:
   - npm test
+# slack notifications configuration
+notifications:
+  slack: andela:klJW0ykyWuYE3i66GObhcUT5
