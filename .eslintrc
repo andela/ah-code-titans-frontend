@@ -4,8 +4,19 @@
     "browser": true,
     "jest": true
   },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
+  },
+  "plugins": [ "react", "jsx-a11y", "import" ],
   "extends": "airbnb",
+  "parser": "babel-eslint",
   "rules": {
+    "strict": "error",
     "comma-dangle": ["error", "never"],
     "no-unused-vars": [
       "error",
@@ -36,6 +47,13 @@
     ],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
-    "linebreak-style": ["error", "unix"]
+    "linebreak-style": ["error", "unix"],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max":1,
+        "maxEOF": 0
+      }
+    ]
   }
 }
