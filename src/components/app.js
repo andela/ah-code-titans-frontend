@@ -6,6 +6,7 @@ import { Switch, Route } from "react-router";
 import * as WelcomeAction from "../actions/welcomeAction";
 import HomePage from "./containers/homePage";
 import NotFoundPage from "./views/NotFoundPage";
+import ArticleAPI from "../api/articleAPI";
 
 class App extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class App extends React.Component {
     const { actions } = this.props;
     const { welcomeMessage } = this.state;
     actions.welcomeAction(welcomeMessage);
+    ArticleAPI.getArticles();
   }
 
   render() {
