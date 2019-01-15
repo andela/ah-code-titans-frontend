@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
-import welcomeReducer from "./welcomeReducer";
+
+import registration from "./registrationReducer";
 
 export default history => combineReducers({
   router: connectRouter(history),
-  welcomeReducer
+  registration
 });
