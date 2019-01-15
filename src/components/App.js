@@ -1,23 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { Switch, Route } from "react-router";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { Switch, Route, Redirect } from "react-router";
+import PropTypes from "prop-types";
 import HomePage from "./containers/homePage";
 import NotFoundPage from "./views/NotFoundPage";
-import RegistrationPage from "./containers/registration";
-import "../assets/style/main.scss";
-import ResetRequestPage from "./containers/resetRequest";
 import UpdatePasswordPage from "./containers/updatePassword";
-import LoginPage from "./containers/login";
 import SocialAuthenticationLanding from "./containers/socialAuthenticationLanding";
 import ProfilePage from "./containers/profile/Profile";
-// import HeaderComponent from "./containers/headers/index"
-
 import ArticleContainer from "./containers/articlesContainer";
 import SingleArticle from "./views/articles/SingleArticle";
-import "../assets/style/articles/style.scss";
 import DiscoverPage from "./containers/discoverPage";
-/* eslint-disable react/prefer-stateless-function */
+
+import "../assets/style/main.scss";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -35,14 +31,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        {/* <HeaderComponent location={location} /> */}
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/social/auth" component={SocialAuthenticationLanding} />
-          <Route path="/request_reset" component={ResetRequestPage} />
           <Route path="/change_password" component={UpdatePasswordPage} />
-          <Route path="/signup" component={RegistrationPage} />
-          <Route path="/login" component={LoginPage} />
           <Route path="/profile" render={props => this.checkIfAuthenticated(ProfilePage, props)} />
           <Route path="/create_article" component={ArticleContainer} />
           <Route path="/discover" component={DiscoverPage} />

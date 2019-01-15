@@ -4,9 +4,8 @@ import { connect } from "react-redux";
 import UserHeaderView from "../../views/headers/UserHeader";
 
 function UserHeader(props) {
-  const { currentPath, auth } = props;
   return (
-    <UserHeaderView currentPath={currentPath} auth={auth} />
+    <UserHeaderView {...props} />
   );
 }
 

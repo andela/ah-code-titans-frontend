@@ -13,7 +13,6 @@ configure({ adapter: new Adapter() });
 
 export function setup(Component, state = initialState) {
   const { store } = configureStoreDev(state);
-
   const enzymeWrapper = mount(
     <Provider store={store}>
       <ConnectedRouter history={history}>

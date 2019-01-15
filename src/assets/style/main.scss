@@ -72,3 +72,43 @@
       width: .2rem;
   }
 }
+.ui{
+  &.button {
+    &.primary {
+      background-color: $primary__color;
+      &.inverted {
+        color: $primary__color;
+        box-shadow: 0 0 0 .1rem $primary__color inset !important;
+        &:hover {
+          background-color: $primary__color--light;
+        }
+      }
+    }
+    &.secondary {
+      background-color: $secondary__color;
+      &.inverted{
+        color: #fff;
+        box-shadow: 0 0 0 .2rem #fff inset !important;
+        &:hover{
+          background-color: $secondary__color--light;
+        }
+      }
+    }
+  }
+  &.menu {
+    .item{
+      &:hover{
+        color: $primary__color !important;
+        background-color: transparent !important;
+      }
+      &.active{
+        color: $primary__color;
+        background-color: transparent !important;
+        border-bottom: solid .15rem $primary__color;
+        &:hover{
+          color: $primary__color--light !important;
+        }
+      }
+    }
+  }
+}
