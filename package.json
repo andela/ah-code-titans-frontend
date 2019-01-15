@@ -9,7 +9,10 @@
     "enzyme-adapter-react-16": "^1.7.1",
     "history": "^4.7.2",
     "http-proxy-middleware": "^0.19.1",
+<<<<<<< HEAD
     "object-assign": "^4.1.1",
+=======
+>>>>>>> feat(sign-up): users can signup/register
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
@@ -20,7 +23,10 @@
     "redux-axios-middleware": "^4.0.0",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-logger": "^3.0.6",
+<<<<<<< HEAD
     "redux-persist": "^5.10.0",
+=======
+>>>>>>> feat(sign-up): users can signup/register
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.84.0",
