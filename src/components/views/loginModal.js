@@ -26,7 +26,6 @@ const LoginComponent = ({ onHandleChange, state, onSubmit }) => (
         onChange={onHandleChange}
         required
       />
-      {console.log(state.emailError)}
       {state.emailError ? <HandleError message={state.emailError} /> : ""}
     </div>
     <div className="ui form field block">

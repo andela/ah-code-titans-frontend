@@ -2,6 +2,7 @@ import axios from "axios";
 import { MOCK } from "./config";
 import AuthenticationAPIMock from "./mock/authenticationAPI";
 
+/* eslint-disable consistent-return */
 export default class AuthenticationAPI {
   static login(userDetails) {
     if (MOCK) return AuthenticationAPIMock.login(userDetails);

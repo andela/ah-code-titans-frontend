@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import * as AuthenticationActions from "../../actions/authenticationActions";
 import LoginModal from "../views/loginModal";
 
+/* eslint-disable react/no-unused-state */
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -29,32 +30,26 @@ class Login extends Component {
     });
     switch (name) {
       case "email":
-        // eslint-disable-next-line no-lone-blocks
-        {
-          if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-            this.setState({
-              emailError: ""
-            });
-          } else {
-            this.setState({
-              emailError: "please input a valid email"
-            });
-          }
+        /* eslint-disable no-useless-escape */
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+          this.setState({
+            emailError: ""
+          });
+        } else {
+          this.setState({
+            emailError: "please input a valid email"
+          });
         }
         break;
-      // eslint-disable-next-line no-fallthrough
       case "password":
-        // eslint-disable-next-line no-lone-blocks
-        {
-          if (value) {
-            this.setState({
-              disableLoginButton: false
-            });
-          } else {
-            this.setState({
-              disableLoginButton: true
-            });
-          }
+        if (value) {
+          this.setState({
+            disableLoginButton: false
+          });
+        } else {
+          this.setState({
+            disableLoginButton: true
+          });
         }
         break;
       default:
