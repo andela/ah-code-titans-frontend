@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 
 import Registration from "../views/Registration";
-import registrationAsync from "../../actions/RegistrationActions";
+import registrationAsync from "../../actions/registrationActions";
 
 class RegistrationContainer extends Component {
   constructor(props) {
@@ -92,7 +92,7 @@ class RegistrationContainer extends Component {
   }
 
   render() {
-    const { isFetching, response } = this.props;
+    const { isFetching } = this.props;
     const { emailError, usernameError, passwordError } = this.state;
     return (
       <div>
@@ -101,7 +101,6 @@ class RegistrationContainer extends Component {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           isFetching={isFetching}
-          response={response}
           emailError={emailError}
           usernameError={usernameError}
           passwordError={passwordError}
@@ -123,8 +122,7 @@ const mapDispatchToProps = dispatch => ({
 
 RegistrationContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  response: PropTypes.object.isRequired
+  isFetching: PropTypes.bool.isRequired
 };
 
 export default connect(

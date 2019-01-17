@@ -6,9 +6,8 @@ import NotFoundPage from "./views/NotFoundPage";
 import RegistrationPage from "./containers/registration";
 import "../assets/style/main.scss";
 
+/* eslint-disable react/prefer-stateless-function */
 class App extends React.Component {
-  componentWillMount() {}
-
   render() {
     return (
       <div>
