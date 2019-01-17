@@ -4,6 +4,8 @@ import thunk from "redux-thunk";
 import reduxImmutableStateInvariant from "redux-immutable-state-invariant";
 import createHistory from "history/createBrowserHistory";
 import { routerMiddleware } from "connected-react-router";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 import createRootReducer from "../reducers";
 
@@ -19,12 +21,18 @@ function configureStoreDev(initialState) {
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   /* eslint-enable */
+  const persistConfig = {
+    key: "root",
+    storage
+  };
 
-  return createStore(
-    createRootReducer(history),
-    initialState,
-    composeEnhancers(applyMiddleware(...middleWare))
-  );
+  const persistedReducer = persistReducer(persistConfig, createRootReducer(history));
+  const store = createStore(
+    persistedReducer, initialState, composeEnhancers(applyMiddleware(...middleWare))
+    );
+  const persistor = persistStore(store);
+
+  return { store, persistor };
 }
 
 function configureStoreProd(initialState) {
