@@ -8,6 +8,7 @@ import { ConnectedRouter } from "connected-react-router";
 import { PersistGate } from "redux-persist/integration/react";
 import App from "./components/App";
 import configureStore, { history } from "./store/configureStore";
+import initialState from "./store/initialState";
 
 const { store, persistor } = configureStore(initialState);
 

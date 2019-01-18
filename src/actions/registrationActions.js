@@ -5,19 +5,16 @@ import instance from "../api/axiosConfig";
 
 /* eslint-disable import/prefer-default-export */
 export const registerRequest = () => ({
-  type: REGISTER_REQUEST,
-  isFetching: true
+  type: REGISTER_REQUEST
 });
 
 export const registerSuccess = response => ({
   type: REGISTER_SUCCESS,
-  isFetching: false,
   response
 });
 
 export const registerFailure = errors => ({
   type: REGISTER_FAILURE,
-  isFetching: false,
   errors
 });
 
