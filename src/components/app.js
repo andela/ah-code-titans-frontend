@@ -6,6 +6,7 @@ import NotFoundPage from "./views/NotFoundPage";
 import RegistrationPage from "./containers/registration";
 import "../assets/style/main.scss";
 
+import LoginPage from "./containers/login";
 /* eslint-disable react/prefer-stateless-function */
 class App extends React.Component {
   render() {
@@ -14,6 +15,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/signup" component={RegistrationPage} />
+          <Route exact path="/login" component={LoginPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>

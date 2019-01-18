@@ -18,7 +18,12 @@ const Registration = (props) => {
   } = props;
 
   return (
-    <Modal trigger={<Button>Sign up</Button>} basic size="tiny" closeIcon>
+    <Modal
+      trigger={<Button content="Create account" color="green" inverted />}
+      basic
+      size="tiny"
+      closeIcon
+    >
       <Dimmer active={isFetching}>
         <Loader size="large">Loading</Loader>
       </Dimmer>

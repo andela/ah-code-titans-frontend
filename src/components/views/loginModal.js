@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button, Modal, Header, Label, Form
+  Button, Modal, Header, Label, Form, ModalActions
 } from "semantic-ui-react";
+import Registration from "./Registration";
 
 const HandleError = ({ message }) => (
   <Label pointing inverted="true" basic color="red">
@@ -64,6 +65,9 @@ const LoginModal = (props) => {
           classNames="ui form"
         />
       </Modal.Content>
+      <ModalActions>
+        <Registration />
+      </ModalActions>
     </Modal>
   );
 };
