@@ -15,9 +15,6 @@ class Login extends Component {
       emailError: "",
       disableLoginButton: true
     };
-
-    this.onHandleChange = this.onHandleChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onHandleChange = (event) => {
