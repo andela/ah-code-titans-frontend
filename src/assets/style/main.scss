@@ -1,6 +1,20 @@
 $color-green:#008000;
 
-.text
-{
+.text {
   color: $color-green;
+}
+
+.modal {
+  text-align: right !important;
+}
+
+.ui.active.transition.visible.dimmer,
+.ui.page.modals.dimmer.transition.visible.active {
+  background: linear-gradient(to right, rgba(144, 35, 68, 0.596), #902344, rgba(144, 35, 68, 0.596)) !important;
+}
+
+#username-err,
+#email-err,
+#password-err {
+  text-align: left
 }
