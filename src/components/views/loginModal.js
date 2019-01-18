@@ -55,7 +55,7 @@ const LoginModal = (props) => {
   const { state, onHandleChange, onSubmit } = props;
   return (
     <Modal trigger={<Button>Sign in</Button>} basic size="tiny" closeIcon>
-      <Header icon="sign-in" content="Sing in" />
+      <Header icon="sign-in" content="Sign in" />
       <Modal.Content>
         <LoginComponent
           onSubmit={onSubmit}

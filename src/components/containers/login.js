@@ -31,7 +31,11 @@ class Login extends Component {
     switch (name) {
       case "email":
         /* eslint-disable no-useless-escape */
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+        if (value === "") {
+          this.setState({
+            emailError: ""
+          });
+        } else if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
           this.setState({
             emailError: ""
           });

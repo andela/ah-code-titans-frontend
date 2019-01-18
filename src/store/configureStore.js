@@ -11,6 +11,11 @@ import createRootReducer from "../reducers";
 
 export const history = createHistory();
 
+const persistConfig = {
+  key: "root",
+  storage
+};
+
 function configureStoreDev(initialState) {
   const reactRouterMiddleware = routerMiddleware(history);
   const logger = createLogger({
@@ -21,15 +26,11 @@ function configureStoreDev(initialState) {
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   /* eslint-enable */
-  const persistConfig = {
-    key: "root",
-    storage
-  };
 
   const persistedReducer = persistReducer(persistConfig, createRootReducer(history));
   const store = createStore(
     persistedReducer, initialState, composeEnhancers(applyMiddleware(...middleWare))
-    );
+  );
   const persistor = persistStore(store);
 
   return { store, persistor };
@@ -39,7 +40,11 @@ function configureStoreProd(initialState) {
   const reactRouterMiddleware = routerMiddleware(history);
   const middleWare = [thunk, reactRouterMiddleware];
 
-  return createStore(createRootReducer(history), initialState, applyMiddleware(...middleWare));
+  const persistedReducer = persistReducer(persistConfig, createRootReducer(history));
+  const store = createStore(persistedReducer, initialState, applyMiddleware(...middleWare));
+  const persistor = persistStore(store);
+
+  return { store, persistor };
 }
 
 const configureStore = process.env.NODE_ENV === "production" ? configureStoreProd : configureStoreDev;
