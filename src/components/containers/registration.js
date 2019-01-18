@@ -15,8 +15,7 @@ class RegistrationContainer extends Component {
     this.state = {
       emailError: "",
       usernameError: "",
-      passwordError: "",
-      buttonActive: false
+      passwordError: ""
     };
   }
 
@@ -45,13 +44,11 @@ class RegistrationContainer extends Component {
 
           if (value.match(usernameReg) === null) {
             this.setState({
-              ...this.state,
               usernameError:
                 "Enter a username with more than 4 characters. Start with a letter and no spaces in between the characters."
             });
           } else {
             this.setState({
-              ...this.state,
               usernameError: ""
             });
           }
@@ -60,12 +57,10 @@ class RegistrationContainer extends Component {
           const emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
           if (value.match(emailReg) === null) {
             this.setState({
-              ...this.state,
               emailError: "Invalid email"
             });
           } else {
             this.setState({
-              ...this.state,
               emailError: ""
             });
           }
@@ -74,13 +69,11 @@ class RegistrationContainer extends Component {
           const passReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
           if (value.match(passReg) === null) {
             this.setState({
-              ...this.state,
               passwordError:
                 "Password must be more than 7 characters and at least 1 lowercase 1 uppercase 1 number, 1 special character"
             });
           } else {
             this.setState({
-              ...this.state,
               passwordError: ""
             });
           }

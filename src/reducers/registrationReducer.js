@@ -4,15 +4,15 @@ import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE } from "../actions
 const userRegistration = (state = { isFetching: false }, action) => {
   switch (action.type) {
     case REGISTER_REQUEST:
-      return { isFetching: action.isFetching };
+      return { isFetching: true };
     case REGISTER_FAILURE:
       return {
-        isFetching: action.isFetching,
+        isFetching: false,
         errors: action.errors
       };
     case REGISTER_SUCCESS:
       return {
-        isFetching: action.isFetching,
+        isFetching: false,
         response: action.response
       };
     default:
