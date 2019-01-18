@@ -50,6 +50,10 @@ function configureStoreDev(initialState) {
 function configureStoreProd(initialState) {
   const reactRouterMiddleware = routerMiddleware(history);
   const middleWare = [thunk, reactRouterMiddleware];
+  const persistConfig = {
+    key: "root",
+    storage
+  };
 
   const persistedReducer = persistReducer(persistConfig, createRootReducer(history));
   const store = createStore(persistedReducer, initialState, applyMiddleware(...middleWare));
