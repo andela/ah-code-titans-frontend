@@ -11,20 +11,16 @@ export const updateprofileSuccess = data => ({
   data
 });
 
-export const getProfile = () => dispatch => {
-  const username = localStorage.getItem("username");
-  profileApi.profile(username).then(response => {
+export const getProfile = username => (dispatch) => {
+  profileApi.profile(username).then((response) => {
     if (response.content) {
       dispatch(getprofileSuccess(response.content.profile));
-    } else if (response) {
-      console.log(response);
     }
   });
 };
 
-export const updateProfile = data => dispatch => {
-  const username = localStorage.getItem("username");
-  profileApi.updateProfile(username, data).then(response => {
+export const updateProfile = (username, data) => (dispatch) => {
+  profileApi.updateProfile(username, data).then((response) => {
     if (response.content) {
       dispatch(updateprofileSuccess(response.content.profile));
     }

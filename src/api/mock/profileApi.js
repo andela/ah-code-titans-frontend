@@ -13,11 +13,9 @@ const PROFILE = [
 
 export default class ProfileApi {
   static profile(username) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
-        const userProfile = PROFILE.find(u => {
-          return u.username == username;
-        });
+        const userProfile = PROFILE.find(u => u.username === username);
 
         if (userProfile === undefined) {
           resolve({ success: false, detail: "User profile not found" });

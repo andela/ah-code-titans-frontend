@@ -21,12 +21,12 @@ describe("reducer: ", () => {
     );
   });
 
-  // it("should return fetched profile", () => {
-  //   expect(
-  //     profileReducer(initialState.profileReducer, {
-  //       type: types.GET_PROFILE_SUCCESS,
-  //       data
-  //     })
-  //   ).toEqual(data);
-  // });
+  it("should return fetched profile", () => {
+    expect(
+      profileReducer(initialState.profileReducer, {
+        type: types.GET_PROFILE_SUCCESS,
+        data
+      }).profile
+    ).toEqual(data);
+  });
 });

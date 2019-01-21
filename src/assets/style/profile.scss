@@ -1,0 +1,24 @@
+.profile {
+  &__image {
+    margin: 0 auto;
+  }
+
+  &__editBtn {
+    border: 0.5px solid black !important;
+    padding: 0.5em 1.8em !important;
+    background: #ffffff !important;
+    color: black !important;
+    margin: 0 0.95em !important;
+  }
+
+  &__pa {
+    padding-top: 2.5rem !important;
+  }
+
+  &__info {
+    padding-top: 1rem !important;
+  }
+  &__margin-left {
+    margin: 0 1rem;
+  }
+}

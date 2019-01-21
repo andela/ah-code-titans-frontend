@@ -1,6 +1,7 @@
-import React from "react";
+/* eslint-disable import/no-named-as-default */
 import { shallow } from "enzyme";
-import Profile from "./Profile";
+import React from "react";
+import Profile from "../Profile";
 
 describe("Profile: ", () => {
   let profileContainer;

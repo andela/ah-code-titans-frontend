@@ -1,5 +1,10 @@
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
 import * as types from "../actionTypes";
 import * as actionCreators from "../profileActions";
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 const profileDetails = {
   bio: "I am a coder and I enjoy gaming and swimming.",
@@ -24,24 +29,28 @@ const updatedProfileDetails = {
 };
 
 // test action creators
+// test action creators
 describe("actions", () => {
   it("should return a get action", () => {
+    const store = mockStore({});
     const expectedAction = {
       type: types.GET_PROFILE_SUCCESS,
       profileDetails
     };
-    expect(actionCreators.getprofileSuccess(profileDetails).data).toEqual(
-      expectedAction.profileDetails
-    );
+    const actionsDispatched = store.dispatch(actionCreators.getprofileSuccess(profileDetails));
+    expect(actionsDispatched.data).toEqual(expectedAction.profileDetails);
   });
 
   it("should return an update action", () => {
+    const store = mockStore({});
     const expectedUpdateAction = {
       type: types.UPDATE_PROFILE_SUCCESS,
       updatedProfileDetails
     };
-    expect(
-      actionCreators.updateprofileSuccess(updatedProfileDetails).data
-    ).toEqual(expectedUpdateAction.updatedProfileDetails);
+
+    const actionsDispatched = store.dispatch(
+      actionCreators.updateprofileSuccess(updatedProfileDetails)
+    );
+    expect(actionsDispatched.data).toEqual(expectedUpdateAction.updatedProfileDetails);
   });
 });

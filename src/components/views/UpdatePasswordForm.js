@@ -9,7 +9,7 @@ const UpdatePasswordView = (props) => {
   const { state, onInputChange, onHandleSubmit } = props;
 
   return (
-    <div className="auth requestReset">
+    <div className="auth__requestReset">
       <Container textAlign="center" className="auth__content">
         <Dimmer active={state.isLoading}>
           <Loader size="large">Loading</Loader>

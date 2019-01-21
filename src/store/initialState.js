@@ -14,5 +14,8 @@ export default {
     settings: {
       walkThrough: true
     }
+  },
+  profileReducer: {
+    profile: {}
   }
 };
