@@ -10,7 +10,7 @@ $color-green:#008000;
 
 .ui.active.transition.visible.dimmer,
 .ui.page.modals.dimmer.transition.visible.active {
-  background: linear-gradient(to right, rgba(144, 35, 68, 0.596), #902344, rgba(144, 35, 68, 0.596)) !important;
+  background: #902344 !important;
 }
 
 #username-err,
@@ -19,11 +19,15 @@ $color-green:#008000;
   text-align: left
 }
 
-.center_password_form{
+.passwordForm{
   margin-top: 15%;
   text-align: center;
 }
 
-.center_password_form .ui.header{
+.passwordForm .ui.header{
   color: #fff;
 }
+
+#btn-login {
+  width: 100%;
+ }

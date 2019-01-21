@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button, Form, Modal, Header
+  Button, Form, Modal, Header, Loader, Dimmer
 } from "semantic-ui-react";
 
 export const HandleErrors = (props) => {
@@ -17,8 +17,11 @@ const ResetView = (props) => {
   const { state, onHandleChange, onHandleSubmit } = props;
 
   return (
-    <Modal trigger={<Button>Basic Modal</Button>} basic size="tiny" closeIcon>
-      <Header icon="send" content="Send reset link" />
+    <Modal trigger={<Button>Forgot Password?</Button>} basic size="mini" closeIcon closeOnDimmerClick={false}>
+      <Dimmer active={state.isLoading}>
+        <Loader size="large">Loading</Loader>
+      </Dimmer>
+      <Header icon="send" content="Request password reset" />
       <Modal.Content>
         <Form onSubmit={onHandleSubmit}>
           <Form.Field>
@@ -30,15 +33,12 @@ const ResetView = (props) => {
               placeholder="Enter your account email"
               onChange={onHandleChange}
             />
-            {state.emailInputError ? <HandleErrors message={state.emailInputError} /> : ""}
+            {state.email !== "" && !state.emailIsValid ? <HandleErrors message="Email is invalid!" /> : "" }
           </Form.Field>
           <Form.Field>
-            <Button
-              className="ui teal button send_reset_link"
-              content="Send request"
-              type="Submit"
-              disabled={state.emailButtonDisable}
-            />
+            <Button id="btn-login" disabled={state.emailButtonDisable} color="green" inverted>
+               Send request
+            </Button>
           </Form.Field>
         </Form>
       </Modal.Content>

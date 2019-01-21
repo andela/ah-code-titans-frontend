@@ -9,70 +9,49 @@ class UpdatePasswordPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      password: "",
-      confirmPassword: "",
-      passwordInputError: "",
-      confirmPasswordInputError: "",
-      passwordButton: true
+      password: {
+        value: "",
+        valid: false
+      },
+      confirmPassword: {
+        value: "",
+        valid: false
+      },
+      passwordButton: true,
+      isLoading: false
     };
   }
 
   onInputChange = (event) => {
     const { name, value } = event.target;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
     this.setState({
-      [name]: value
+      [name]: {
+        value,
+        valid: passwordRegex.test(value)
+      },
+      passwordButton: !passwordRegex.test(value)
     });
-    switch (name) {
-      case "password":
-        { if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(value)) {
-          this.setState({
-            passwordButton: false,
-            passwordInputError: ""
-          });
-        } else {
-          this.setState({
-            passwordButton: true,
-            passwordInputError: "Password should be alphanumeric"
-          });
-        }
-        }
-        break;
-      case "confirmPassword":
-        { if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(value)) {
-          this.setState({
-            passwordButton: false,
-            confirmPasswordInputError: ""
-          });
-        } else {
-          this.setState({
-            passwordButton: true,
-            confirmPasswordInputError: "Password should be alphanumeric"
-          });
-        }
-        }
-        break;
-      default:
-        break;
-    }
   }
 
   onHandleSubmit = (event) => {
     const { password, confirmPassword } = this.state;
     event.preventDefault();
-    if (password === confirmPassword) {
+    if (password.value === confirmPassword.value) {
       this.setState({
         passwordButton: false,
-        passwordInputError: "",
-        confirmPasswordInputError: ""
+        isLoading: true
       });
       const apiURL = `/api${window.location.pathname}`;
-      // Call Home
-      ResetPasswordAPI.resetPassword(apiURL, password);
+      const changePassword = ResetPasswordAPI.resetPassword(apiURL, password.value);
+      changePassword.then(() => {
+        this.setState({
+          isLoading: false
+        });
+      });
     } else {
       this.setState({
-        passwordButton: true,
-        passwordInputError: "New password should match confirm password",
-        confirmPasswordInputError: "Confirm password should match New password"
+        passwordButton: true
       });
     }
   };

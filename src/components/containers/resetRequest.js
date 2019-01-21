@@ -9,34 +9,33 @@ class ResetRequestPage extends Component {
     super(props);
     this.state = {
       email: "",
-      emailInputError: "",
-      emailButtonDisable: true
+      emailIsValid: false,
+      emailButtonDisable: true,
+      isLoading: false
     };
   }
 
   onHandleChange = (event) => {
+    this.setState({ email: event.target.value });
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     this.setState({
-      email: event.target.value
+      emailIsValid: emailRegex.test(event.target.value),
+      emailButtonDisable: !emailRegex.test(event.target.value)
     });
-    if (
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value)
-    ) {
-      this.setState({
-        emailInputError: "",
-        emailButtonDisable: false
-      });
-    } else {
-      this.setState({
-        emailInputError: "Invalid Email address",
-        emailButtonDisable: true
-      });
-    }
   };
 
   onHandleSubmit = (event) => {
     const { email } = this.state;
     event.preventDefault();
-    ResetPasswordAPI.sendLink(email);
+    this.setState({
+      isLoading: true
+    });
+    const linkSend = ResetPasswordAPI.sendLink(email);
+    linkSend.then(() => {
+      this.setState({
+        isLoading: false
+      });
+    });
   };
 
   render() {
