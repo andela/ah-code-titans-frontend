@@ -65,22 +65,26 @@ class Login extends Component {
   };
 
   render() {
+    const { login } = this.props;
+
     return (
       <LoginModal
         state={this.state}
         onSubmit={this.onSubmit}
         onHandleChange={this.onHandleChange}
+        isFetching={login.auth.isFetching}
       />
     );
   }
 }
 
 Login.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  login: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  login: state.loginReducer.login
+  login: state.loginReducer
 });
 
 const mapDispatchToProps = dispatch => ({

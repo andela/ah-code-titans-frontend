@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button, Modal, Header, Dimmer, Loader
+  Modal, Header, Dimmer, Loader
 } from "semantic-ui-react";
 
 import FormComponent from "./RegistrationForm";
@@ -16,13 +17,18 @@ const Registration = (props) => {
     usernameError,
     passwordError
   } = props;
-
   return (
     <Modal
-      trigger={<Button content="Create account" color="green" inverted />}
+      trigger={(
+        <p className="links">
+          Dont have an account?
+          <a className="links-tag">Create account here.</a>
+        </p>
+)}
       basic
-      size="tiny"
+      size="mini"
       closeIcon
+      closeOnDimmerClick={false}
     >
       <Dimmer active={isFetching}>
         <Loader size="large">Loading</Loader>

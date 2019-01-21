@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button, Modal, Header, Label, Form, ModalActions
+  Button, Modal, Header, Label, Form, Dimmer, Loader
 } from "semantic-ui-react";
 import Registration from "./Registration";
 
@@ -40,8 +40,14 @@ const LoginComponent = ({ onHandleChange, state, onSubmit }) => (
         required
       />
     </div>
-    <div className="ui form field">
-      <Button content="Sign in" color="green" inverted disabled={state.disableLoginButton} />
+    <div className="btn">
+      <Button
+        id="btn-login"
+        content="Sign in"
+        color="green"
+        inverted
+        disabled={state.disableLoginButton}
+      />
     </div>
   </Form>
 );
@@ -53,28 +59,40 @@ LoginComponent.propTypes = {
 };
 
 const LoginModal = (props) => {
-  const { state, onHandleChange, onSubmit } = props;
+  const {
+    state, onHandleChange, onSubmit, isFetching
+  } = props;
   return (
-    <Modal trigger={<Button>Sign in</Button>} basic size="tiny" closeIcon>
-      <Header icon="sign-in" content="Sign in" />
-      <Modal.Content>
-        <LoginComponent
-          onSubmit={onSubmit}
-          state={state}
-          onHandleChange={onHandleChange}
-          classNames="ui form"
-        />
-      </Modal.Content>
-      <ModalActions>
-        <Registration />
-      </ModalActions>
+    <Modal
+      trigger={<Button>Sign in</Button>}
+      basic
+      size="mini"
+      closeIcon
+      closeOnDimmerClick={false}
+    >
+      <div id="signup-modal">
+        <Dimmer active={isFetching}>
+          <Loader size="large">Loading</Loader>
+        </Dimmer>
+        <Header icon="sign-in" content="Sign in" />
+        <Modal.Content>
+          <LoginComponent
+            onSubmit={onSubmit}
+            state={state}
+            onHandleChange={onHandleChange}
+            classNames="ui form"
+          />
+          <Registration />
+        </Modal.Content>
+      </div>
     </Modal>
   );
 };
 LoginModal.propTypes = {
   onHandleChange: PropTypes.func.isRequired,
   state: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired
 };
 
 export default LoginModal;

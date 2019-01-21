@@ -4,17 +4,43 @@ $color-green:#008000;
   color: $color-green;
 }
 
-.modal {
-  text-align: right !important;
+#btn-login {
+  width: 100%;
+}
+
+.links {
+  margin-top: .8rem;
+}
+
+.links-tag {
+  text-decoration: underline;
+  color: turquoise;
+}
+
+#signup-modal .ui.header {
+  color: white;
+}
+
+#signup-modal {
+  width: 360px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
 }
 
 .ui.active.transition.visible.dimmer,
 .ui.page.modals.dimmer.transition.visible.active {
-  background: linear-gradient(to right, rgba(144, 35, 68, 0.596), #902344, rgba(144, 35, 68, 0.596)) !important;
+  background: #902344;
 }
 
 #username-err,
 #email-err,
 #password-err {
   text-align: left
+}
+
+.ui.page.modals.dimmer.transition.visible.active>div {
+  height: 100%;
+  width: 100%;
 }
