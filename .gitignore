@@ -11,7 +11,7 @@ package-lock.json
 
 # production
 /build
-src/assets/style/*.css
+src/assets/style/**/*.css
 
 # misc
 /.idea
@@ -24,3 +24,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#ide
+.vscode
+.env

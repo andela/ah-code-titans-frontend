@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import toastr from "toastr";
+import toastr from "../helpers/toastrConfig";
 import * as types from "./actionTypes";
 import AuthenticationAPI from "../api/authenticationAPI";
 import { history } from "../store/configureStore";
@@ -14,7 +14,12 @@ export const loginByEmailActionFailure = (content = {}) => ({
   payload: content
 });
 
+export const loginRequest = () => ({
+  type: types.LOGIN_REQUEST
+});
+
 export const login = userDetails => (dispatch) => {
+  dispatch(loginRequest());
   AuthenticationAPI.login(userDetails).then((response) => {
     if (response.success) {
       toastr.success("Login Successful");
@@ -27,3 +32,8 @@ export const login = userDetails => (dispatch) => {
     }
   });
 };
+
+export const loginBySocial = data => ({
+  type: types.LOGIN_BY_SOCIAL,
+  data
+});

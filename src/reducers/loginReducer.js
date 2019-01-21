@@ -7,13 +7,27 @@ export default (state = {}, action) => {
       const auth = objectAssign({}, state.auth);
       auth.user = action.payload;
       auth.authentication = "email";
+      auth.isFetching = false;
       return { ...state, auth };
     }
     case types.LOGIN_BY_EMAIL_FAILURE: {
+      const auth = objectAssign({}, state.auth);
       const login = objectAssign({}, state.login);
       login.state = "error";
       login.error = action.payload;
-      return { ...state, login };
+      auth.isFetching = false;
+      return { ...state, auth, login };
+    }
+    case types.LOGIN_REQUEST: {
+      const auth = objectAssign({}, state.auth);
+      auth.isFetching = true;
+      return { ...state, auth };
+    }
+    case types.LOGIN_BY_SOCIAL: {
+      const auth = objectAssign({}, state.auth);
+      auth.authentication = "social";
+      auth.user = { username: action.data.username };
+      return { ...state, auth };
     }
     default:
       return state;

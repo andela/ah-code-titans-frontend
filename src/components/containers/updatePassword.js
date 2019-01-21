@@ -2,10 +2,18 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable no-lone-blocks */
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import UpdatePasswordView from "../views/UpdatePasswordForm";
 import ResetPasswordAPI from "../../api/resetPasswordAPI";
 
+import "../../assets/style/pages/updatePasswordPage.scss";
+
 class UpdatePasswordPage extends Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -36,6 +44,8 @@ class UpdatePasswordPage extends Component {
 
   onHandleSubmit = (event) => {
     const { password, confirmPassword } = this.state;
+    const { history } = this.props;
+
     event.preventDefault();
     if (password.value === confirmPassword.value) {
       this.setState({
@@ -43,7 +53,7 @@ class UpdatePasswordPage extends Component {
         isLoading: true
       });
       const apiURL = `/api${window.location.pathname}`;
-      const changePassword = ResetPasswordAPI.resetPassword(apiURL, password.value);
+      const changePassword = ResetPasswordAPI.resetPassword(apiURL, password.value, history);
       changePassword.then(() => {
         this.setState({
           isLoading: false
@@ -67,4 +77,4 @@ class UpdatePasswordPage extends Component {
   }
 }
 
-export default UpdatePasswordPage;
+export default withRouter(UpdatePasswordPage);

@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import { createLogger } from "redux-logger";
 import thunk from "redux-thunk";
+import configureMockStore from "redux-mock-store";
 import reduxImmutableStateInvariant from "redux-immutable-state-invariant";
 import createHistory from "history/createBrowserHistory";
 import { routerMiddleware } from "connected-react-router";
@@ -15,6 +16,16 @@ const persistConfig = {
   key: "root",
   storage
 };
+
+export function configureStoreTest(initialState) {
+  const reactRouterMiddleware = routerMiddleware(history);
+  const middleWare = [thunk, reactRouterMiddleware];
+  const mockStore = configureMockStore(middleWare);
+
+  const store = mockStore(createRootReducer(history), initialState);
+
+  return { store };
+}
 
 function configureStoreDev(initialState) {
   const reactRouterMiddleware = routerMiddleware(history);
