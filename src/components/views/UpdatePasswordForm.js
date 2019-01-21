@@ -13,7 +13,7 @@ const UpdatePasswordView = (props) => {
       <Container className="passwordForm">
         <Grid>
           <Grid.Row centered>
-            <Grid.Column width={7}>
+            <Grid.Column width={5}>
               <Dimmer active={state.isLoading}>
                 <Loader size="large">Loading</Loader>
               </Dimmer>
@@ -28,7 +28,7 @@ const UpdatePasswordView = (props) => {
                     onChange={onInputChange}
                     required
                   />
-                  {state.password.value !== "" && !state.password.valid ? <HandleErrors message="Password should be alphanumeric" /> : ""}
+                  {state.password.value !== "" && !state.password.valid ? <HandleErrors message="Password should be alphanumeric and match confirm password" /> : ""}
                 </Form.Field>
                 <Form.Field>
                   <input
@@ -39,9 +39,9 @@ const UpdatePasswordView = (props) => {
                     onChange={onInputChange}
                     required
                   />
-                  {state.confirmPassword.value !== "" && !state.confirmPassword.value ? <HandleErrors message="Password should be alphanumeric" /> : ""}
+                  {state.confirmPassword.value !== "" && !state.confirmPassword.value ? <HandleErrors message="Password should be alphanumeric and match password above" /> : ""}
                 </Form.Field>
-                <Button color="green" disabled={state.passwordButton} inverted type="submit">Change Password</Button>
+                <Button id="btn-login" color="green" disabled={state.passwordButton} inverted type="submit">Change Password</Button>
               </Form>
             </Grid.Column>
           </Grid.Row>

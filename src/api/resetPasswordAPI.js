@@ -1,5 +1,5 @@
 import toastr from "../helpers/toastrConfig";
-
+import { history } from "../store/configureStore";
 import { MOCK } from "./config";
 import ResetPasswordAPIMock from "./mock/resetPasswordAPIMock";
 import instance from "./axiosConfig";
@@ -7,6 +7,13 @@ import instance from "./axiosConfig";
 export default class ResetPasswordAPI {
   static sendLink(email) {
     if (MOCK) return ResetPasswordAPIMock.sendLink(email);
+
+    // override default options toastr
+    toastr.options = {
+      closeButton: true,
+      timeOut: 600000,
+      preventDuplicates: true
+    };
 
     return instance.post(
       "/api/resetrequest",
@@ -37,6 +44,7 @@ export default class ResetPasswordAPI {
       .then((response) => {
         if (response.status === 200) {
           toastr.success(response.data.user.message);
+          history.replace("/login");
         }
       })
       .catch((response) => {
