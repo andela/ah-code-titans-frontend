@@ -36,7 +36,7 @@ const ResetView = (props) => {
             {state.email !== "" && !state.emailIsValid ? <HandleErrors message="Email is invalid!" /> : "" }
           </Form.Field>
           <Form.Field>
-            <Button id="btn-login" disabled={state.emailButtonDisable} color="green" inverted>
+            <Button className="btn-forms-primary" disabled={state.emailButtonDisable} color="green" inverted>
                Send request
             </Button>
           </Form.Field>

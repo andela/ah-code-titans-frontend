@@ -41,7 +41,7 @@ const UpdatePasswordView = (props) => {
                   />
                   {state.confirmPassword.value !== "" && !state.confirmPassword.value ? <HandleErrors message="Password should be alphanumeric and match password above" /> : ""}
                 </Form.Field>
-                <Button id="btn-login" color="green" disabled={state.passwordButton} inverted type="submit">Change Password</Button>
+                <Button className="btn-forms-primary" color="green" disabled={state.passwordButton} inverted type="submit">Change Password</Button>
               </Form>
             </Grid.Column>
           </Grid.Row>

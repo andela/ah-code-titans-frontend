@@ -33,7 +33,8 @@ class ResetRequestPage extends Component {
     const linkSend = ResetPasswordAPI.sendLink(email);
     linkSend.then(() => {
       this.setState({
-        isLoading: false
+        isLoading: false,
+        email: ""
       });
     });
   };

@@ -31,6 +31,6 @@ describe("ResetRequest Component", () => {
 
   it("It should contain a button", () => {
     const button = resetComponent.find("div.modal.active div.content form.ui.form div.field");
-    expect(button.find("button#btn-login.ui.green.inverted.disabled.button").text()).toEqual("Send request");
+    expect(button.find("button.btn-forms-primary.ui.green.inverted.disabled.button").text()).toEqual("Send request");
   });
 });

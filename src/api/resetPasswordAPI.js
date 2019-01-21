@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 import toastr from "../helpers/toastrConfig";
 import { history } from "../store/configureStore";
 import { MOCK } from "./config";
@@ -10,9 +11,9 @@ export default class ResetPasswordAPI {
 
     // override default options toastr
     toastr.options = {
-      closeButton: true,
-      timeOut: 600000,
-      preventDuplicates: true
+      "closeButton": true,
+      "timeOut": 600000,
+      "preventDuplicates": true
     };
 
     return instance.post(
