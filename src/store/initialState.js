@@ -1,5 +1,9 @@
 export default {
   loginReducer: {
-    auth: {}
+    auth: {},
+    login: {
+      state: "",
+      error: null
+    }
   }
 };

@@ -16,7 +16,7 @@ describe("reducer", () => {
         payload: testDetails
       })
     ).toEqual({
-      auth: { authentication: "email", user: undefined },
+      auth: { authentication: "email", isFetching: false, user: undefined },
       login: { error: null, state: "" }
     });
   });
@@ -32,9 +32,6 @@ describe("reducer", () => {
         type: types.LOGIN_BY_EMAIL_FAILURE,
         payload: details
       })
-    ).toEqual({
-      auth: {},
-      login: { error: { payload: { message: "Invalid Password!" } }, state: "error" }
-    });
+    ).toEqual({ auth: { isFetching: false }, login: { error: null, state: "error" } });
   });
 });

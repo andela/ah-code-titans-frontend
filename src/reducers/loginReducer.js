@@ -17,8 +17,10 @@ export default (state = {}, action) => {
     }
     case types.LOGIN_BY_EMAIL_FAILURE: {
       const auth = objectAssign({}, state.auth);
+      const login = objectAssign({}, state.login);
+      login.state = "error";
       auth.isFetching = false;
-      return { ...state, auth };
+      return { ...state, auth, login };
     }
     default:
       return state;
