@@ -11,16 +11,13 @@ function Tag(props) {
 }
 
 Tag.propTypes = {
-  tag: PropTypes.string.isRequired,
-  onNavTagClick: PropTypes.func.isRequired
+  tag: PropTypes.string.isRequired
 };
 
 function TagSection(props) {
-  const { onNavTagClick } = props;
   const tags = [
     "CULTURE",
     "MUSIC",
-    "TRAVEL",
     "TECH",
     "ART",
     "STARTUPS",

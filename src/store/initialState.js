@@ -19,11 +19,21 @@ export default {
     profile: {}
   },
   article: {
-    article: {
-
-    },
-    singleArticle: {
-
+    article: {},
+    singleArticle: {},
+    articles: {
+      landingSection: {
+        next: "",
+        results: []
+      },
+      topStoriesSection: {
+        next: "",
+        results: []
+      },
+      recentStoriesSection: {
+        next: "",
+        results: []
+      }
     }
   },
   tag: {

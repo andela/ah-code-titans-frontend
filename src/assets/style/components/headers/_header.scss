@@ -1,0 +1,13 @@
+.header {
+    &--general,
+    &--user {
+        margin:0 !important;
+    }
+    &--user {
+        .user {
+            &__name {
+                margin-right: 1rem;
+            }
+        }
+    }
+}

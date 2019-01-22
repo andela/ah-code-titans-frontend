@@ -5,7 +5,6 @@ import Adapter from "enzyme-adapter-react-16";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 
-// import setupBase from "./setupBase";
 import configureStoreDev, { history } from "./store/configureStore";
 import initialState from "./store/initialState";
 

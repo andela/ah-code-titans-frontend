@@ -29,12 +29,6 @@ export default (state = {}, action) => {
       auth.user = { username: action.data.username };
       return { ...state, auth };
     }
-    case types.LOGIN_BY_SOCIAL: {
-      const auth = objectAssign({}, state.auth);
-      auth.authentication = "social";
-      auth.user = { username: action.data.username };
-      return { ...state, auth };
-    }
     default:
       return state;
   }

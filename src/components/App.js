@@ -14,6 +14,8 @@ import DiscoverPage from "./containers/discoverPage";
 
 import "../assets/style/main.scss";
 
+import "../assets/style/main.scss";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
