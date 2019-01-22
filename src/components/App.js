@@ -5,7 +5,9 @@ import HomePage from "./containers/homePage";
 import NotFoundPage from "./views/NotFoundPage";
 import RegistrationPage from "./containers/registration";
 import "../assets/style/main.scss";
-
+import ResetRequestPage from "./containers/resetRequest";
+import UpdatePasswordPage from "./containers/updatePassword";
+import LoginPage from "./containers/login";
 /* eslint-disable react/prefer-stateless-function */
 class App extends React.Component {
   render() {
@@ -13,7 +15,10 @@ class App extends React.Component {
       <div>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/signup" component={RegistrationPage} />
+          <Route path="/request_reset" component={ResetRequestPage} />
+          <Route path="/change_password" component={UpdatePasswordPage} />
+          <Route path="/signup" component={RegistrationPage} />
+          <Route path="/login" component={LoginPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
