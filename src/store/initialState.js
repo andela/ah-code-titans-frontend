@@ -25,5 +25,8 @@ export default {
     singleArticle: {
 
     }
+  },
+  tagsearched_articles: {
+    articles: {}
   }
 };
