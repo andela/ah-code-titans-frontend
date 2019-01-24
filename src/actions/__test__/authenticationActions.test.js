@@ -3,13 +3,11 @@ import * as types from "../actionTypes";
 
 // eslint-disable-next-line import/prefer-default-export
 export const testDetails = {
-  testDetails: {
-    user: {
-      email: "daviskimame87@gmail.com",
-      refresh_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.",
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.",
-      username: "daviskimame"
-    }
+  user: {
+    email: "daviskimame87@gmail.com",
+    refresh_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.",
+    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.",
+    username: "daviskimame"
   }
 };
 // describe creates a test suite

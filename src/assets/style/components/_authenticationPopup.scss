@@ -1,0 +1,94 @@
+@import "../abstract/variables";
+
+#authPopup {
+    width: 100% !important;
+    height: 100%;
+    margin: 0 !important;
+    .close {
+        color: #FFF !important;
+    }
+}
+
+.auth {
+    &__social,
+    &__signup,
+    &__login,
+    &__requestReset{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+    &__social {
+        background: linear-gradient(to right, $primary__color--fade, $primary__color, $primary__color--fade);
+    }
+
+    &__signup {
+        background: linear-gradient(to right, #8F2645aa, #8F2645, #8F2645aa);
+
+        .ui.dimmer {
+            background: #8F2645 !important;
+        }
+    }
+
+    &__login {
+        background: linear-gradient(to right, #973797aa, #973797, #973797aa);
+
+        .ui.dimmer {
+            background: #973797 !important;
+        }
+    }
+    &__requestReset {
+        background-color: $primary__color;
+
+        .ui.dimmer {
+            background: $primary__color !important;
+        }
+    }
+    &__content {
+        height: 70vh;
+        top: 50% !important;
+        width: 20% !important;
+        overflow-wrap: normal;
+        position: relative;
+        color: #FFF;
+        transform: translateY(-50%);
+
+        .ui.header {
+            color: #FFF;
+        }
+
+        h3 {
+            padding-bottom: 2rem;
+        }
+
+        button {
+            margin-bottom: 1rem !important;
+            width: 100% !important;
+
+            span {
+                margin-left: 1rem;
+            }
+        }
+    }
+}
+
+.links {
+    &--create,
+    &--forgot{
+        width: 100%;
+        float: left;
+    }
+    &--forgot{
+        margin-bottom: 2rem;
+    }
+    &--create{
+        margin-bottom: 1rem;
+    }
+    &__link {
+        text-decoration: none;
+        color: $secondary__color;
+        cursor: pointer;
+        display: inline;
+        margin-left: .5rem;
+    }
+}

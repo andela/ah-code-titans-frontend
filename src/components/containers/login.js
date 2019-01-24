@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import * as AuthenticationActions from "../../actions/authenticationActions";
-import LoginModal from "../views/loginModal";
+import LoginComponent from "../views/LoginForm";
 
 /* eslint-disable react/no-unused-state */
 class Login extends Component {
@@ -65,22 +65,28 @@ class Login extends Component {
   };
 
   render() {
+    const { login, parent } = this.props;
+
     return (
-      <LoginModal
+      <LoginComponent
         state={this.state}
         onSubmit={this.onSubmit}
         onHandleChange={this.onHandleChange}
+        isFetching={login.auth.isFetching}
+        parent={parent}
       />
     );
   }
 }
 
 Login.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  login: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  login: state.loginReducer.login
+  login: state.loginReducer
 });
 
 const mapDispatchToProps = dispatch => ({

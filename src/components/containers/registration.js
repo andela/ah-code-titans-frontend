@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
-import Registration from "../views/Registration";
+import Registration from "../views/RegistrationForm";
 import registrationAsync from "../../actions/registrationActions";
 
 class RegistrationContainer extends Component {
@@ -21,8 +22,9 @@ class RegistrationContainer extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     dispatch({ user: this.state });
+    history.replace("/");
   }
 
   handleChange(e) {
@@ -85,7 +87,7 @@ class RegistrationContainer extends Component {
   }
 
   render() {
-    const { isFetching } = this.props;
+    const { isFetching, parent } = this.props;
     const { emailError, usernameError, passwordError } = this.state;
     return (
       <div>
@@ -97,6 +99,7 @@ class RegistrationContainer extends Component {
           emailError={emailError}
           usernameError={usernameError}
           passwordError={passwordError}
+          parent={parent}
         />
       </div>
     );
@@ -115,10 +118,14 @@ const mapDispatchToProps = dispatch => ({
 
 RegistrationContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegistrationContainer);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(RegistrationContainer)
+);

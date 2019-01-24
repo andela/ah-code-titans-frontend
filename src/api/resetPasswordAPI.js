@@ -1,6 +1,5 @@
 /* eslint-disable quote-props */
 import toastr from "../helpers/toastrConfig";
-import { history } from "../store/configureStore";
 import { MOCK } from "./config";
 import ResetPasswordAPIMock from "./mock/resetPasswordAPIMock";
 import instance from "./axiosConfig";
@@ -38,14 +37,14 @@ export default class ResetPasswordAPI {
       });
   }
 
-  static resetPassword(apiURL, password) {
+  static resetPassword(apiURL, password, history) {
     return instance.put(apiURL, {
       user: { password }
     })
       .then((response) => {
         if (response.status === 200) {
           toastr.success(response.data.user.message);
-          history.replace("/login");
+          window.location.href = "/";
         }
       })
       .catch((response) => {

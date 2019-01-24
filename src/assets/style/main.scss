@@ -1,33 +1,53 @@
-$color-green:#008000;
+@import "./abstract/variables";
+@import "./components/authenticationPopup.scss";
+@import "./components/headers/general.scss";
 
-.text {
-  color: $color-green;
+#err{
+  &--username,
+  &--email,
+  &--password {
+    text-align: left
+  }
 }
 
-.modal {
-  text-align: right !important;
-}
 
-.ui.active.transition.visible.dimmer,
-.ui.page.modals.dimmer.transition.visible.active {
-  background: #902344 !important;
-}
-
-#username-err,
-#email-err,
-#password-err {
-  text-align: left
-}
-
-.passwordForm{
-  margin-top: 15%;
-  text-align: center;
-}
-
-.passwordForm .ui.header{
-  color: #fff;
-}
-
-.btn-forms-primary {
-  width: 100%;
+.ui{
+  &.button {
+    &.primary {
+      background-color: $primary__color;
+      &.inverted {
+        color: $primary__color;
+        box-shadow: 0 0 0 .1rem $primary__color inset !important;
+        &:hover {
+          background-color: $primary__color--light;
+        }
+      }
+    }
+    &.secondary {
+      background-color: $secondary__color;
+      &.inverted{
+        color: #fff;
+        box-shadow: 0 0 0 .2rem #fff inset !important;
+        &:hover{
+          background-color: $secondary__color--light;
+        }
+      }
+    }
+  }
+  &.menu {
+    .item{
+      &:hover{
+        color: $primary__color !important;
+        background-color: transparent !important;
+      }
+      &.active{
+        color: $primary__color;
+        background-color: transparent !important;
+        border-bottom: solid .15rem $primary__color;
+        &:hover{
+          color: $primary__color--light !important;
+        }
+      }
+    }
+  }
 }

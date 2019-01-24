@@ -1,0 +1,31 @@
+@import "../abstract/variables";
+
+.bg {
+    &--success,
+    &--error{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+    &--success{
+        background: linear-gradient(to bottom right, $primary__color, $primary__color--light)
+    }
+    &--error {
+        background: linear-gradient(to bottom right, $primary__color, $primary__color--light)
+    }
+}
+
+.pageContent {
+    top: 40vh;
+    overflow-wrap: normal;
+    position: relative;
+    color: #FFF;
+    transform: translateY(-50%);
+    h2 {
+        border-bottom: solid #fff .2rem;
+        padding-bottom: 4rem;
+    }
+    button {
+        margin-top: 2rem !important;
+    }
+}

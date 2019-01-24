@@ -8,6 +8,7 @@ import "../assets/style/main.scss";
 import ResetRequestPage from "./containers/resetRequest";
 import UpdatePasswordPage from "./containers/updatePassword";
 import LoginPage from "./containers/login";
+import SocialAuthenticationLanding from "./containers/socialAuthenticationLanding";
 /* eslint-disable react/prefer-stateless-function */
 class App extends React.Component {
   render() {
@@ -15,6 +16,7 @@ class App extends React.Component {
       <div>
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route path="/social/auth" component={SocialAuthenticationLanding} />
           <Route path="/request_reset" component={ResetRequestPage} />
           <Route path="/change_password" component={UpdatePasswordPage} />
           <Route path="/signup" component={RegistrationPage} />
