@@ -9,6 +9,7 @@ package-lock.json
 
 # testing
 /coverage
+**/__tests__/__snapshots__/
 
 # production
 /build
