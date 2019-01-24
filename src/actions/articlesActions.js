@@ -1,5 +1,4 @@
 
-import toastr from "toastr";
 import * as types from "./actionTypes";
 import ArticleAPI from "../api/articleAPI";
 
