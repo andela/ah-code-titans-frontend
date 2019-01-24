@@ -21,6 +21,7 @@ import "../../../assets/style/pages/createArticle.scss";
 import LikeDislikeComponent from "../LikeDislikeButtons";
 import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 
+const slug = window.location.pathname.slice(9);
 class SingleArticle extends Component {
   constructor(props) {
     super(props);
