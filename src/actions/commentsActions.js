@@ -1,5 +1,5 @@
 import * as types from "./actionTypes";
-import CommentsApi from "../api/commentsApi";
+import CommentsApi from "../api/commentsAPI";
 
 export const getArticleCommentSuccess = payload => ({
   type: types.GET_ARTICLE_COMMENTS_SUCCESS,
