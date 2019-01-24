@@ -45,5 +45,9 @@ export default {
     tag: {
       articles: {}
     }
+  },
+  rateArticleReducer: {
+    rate: {},
+    rating: {}
   }
 };
