@@ -2,6 +2,7 @@
 import instance from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
 
+// instance.defaults.headers.common.Authorization = this.state.user;
 export default class ArticleAPI {
   static createArticle(articleDetails) {
     const {
@@ -26,6 +27,13 @@ export default class ArticleAPI {
       }
     }).catch((error) => {
       if (error.response) {
+        toastr.warning("Please login to post an article");
+        return {
+          success: false,
+          error: error.response.data
+        };
+      }
+      if (error.response.status === 503) {
         toastr.warning("Please login to post an article");
         return {
           success: false,

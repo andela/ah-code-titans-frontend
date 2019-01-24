@@ -6,6 +6,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import * as ArticleActions from "../../actions/articlesActions";
 import CreateArticleForm from "../views/articles/CreateArticleForm";
+import HeaderComponent from "./headers/index";
 
 class ArticlesContainer extends Component {
   constructor(props) {
@@ -69,22 +70,42 @@ class ArticlesContainer extends Component {
   };
 
   render() {
+    const { location, auth } = this.props;
     return (
-      <CreateArticleForm
-        state={this.state}
-        onHandleChange={this.onHandleChange}
-        onHandleEditorChange={this.onHandleEditorChange}
-        handleKeyCommand={this.handleKeyCommand}
-        onSubmit={this.onSubmit}
-        resetForm={this.resetForm}
-      />
+      <div>
+        { auth.user.username !== undefined ? (
+          <div>
+            <HeaderComponent location={location} />
+            <CreateArticleForm
+              state={this.state}
+              onHandleChange={this.onHandleChange}
+              onHandleEditorChange={this.onHandleEditorChange}
+              handleKeyCommand={this.handleKeyCommand}
+              onSubmit={this.onSubmit}
+              resetForm={this.resetForm}
+            />
+
+          </div>
+        )
+          : (
+            <div>
+              <HeaderComponent location={location} />
+              <div clasName="container">
+                <h1>Please login first</h1>
+              </div>
+
+            </div>
+          )
+    }
+      </div>
+
     );
   }
 }
 
 const mapStateToProps = state => ({
   articles: state,
-  auth: PropTypes.object.isRequired
+  auth: state.loginReducer.auth
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -94,7 +115,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ArticlesContainer.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesContainer);

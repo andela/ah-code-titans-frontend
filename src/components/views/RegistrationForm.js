@@ -152,7 +152,7 @@ RegistrationFormComponent.propTypes = {
   parent: PropTypes.object.isRequired,
   onConfirmChange: PropTypes.func.isRequired,
   confirmPasswordError: PropTypes.string.isRequired,
-  isFormValid: PropTypes.string.isRequired
+  isFormValid: PropTypes.func.isRequired
 };
 
 export default RegistrationFormComponent;

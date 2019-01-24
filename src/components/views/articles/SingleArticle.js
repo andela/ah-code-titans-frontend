@@ -12,24 +12,48 @@ import * as actionGenerators from "../../../actions/articlesActions";
 import HeaderComponent from "../../containers/headers/index";
 
 class SingleArticle extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userIsAuthor: false,
+      currentArticle: {}
+    };
+
+    this.checkIfAuthenticated = this.checkIfAuthenticated.bind(this);
+  }
+
   componentDidMount = () => {
-    const { actions, match } = this.props;
+    const {
+      actions, match
+    } = this.props;
     actions.article.getSingleArticle(match.params.slug);
+
+    this.checkIfAuthenticated();
+  }
+
+  componentDidUpdate() {
+    const { currentArticle } = this.state;
+    const { article } = this.props;
+    if (article !== currentArticle) {
+      this.checkIfAuthenticated();
+    }
+  }
+
+  checkIfAuthenticated() {
+    const { auth } = this.props;
+    const { article } = this.props;
+
+    if (auth.user.username !== undefined && article !== undefined) {
+      if (article.id !== undefined && article.author.username === auth.user.username) {
+        this.setState({ userIsAuthor: true });
+        this.setState({ currentArticle: article });
+      }
+    }
   }
 
   render() {
-    const { article, auth, location } = this.props;
-    // const checkCurrentUser = true;
-    let checkCurrentUser;
-    if (auth.user.username !== undefined) {
-      if (article.author.username === auth.user.username) {
-        checkCurrentUser = true;
-      } else {
-        checkCurrentUser = false;
-      }
-    } else {
-      checkCurrentUser = false;
-    }
+    const { article, location } = this.props;
+    const { userIsAuthor } = this.state;
 
     if (article.id === undefined) return <div />;
 
@@ -58,7 +82,7 @@ class SingleArticle extends Component {
             </div>
             <hr />
             <br />
-            { checkCurrentUser ? (
+            { userIsAuthor ? (
               <div className="spread__content">
                 <button type="button" className="ui positive button">Edit This Article</button>
                 <button type="submit" className="ui negative button">Delete Article</button>

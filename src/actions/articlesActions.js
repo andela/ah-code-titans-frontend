@@ -18,16 +18,6 @@ export const getSpecificArticle = payload => ({
   payload
 });
 
-export const createArticle = articleDetails => (dispatch) => {
-  ArticleAPI.createArticle(articleDetails).then((response) => {
-    if (response.success) {
-      dispatch(createArticleSuccess(response.article));
-    } else {
-      dispatch(createArticleFailure(response.error));
-    }
-  });
-};
-
 export const getSingleArticle = slug => (dispatch) => {
   ArticleAPI.getSingleArticle(slug)
     .then((response) => {
@@ -37,4 +27,14 @@ export const getSingleArticle = slug => (dispatch) => {
         toastr.error(response.error.message);
       }
     });
+};
+
+export const createArticle = articleDetails => (dispatch) => {
+  ArticleAPI.createArticle(articleDetails).then((response) => {
+    if (response.success) {
+      dispatch(createArticleSuccess(response.article));
+    } else {
+      dispatch(createArticleFailure(response.error));
+    }
+  });
 };

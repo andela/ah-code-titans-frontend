@@ -18,7 +18,6 @@ export default {
   profileReducer: {
     profile: {}
   },
-  articles: {
   article: {
     article: {
 

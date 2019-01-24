@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: "https://ah-codetitans-staging.herokuapp.com/",
   headers: { "Content-Type": "application/json" }
 });
 
-const token = window.localStorage.getItem("user");
+const token = localStorage.getItem("user");
 let authToken;
 if (token !== null) {
   authToken = token.replace(/"/g, "");

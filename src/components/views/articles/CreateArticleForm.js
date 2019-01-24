@@ -16,6 +16,7 @@ const CreateArticleForm = (props) => {
 
   return (
     <div className="container">
+      <h2>Create your article.</h2>
       <div className="ui form">
         <form onSubmit={onSubmit}>
           <div className="field">
