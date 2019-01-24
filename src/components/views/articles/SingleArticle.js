@@ -87,8 +87,9 @@ class SingleArticle extends Component {
         {
           label: "Yes",
           onClick: () => {
-            const { actions, match } = this.props;
+            const { actions, history, match } = this.props;
             actions.article.deleteArticle(match.params.slug);
+            history.push("/profile");
           }
         },
         {
@@ -107,6 +108,7 @@ class SingleArticle extends Component {
       body,
       description,
       tag_list
+
     } = article;
 
     this.setState({
@@ -136,20 +138,14 @@ class SingleArticle extends Component {
     event.preventDefault();
     const {
       // eslint-disable-next-line camelcase
-      title,
-      description,
-      body,
-      tag_list
+      title, description, body, tag_list
     } = this.state;
 
     const { actions, match } = this.props;
     actions.article.editArticle(match.params.slug, {
-      title,
-      description,
-      body,
-      tag_list: tag_list.split(",")
+      title, description, body, tag_list: tag_list.split(",")
     });
-  };
+  }
 
   resetForm = () => {
     confirmAlert({
@@ -238,119 +234,110 @@ class SingleArticle extends Component {
     return (
       <div>
         <HeaderComponent location={location} />
-        {editing ? (
-          <div>
-            <CreateArticleForm
-              state={this.state}
-              onHandleChange={this.onHandleChange}
-              onHandleEditorChange={this.onHandleEditorChange}
-              handleKeyCommand={this.handleKeyCommand}
-              onSubmit={this.onSubmit}
-              resetForm={this.resetForm}
-              cancelEdit={this.cancelEdit}
-            />
-          </div>
-        ) : (
-          <div>
-            <div className="article__container">
-              <br />
-              <h1 className="ui header centered">{article.title}</h1>
-              <Divider />
-              <div className="ui container spread__content">
-                <p>{article.description}</p>
-                <p className="ui text right aligned">
-                  Authored by:{" "}
-                  <Link to="/profile">
-                    <i>{article.author.username} </i>
-                  </Link>
-                </p>
-                <div className="ui time_to_read">
-                  <i className="clock icon" />
-                  {article.time_to_read < 1 ? "Less than a" : article.time_to_read}{" "}
-                  {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
-                </div>
-                {
-              bookmarked ? (
-                <div onClick={this.unBookmarkArticle}>
-                  <span className="bookmark__position">
-                    <i className="bookmark icon" />
-                    Unbookmark
-                  </span>
-                </div>
+        {
+      (editing) ? (
+        <div>
+          <CreateArticleForm
+            state={this.state}
+            onHandleChange={this.onHandleChange}
+            onHandleEditorChange={this.onHandleEditorChange}
+            handleKeyCommand={this.handleKeyCommand}
+            onSubmit={this.onSubmit}
+            resetForm={this.resetForm}
+            cancelEdit={this.cancelEdit}
+          />
+        </div>
 
-              ) : (
-                <div onClick={this.bookmarkArticle}>
-                  <span className="bookmark__position">
-                    <i className="bookmark outline icon" />
-                Bookmark
-                  </span>
-                </div>
-              )
-            }
-                <br />
-                <Container textAlign="right">
-                  <GetRates />
-                </Container>
+      ) : (
+        <div>
+          <div className="article__container">
+            <br />
+            <h1 className="ui header centered">{article.title}</h1>
+            <p className="ui header centered article__desc"> {article.description}</p>
+            <Divider />
+            <div className="ui container spread__content">
+              <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{ article.author.username } </i></Link></p>
+              <div className="ui time_to_read">
+                <i className="clock icon" />
+                {article.time_to_read < 1 ? "Less than a" : article.time_to_read} {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
               </div>
               <br />
-              <div className="main__first">
-                <div
-                  className="ui container article__body"
-                  dangerouslySetInnerHTML={{ __html: article.body }}
-                />
-                <br />
-                <div className="article__tags">
-                  {article.tag_list.map((tag, i) => (
-                    <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>
-                      {tag}
-                    </a>
-                  ))}
-                </div>
-                <Divider />
-                {isLoggedIn ? <LikeDislikeComponent {...this.props} /> : <div />}
-                {isLoggedIn && !userIsAuthor ? (
-                  <div>
-                    <p textAlign="left">
-                      <b>Rate this article:</b>
-                    </p>
-                    <RateArticle />
+              {
+                bookmarked ? (
+                  <div onClick={this.unBookmarkArticle}>
+                    <span className="bookmark__position">
+                      <i className="bookmark icon" />
+                      Unbookmark
+                    </span>
                   </div>
-                ) : (
-                  <div />
-                )}
 
-                <br />
-                {userIsAuthor ? (
-                  <div className="button__group">
-                    <Popup trigger={<Button size="tiny">Update Article</Button>} flowing hoverable>
-                      <Button icon="edit" positive onClick={this.handleEditArticle} />
-                      <Button icon="trash" negative onClick={this.handleDeleteArticle} />
-                    </Popup>
-                  </div>
                 ) : (
-                  <div />
-                )}
-                {
-              bookmarked ? (
-                <span className="bookmark__float">
-                  <Button circular color="yellow" icon="bookmark" onClick={this.unBookmarkArticle} />
-                </span>
-              ) : (
-                <span className="bookmark__float">
-                  <Button circular color="grey" icon="bookmark" onClick={this.bookmarkArticle} />
-                </span>
-              )
-            }
-                <Divider hidden />
-                <CommentsContainer articleSlug={match.params.slug} />
-              </div>
+                  <div onClick={this.bookmarkArticle}>
+                    <span className="bookmark__position">
+                      <i className="bookmark outline icon" />
+                  Bookmark
+                    </span>
+                  </div>
+                )
+              }
+              <Container textAlign="right"><GetRates /></Container>
             </div>
+            <br />
+            <div className="main__first">
+              <div className="ui container article__body" dangerouslySetInnerHTML={{ __html: article.body }} />
+              <br />
+              <div className="article__tags">
+                {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
+              </div>
+              <Divider />
+              {isLoggedIn ? <LikeDislikeComponent {...this.props} /> : <div />}
+              { isLoggedIn && !userIsAuthor ? (
+                <div>
+                  <p textAlign="left"><b>Rate this article.</b></p>
+                  <RateArticle />
+                </div>
+              ) : (
+                <div />
+              )
+            }
+
+              { userIsAuthor ? (
+                <div className="button__group">
+                  <Popup trigger={<Button>Update Article</Button>} flowing hoverable>
+                    <Button icon="edit" positive onClick={this.handleEditArticle} />
+                    <Button icon="trash" negative onClick={this.handleDeleteArticle} />
+                  </Popup>
+                </div>
+              )
+                : <div />}
+              <div className="spread__content">
+                <div className="article__sharing">
+                  <ShareArticle
+                    handleSocialShare={this.handleSocialShare}
+                  />
+                </div>
+                <div className="bookmark__article" />
+
+              </div>
+
+              <br />
+              <Divider hidden />
+              <CommentsContainer articleSlug={match.params.slug} />
+
+            </div>
+
           </div>
-        )}
+
+        </div>
+
+      )
+    }
+
       </div>
     );
   }
 }
+// End here
 
 SingleArticle.propTypes = {
   article: PropTypes.object.isRequired,
