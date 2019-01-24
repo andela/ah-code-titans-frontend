@@ -31,6 +31,7 @@ import CreateArticleForm from "./CreateArticleForm";
 import "../../../assets/style/articles/style.scss";
 import "../../../assets/style/articles/bookmark.scss";
 
+const slug = window.location.pathname.slice(9);
 class SingleArticle extends Component {
   constructor(props, context) {
     super(props, context);
