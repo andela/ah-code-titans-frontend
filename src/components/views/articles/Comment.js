@@ -18,7 +18,7 @@ InputComponent.propTypes = {
   submit: PropTypes.func.isRequired
 };
 
-export default function (props) {
+const CommentView = (props) => {
   const { comment, parent } = props;
   return (
     <div>
@@ -56,4 +56,10 @@ export default function (props) {
       </div>
     </div>
   );
-}
+};
+CommentView.propTypes = {
+  comment: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired
+};
+
+export default CommentView;
