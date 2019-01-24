@@ -1,27 +1,6 @@
 /* eslint-disable consistent-return */
-import axios from "axios";
-import toastr from "toastr";
-
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InNocmV3ZHR1cnRsZSIsInJlZnJlc2hfdG9rZW4iOmZhbHNlLCJpYXQiOjE1NDgzMjEyNTksIm5iZiI6MTU0ODMyMDk1OSwiZXhwIjoxNTQ4MzI0ODU5fQ.81yYnIZFShqvv8vCYGEzFfgZLhXAE4YaZCgaBg42GqU";
-axios.defaults.headers.common.Authorization = token;
-
-toastr.options = {
-  closeButton: false,
-  debug: false,
-  newestOnTop: false,
-  progressBar: false,
-  positionClass: "toast-top-center",
-  preventDuplicates: true,
-  onclick: null,
-  showDuration: "300",
-  hideDuration: "1000",
-  timeOut: "5000",
-  extendedTimeOut: "1000",
-  showEasing: "swing",
-  hideEasing: "linear",
-  showMethod: "fadeIn",
-  hideMethod: "fadeOut"
-};
+import instance from "./axiosConfig";
+import toastr from "../helpers/toastrConfig";
 
 export default class ArticleAPI {
   static createArticle(articleDetails) {
@@ -29,7 +8,7 @@ export default class ArticleAPI {
       // eslint-disable-next-line camelcase
       title, description, body, tag_list
     } = articleDetails;
-    return axios.post("/api/articles/",
+    return instance.post("/api/articles/",
       {
         article: {
           title,
@@ -37,27 +16,40 @@ export default class ArticleAPI {
           body,
           tag_list: tag_list.split(",")
         }
-      },
-      {
-        headers: {
-          Authorization: `Token ${token}`
-        }
       }).then((response) => {
       if (response) {
         window.location.assign(`/article/${response.data.slug}`);
-        return { success: true, article: response.data };
+        return {
+          success: true,
+          article: response.data
+        };
       }
     }).catch((error) => {
       if (error.response) {
         toastr.warning("Please login to post an article");
-        return { success: false, error: error.response.data };
+        return {
+          success: false,
+          error: error.response.data
+        };
       }
     });
   }
 
   static getSingleArticle(slug) {
-    return axios.get(`/api/article/${slug}`, {}, { headers: { Authorization: `Token ${token}` } })
-      .then(response => response.data)
-      .catch(err => err);
+    return instance.get(`/api/article/${slug}`, {})
+      .then(response => ({
+        success: true,
+        content: response.data.articles
+      }))
+      .catch((response) => {
+        if (response.response.status !== 200) {
+          return {
+            success: false,
+            error: {
+              message: "Failed to retrieve the article!"
+            }
+          };
+        }
+      });
   }
 }

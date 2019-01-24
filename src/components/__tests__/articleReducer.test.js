@@ -15,15 +15,15 @@ const newArticle = {
 
 describe("article reducer", () => {
   it("should provide the initial state", () => {
-    expect(articlesReducers(initialState.articles, {})).toEqual(initialState.articles);
+    expect(articlesReducers(initialState.article, {})).toEqual(initialState.article);
   });
   it("should add a new article", () => {
     expect(articlesReducers(initialState.articles,
-      { type: CREATE_ARTICLE_SUCCESS, payload: newArticle }).articles.article).toEqual(newArticle);
+      { type: CREATE_ARTICLE_SUCCESS, payload: newArticle }).article).toEqual(newArticle);
   });
   it("should add a specific article", () => {
     expect(articlesReducers(initialState.singleArticle,
       { type: GET_SPECIFIC_ARTICLE_SUCCESS, payload: newArticle })
-      .singleArticle.single_article).toEqual(newArticle);
+      .singleArticle).toEqual(newArticle);
   });
 });

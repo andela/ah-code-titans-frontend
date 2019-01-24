@@ -19,10 +19,11 @@ export default {
     profile: {}
   },
   articles: {
+  article: {
     article: {
 
     },
-    single_article: {
+    singleArticle: {
 
     }
   }

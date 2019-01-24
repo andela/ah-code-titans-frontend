@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import * as ArticleActions from "../../actions/articlesActions";
 import CreateArticleForm from "../views/articles/CreateArticleForm";
 
@@ -42,6 +44,30 @@ class ArticlesContainer extends Component {
     });
   }
 
+  resetForm = () => {
+    confirmAlert({
+      title: "Confirm discard",
+      message: "Are you sure you want to discard?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            this.setState({
+              title: "",
+              description: "",
+              body: "",
+              tag_list: ""
+            });
+          }
+        },
+        {
+          label: "No",
+          onClick: () => {}
+        }
+      ]
+    });
+  };
+
   render() {
     return (
       <CreateArticleForm
@@ -50,13 +76,15 @@ class ArticlesContainer extends Component {
         onHandleEditorChange={this.onHandleEditorChange}
         handleKeyCommand={this.handleKeyCommand}
         onSubmit={this.onSubmit}
+        resetForm={this.resetForm}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  articles: state
+  articles: state,
+  auth: PropTypes.object.isRequired
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -10,6 +10,7 @@ const CreateArticleForm = (props) => {
     state,
     onHandleChange,
     onHandleEditorChange,
+    resetForm,
     onSubmit
   } = props;
 
@@ -63,7 +64,7 @@ const CreateArticleForm = (props) => {
                   name="tag_list"
                   placeholder="Enter tags separated by commas"
                   required
-                  value={state.tags}
+                  value={state.tag_list}
                   onChange={onHandleChange}
                 />
                 <a className="ui tag label">
@@ -75,7 +76,7 @@ const CreateArticleForm = (props) => {
           <br />
           <div className="center_content">
             <div className="ui buttons ">
-              <button type="button" className="ui button">Discard</button>
+              <button type="button" className="ui button" onClick={resetForm}>Discard</button>
               <div className="or" />
               <button type="submit" className="ui positive button">Publish Article</button>
             </div>
@@ -90,6 +91,7 @@ CreateArticleForm.propTypes = {
   state: PropTypes.object.isRequired,
   onHandleChange: PropTypes.func.isRequired,
   onHandleEditorChange: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 

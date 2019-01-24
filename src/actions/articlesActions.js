@@ -1,4 +1,5 @@
 
+import toastr from "toastr";
 import * as types from "./actionTypes";
 import ArticleAPI from "../api/articleAPI";
 
@@ -12,16 +13,13 @@ export const createArticleFailure = (error = {}) => ({
   payload: error
 });
 
-// Get article
 export const getSpecificArticle = payload => ({
   type: types.GET_SPECIFIC_ARTICLE_SUCCESS,
   payload
 });
 
 export const createArticle = articleDetails => (dispatch) => {
-  // performing our ap call
   ArticleAPI.createArticle(articleDetails).then((response) => {
-  // dispatching our actions based on the response from our backend
     if (response.success) {
       dispatch(createArticleSuccess(response.article));
     } else {
@@ -33,6 +31,10 @@ export const createArticle = articleDetails => (dispatch) => {
 export const getSingleArticle = slug => (dispatch) => {
   ArticleAPI.getSingleArticle(slug)
     .then((response) => {
-      dispatch(getSpecificArticle(response.articles));
+      if (response.success) {
+        dispatch(getSpecificArticle(response.content));
+      } else {
+        toastr.error(response.error.message);
+      }
     });
 };
