@@ -9,24 +9,33 @@ import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 
 import * as actionGenerators from "../../../actions/articlesActions";
-import UserHeader from "../headers/UserHeader";
+import HeaderComponent from "../../containers/headers/index";
 
-const slug = window.location.pathname.slice(9);
 class SingleArticle extends Component {
   componentDidMount = () => {
-    const { actions } = this.props;
-    actions.article.getSingleArticle(slug);
+    const { actions, match } = this.props;
+    actions.article.getSingleArticle(match.params.slug);
   }
 
   render() {
-    const { article, auth } = this.props;
+    const { article, auth, location } = this.props;
+    // const checkCurrentUser = true;
+    let checkCurrentUser;
+    if (auth.user.username !== undefined) {
+      if (article.author.username === auth.user.username) {
+        checkCurrentUser = true;
+      } else {
+        checkCurrentUser = false;
+      }
+    } else {
+      checkCurrentUser = false;
+    }
+
     if (article.id === undefined) return <div />;
 
     return (
       <div>
-        <UserHeader
-          auth={auth}
-        />
+        <HeaderComponent location={location} />
         <div className="container">
 
           <br />
@@ -49,10 +58,14 @@ class SingleArticle extends Component {
             </div>
             <hr />
             <br />
-            <div className="spread__content">
-              <button type="button" className="ui positive button">Edit This Article</button>
-              <button type="submit" className="ui negative button">Delete Article</button>
-            </div>
+            { checkCurrentUser ? (
+              <div className="spread__content">
+                <button type="button" className="ui positive button">Edit This Article</button>
+                <button type="submit" className="ui negative button">Delete Article</button>
+              </div>
+            )
+              : <div />}
+
           </div>
 
         </div>
@@ -66,7 +79,9 @@ class SingleArticle extends Component {
 SingleArticle.propTypes = {
   article: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
