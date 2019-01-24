@@ -6,7 +6,7 @@ export default class TagSearchingAPI {
       // eslint-disable-next-line consistent-return
       .then((response) => {
         if (response.status === 200) {
-          window.location.href = "/tagsearch";
+          window.location.href = "/discover";
           return { data: response.data.results };
         }
       });

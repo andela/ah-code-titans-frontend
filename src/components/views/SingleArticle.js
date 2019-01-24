@@ -18,7 +18,7 @@ class SingleArticle extends Component {
       <div>
         <div className="article__tags">
           <Label onClick={this.onTagClick} as="a" tag>
-            Tags come in here
+            Culture
           </Label>
         </div>
       </div>
