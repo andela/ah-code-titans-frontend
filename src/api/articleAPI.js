@@ -86,4 +86,50 @@ export default class ArticleAPI {
         }
       });
   }
+
+  static deleteArticle(slug) {
+    return instance.delete(`/api/article/${slug}`)
+      .then(response => ({
+        success: true,
+        content: response.date.article
+      }))
+      .catch(error => ({
+        success: false,
+        error: {
+          message: "Article was not found!"
+        }
+      }));
+  }
+
+  static editArticle(slug, articleDetails) {
+    const {
+      // eslint-disable-next-line camelcase
+      title, description, body, tag_list
+    } = articleDetails;
+    return instance.put(`/api/article/${slug}`,
+      {
+        article: {
+          title,
+          description,
+          body,
+          tag_list: tag_list.split(",")
+        }
+      }).then((response) => {
+      if (response) {
+        window.location.assign(`/article/${slug}`);
+        return {
+          success: true,
+          article: response.data
+        };
+      }
+    }).catch((error) => {
+      if (error.response) {
+        toastr.warning("Please login to post an article");
+        return {
+          success: false,
+          error: error.response.data
+        };
+      }
+    });
+  }
 }

@@ -13,6 +13,8 @@ import { Container } from "semantic-ui-react";
 import RateArticle from "../../containers/rating/RateArticle";
 import GetRates from "../../containers/rating/GetRates";
 
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import * as actionGenerators from "../../../actions/articlesActions";
 import CommentsContainer from "../../containers/commentsContainer";
 import HeaderComponent from "../../containers/headers/index";
@@ -20,13 +22,19 @@ import * as tagSearching from "../../../actions/tagSearchingActions";
 import "../../../assets/style/pages/createArticle.scss";
 import LikeDislikeComponent from "../LikeDislikeButtons";
 import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
+import CreateArticleForm from "./CreateArticleForm";
 
 class SingleArticle extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userIsAuthor: false,
-      currentArticle: {}
+      currentArticle: {},
+      editing: false,
+      title: "",
+      description: "",
+      body: "",
+      tag_list: ""
     };
     this.checkIfAuthenticated = this.checkIfAuthenticated.bind(this);
     this.checkIsLoggedIn = this.checkIsLoggedIn.bind(this);
@@ -66,6 +74,92 @@ class SingleArticle extends Component {
     dislikeArticle(slug);
   }
 
+  handleDeleteArticle = () => {
+    confirmAlert({
+      title: "Confirm deletion",
+      message: "Are you sure you want to delete this article?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            const { actions, history, match } = this.props;
+            actions.article.deleteArticle(match.params.slug);
+            history.push("/profile");
+          }
+        },
+        {
+          label: "No",
+          onClick: () => {}
+        }
+      ]
+    });
+  }
+
+  handleEditArticle = () => {
+    const { article } = this.props;
+    const {
+      title, body, description, tag_list
+    } = article;
+
+    this.setState({
+      editing: true,
+      title,
+      body,
+      description,
+      tag_list
+    });
+  }
+
+  onHandleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  onHandleEditorChange = (event) => {
+    const content = event.editor.getData();
+    this.setState({
+      body: content
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    const {
+      // eslint-disable-next-line camelcase
+      title, description, body, tag_list
+    } = this.state;
+    const { actions, match } = this.props;
+    actions.article.editArticle(match.params.slug, {
+      title, description, body, tag_list
+    });
+  }
+
+  resetForm = () => {
+    confirmAlert({
+      title: "Confirm discard",
+      message: "Are you sure you want to discard?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            this.setState({
+              title: "",
+              description: "",
+              body: "",
+              tag_list: ""
+            });
+          }
+        },
+        {
+          label: "No",
+          onClick: () => {}
+        }
+      ]
+    });
+  };
+
   checkIfAuthenticated() {
     const { auth } = this.props;
     const { article } = this.props;
@@ -88,75 +182,78 @@ class SingleArticle extends Component {
 
   render() {
     const { article, location, match } = this.props;
-    const { userIsAuthor, isLoggedIn } = this.state;
+    const { userIsAuthor, editing, isLoggedIn } = this.state;
+
     if (article.id === undefined) return <div />;
 
     return (
-      <div className="createArticle">
-        <HeaderComponent location={location} />
-        <div className="container">
-          <br />
-          <h1 className="ui header centered">{article.title}</h1>
-          <hr />
-          <div className="ui container spread__content">
-            <p>{article.description}</p>
-            <p className="ui text right aligned">
-              Authored by:{" "}
-              <Link to="/profile">
-                <i>{article.author.username} </i>
-              </Link>
-            </p>
-            <div className="ui time_to_read">
-              <i className="clock icon" /> {article.time_to_read}{" "}
-              {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
-            </div>
-            <br />
-            <Container textAlign="right"><GetRates /></Container>
-          </div>
-          <br />
-          <div className="main__first">
-            <div
-              className="ui container article__body"
-              dangerouslySetInnerHTML={{ __html: article.body }}
+      <div>
+        {
+          (editing) ? (
+            <CreateArticleForm
+              state={this.state}
+              onHandleChange={this.onHandleChange}
+              onHandleEditorChange={this.onHandleEditorChange}
+              handleKeyCommand={this.handleKeyCommand}
+              onSubmit={this.onSubmit}
+              resetForm={this.resetForm}
             />
-            <br />
-            <div className="article__tags">
-              {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
+          ) : (
+            <div>
+              <HeaderComponent location={location} />
+              <div className="container">
+
+                <br />
+                <h1 className="ui header centered">{article.title}</h1>
+                <hr />
+                <div className="ui container spread__content">
+                  <p>{article.description}</p>
+                  <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{ article.author.username } </i></Link></p>
+                  <div className="ui time_to_read">
+                    <i className="clock icon" />
+                    { }
+                    {article.time_to_read < 1 ? "Less than a" : article.time_to_read} {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
+                  </div>
+                  <br />
+                </div>
+                <br />
+                <div className="main__first">
+                  <div className="ui container article__body" dangerouslySetInnerHTML={{ __html: article.body }} />
+                  <br />
+                  <div className="article__tags">
+                    {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
+                  </div>
+                  <hr />
+                  {isLoggedIn ? <LikeDislikeComponent {...this.props} /> : <div />}
+                  { !userIsAuthor ? (
+                    <div >
+                      <p textAlign="left"><b>Rate this article:</b></p>
+                      <RateArticle />
+                    </div>
+                  ) : (
+                    <div />
+                  )
+                }
+
+                  <br />
+                  { userIsAuthor ? (
+                    <div className="spread__content">
+                      <button type="button" className="ui positive button" onClick={this.handleEditArticle}>Edit This Article</button>
+                      <button type="submit" className="ui negative button" onClick={this.handleDeleteArticle}>Delete Article</button>
+                    </div>
+                  )
+                    : <div />}
+                  <CommentsContainer articleSlug={match.params.slug} />
+
+                </div>
+
+              </div>
+
             </div>
-            <hr />
-            {isLoggedIn ? (
-              <LikeDislikeComponent
-                style={{ color: "blue" }}
-                {...this.props}
-              />
 
-            ) : <div />}
+          )
+        }
 
-            { !userIsAuthor ? (
-              <div >
-                <p textAlign="left"><b>Rate this article:</b></p>
-                <RateArticle />
-              </div>
-            ) : (
-              <div />
-            )
-          }
-            <br />
-            {userIsAuthor ? (
-              <div className="spread__content">
-                <button type="button" className="ui positive button">
-                  Edit This Article
-                </button>
-                <button type="submit" className="ui negative button">
-                  Delete Article
-                </button>
-              </div>
-            ) : (
-              <div />
-            )}
-          </div>
-          <CommentsContainer articleSlug={match.params.slug} />
-        </div>
       </div>
     );
   }
@@ -169,7 +266,8 @@ SingleArticle.propTypes = {
   auth: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   dislikeArticle: PropTypes.func.isRequired,
-  likeArticle: PropTypes.func.isRequired
+  likeArticle: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

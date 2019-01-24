@@ -18,6 +18,26 @@ export const getSpecificArticle = payload => ({
   payload
 });
 
+export const deleteSpecificArticle = payload => ({
+  type: types.DELETE_ARTICLE_SUCCESS,
+  payload
+});
+
+export const editSpecificArticle = payload => ({
+  type: types.EDIT_ARTICLE_SUCCESS,
+  payload
+});
+export const createArticle = articleDetails => (dispatch) => {
+  ArticleAPI.createArticle(articleDetails).then((response) => {
+    if (response.success) {
+      dispatch(createArticleSuccess(response.article));
+      dispatch(getSpecificArticle(response.article.slug));
+    } else {
+      dispatch(createArticleFailure(response.error));
+    }
+  });
+};
+
 export const getSingleArticle = slug => (dispatch) => {
   ArticleAPI.getSingleArticle(slug)
     .then((response) => {
@@ -29,12 +49,23 @@ export const getSingleArticle = slug => (dispatch) => {
     });
 };
 
-export const createArticle = articleDetails => (dispatch) => {
-  ArticleAPI.createArticle(articleDetails).then((response) => {
+export const deleteArticle = slug => (dispatch) => {
+  ArticleAPI.deleteArticle(slug)
+    .then((response) => {
+      if (response.success) {
+        dispatch(deleteSpecificArticle(response.article));
+      } else {
+        toastr.error(response.error.message);
+      }
+    });
+};
+
+export const editArticle = (slug, articleDetails) => (dispatch) => {
+  ArticleAPI.editArticle(slug, articleDetails).then((response) => {
     if (response.success) {
-      dispatch(createArticleSuccess(response.article));
+      dispatch(editSpecificArticle(response.article));
     } else {
-      dispatch(createArticleFailure(response.error));
+      dispatch(editSpecificArticle(response.error));
     }
   });
 };
