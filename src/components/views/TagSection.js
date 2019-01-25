@@ -31,7 +31,12 @@ function TagSection(props) {
     "SCIENCE",
     "CREATIVITY",
     "MOTIVATION",
-    "ANIMALS"
+    "ANIMALS",
+    "TOURISM",
+    "ENTERTAINMENT",
+    "BUSINESS",
+    "SPORTS",
+    "FOOD"
   ];
 
   return (

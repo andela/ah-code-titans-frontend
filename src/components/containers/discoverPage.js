@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import Article from "../views/article2";
 import * as tagSearching from "../../actions/tagSearchActions";
 import TagSection from "../views/TagSection";
+import HeaderComponent from "./headers/index";
 
 class DiscoverPage extends Component {
   onNavTagClick = (event) => {
@@ -16,12 +17,16 @@ class DiscoverPage extends Component {
   }
 
   render() {
-    const { articles } = this.props;
+    const { articles, location } = this.props;
     return (
       <div>
-        <Container textAlign="center" fluid>
+        <HeaderComponent location={location} />
+        <br />
+        <Container textAlign="center" id="tagBar" className="SB">
           <TagSection onNavTagClick={this.onNavTagClick} />
         </Container>
+        <br />
+        <br />
         <Container text>
           <Item.Group>
             { articles.map(article => (
@@ -50,7 +55,8 @@ const mapDispatchToProps = dispatch => ({
 
 DiscoverPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  articles: PropTypes.object.isRequired
+  articles: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiscoverPage);

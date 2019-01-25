@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import {
   Menu, Container, Input, Image, Header, Responsive, Popup, Divider
 } from "semantic-ui-react";
