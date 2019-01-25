@@ -15,6 +15,8 @@ import CommentsContainer from "../../containers/commentsContainer";
 import HeaderComponent from "../../containers/headers/index";
 import * as tagSearching from "../../../actions/tagSearchingActions";
 import "../../../assets/style/pages/createArticle.scss";
+import LikeDislikeComponent from "../LikeDislikeButtons";
+import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 
 class SingleArticle extends Component {
   constructor(props) {
@@ -23,14 +25,16 @@ class SingleArticle extends Component {
       userIsAuthor: false,
       currentArticle: {}
     };
-
+    this.handleDislike = this.handleDislike.bind(this);
+    this.handleLike = this.handleLike.bind(this);
     this.checkIfAuthenticated = this.checkIfAuthenticated.bind(this);
+    this.checkIsLoggedIn = this.checkIsLoggedIn.bind(this);
   }
 
   componentDidMount = () => {
     const { actions, match } = this.props;
     actions.article.getSingleArticle(match.params.slug);
-
+    this.checkIsLoggedIn();
     this.checkIfAuthenticated();
   };
 
@@ -49,6 +53,18 @@ class SingleArticle extends Component {
     actions.tagsSearch.getAllSpecificTagRelatedArticles(tagText.toLowerCase());
   }
 
+  handleLike(e) {
+    const { likeArticle, article } = this.props;
+    const { slug } = article;
+    likeArticle(slug);
+  }
+
+  handleDislike(e) {
+    const { dislikeArticle, article } = this.props;
+    const { slug } = article;
+    dislikeArticle(slug);
+  }
+
   checkIfAuthenticated() {
     const { auth } = this.props;
     const { article } = this.props;
@@ -61,9 +77,17 @@ class SingleArticle extends Component {
     }
   }
 
+  checkIsLoggedIn() {
+    const { auth } = this.props;
+    const { article } = this.props;
+    if (auth.user.username !== undefined && article !== undefined) {
+      this.setState({ isLoggedIn: true });
+    }
+  }
+
   render() {
     const { article, location, match } = this.props;
-    const { userIsAuthor } = this.state;
+    const { userIsAuthor, isLoggedIn } = this.state;
     if (article.id === undefined) return <div />;
 
     return (
@@ -98,6 +122,15 @@ class SingleArticle extends Component {
               {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
             </div>
             <hr />
+            {isLoggedIn ? (
+              <LikeDislikeComponent
+                likesDislikes={this.props}
+                onClick={{ like: this.handleLike, dislike: this.handleDislike }}
+              />
+            ) : (
+              <div />
+            )}
+
             <br />
             {userIsAuthor ? (
               <div className="spread__content">
@@ -124,19 +157,29 @@ SingleArticle.propTypes = {
   actions: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  likeArticle: PropTypes.func.isRequired,
+  dislikeArticle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   article: state.article.singleArticle,
-  auth: state.loginReducer.auth
+  auth: state.loginReducer.auth,
+  dislikeIcon: state.likeDislikeReducer.dislikeIcon,
+  likeIcon: state.likeDislikeReducer.likeIcon,
+  likes: state.likeDislikeReducer.likes,
+  dislikes: state.likeDislikeReducer.dislikes,
+  isLiking: state.likeDislikeReducer.isLiking,
+  isDisliking: state.likeDislikeReducer.isDisliking
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: {
     article: bindActionCreators(actionGenerators, dispatch),
     tagsSearch: bindActionCreators(tagSearching, dispatch)
-  }
+  },
+  likeArticle: bindActionCreators(likeAsync, dispatch),
+  dislikeArticle: bindActionCreators(dislikeAsync, dispatch)
 });
 
 export default connect(
