@@ -4,20 +4,23 @@
     width: 100% !important;
     height: 100%;
     margin: 0 !important;
+
     .close {
         color: #FFF !important;
     }
 }
 
 .auth {
+
     &__social,
     &__signup,
     &__login,
-    &__requestReset{
+    &__requestReset {
         width: 100%;
         height: 100%;
         position: absolute;
     }
+
     &__social {
         background: linear-gradient(to right, $primary__color--fade, $primary__color, $primary__color--fade);
     }
@@ -28,6 +31,20 @@
         .ui.dimmer {
             background: #8F2645 !important;
         }
+
+        #password {
+            &__show {
+                position: absolute;
+                margin-left: -50px;
+                color: black;
+                margin-top: 11px;
+                background-color: brown;
+                padding: 2px 3px;
+                border-radius: 2px;
+                color: aliceblue;
+                cursor: pointer;
+            }
+        }
     }
 
     &__login {
@@ -37,6 +54,7 @@
             background: #973797 !important;
         }
     }
+
     &__requestReset {
         background-color: $primary__color;
 
@@ -44,6 +62,7 @@
             background: $primary__color !important;
         }
     }
+
     &__content {
         height: 70vh;
         top: 50% !important;
@@ -73,17 +92,21 @@
 }
 
 .links {
+
     &--create,
-    &--forgot{
+    &--forgot {
         width: 100%;
         float: left;
     }
-    &--forgot{
+
+    &--forgot {
         margin-bottom: 2rem;
     }
-    &--create{
+
+    &--create {
         margin-bottom: 1rem;
     }
+
     &__link {
         text-decoration: none;
         color: $secondary__color;

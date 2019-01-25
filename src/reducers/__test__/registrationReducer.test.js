@@ -10,10 +10,27 @@ describe("registration reducer", () => {
 
   it("should handle REGISTER_SUCCESS", () => {
     expect(
-      userRegistration({}, {
-        type: types.REGISTER_SUCCESS,
-        isFetching: false
-      })
+      userRegistration(
+        {},
+        {
+          type: types.REGISTER_SUCCESS,
+          isFetching: false
+        }
+      )
+    ).toEqual({
+      isFetching: false
+    });
+  });
+
+  it("should handle REGISTER_FAILURE", () => {
+    expect(
+      userRegistration(
+        {},
+        {
+          type: types.REGISTER_FAILURE,
+          isFetching: false
+        }
+      )
     ).toEqual({
       isFetching: false
     });
