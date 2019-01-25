@@ -34,9 +34,17 @@ export default {
         next: "",
         results: []
       }
+    },
+    commentReducer: {
+      comments: [],
+      mainOffset: {
+        next: 0,
+        previous: 0
+      },
+      singleArticle: {}
+    },
+    tag: {
+      articles: {}
     }
-  },
-  tag: {
-    articles: {}
   }
 };

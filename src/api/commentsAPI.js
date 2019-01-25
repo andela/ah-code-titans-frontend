@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
-import axios from "axios";
+import instance from "./axiosConfig";
 
 export default class CommentsApi {
   static createComments(comment) {
-    return axios
+    return instance
       .post(`/api/articles/${comment.slug}/comments`, {
         text: comment.comment,
         parent: 0
@@ -17,7 +17,7 @@ export default class CommentsApi {
   }
 
   static createReplyComment(comment) {
-    return axios
+    return instance
       .post(`/api/articles/${comment.slug}/comments`, {
         text: comment.replyComment,
         parent: comment.id
@@ -31,7 +31,7 @@ export default class CommentsApi {
   }
 
   static getReplyComment(comment) {
-    return axios
+    return instance
       .get(`/api/articles/${comment.slug}/comment/${comment.id}/0`)
       .then((response) => {
         if (response) {
@@ -42,7 +42,7 @@ export default class CommentsApi {
   }
 
   static getComments(slug) {
-    return axios
+    return instance
       .get(`/api/articles/${slug}/comments/0`)
       .then((response) => {
         if (response) {
@@ -53,7 +53,7 @@ export default class CommentsApi {
   }
 
   static deleteComment(slug, commentId) {
-    return axios
+    return instance
       .delete(`/api/articles/${slug}/comments/${commentId}`)
       .then((response) => {
         if (response) {

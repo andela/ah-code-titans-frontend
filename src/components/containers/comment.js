@@ -36,25 +36,22 @@ class Comment extends Component {
 
   toggleReply() {
     const { comment, actions } = this.props;
-    const { id } = comment;
-    actions.getReplyComment({ slug, id });
-
     const { toggleReply } = this.state;
     this.setState({ toggleReply: !toggleReply });
+
+    if (!toggleReply === true) {
+      actions.getReplyComment({ slug, comment });
+    }
   }
 
   render() {
     const { comment } = this.props;
-    return <NewCommentView comment={comment} parent={this} />;
+    return <NewCommentView comment={comment} parent={this} {...this.state} />;
   }
 }
 
-Comment.propTypes = {
-  actions: PropTypes.object.isRequired
-};
-
 const mapStateToProp = state => ({
-  comments: state.commentReducer.articles.comments
+  comments: state.commentReducer
 });
 
 const mapDispatchToProp = dispatch => ({
@@ -62,7 +59,8 @@ const mapDispatchToProp = dispatch => ({
 });
 
 Comment.propTypes = {
-  comment: PropTypes.object.isRequired
+  comment: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 export default connect(

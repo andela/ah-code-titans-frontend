@@ -11,6 +11,13 @@ class CommentsContainer extends Component {
     this.state = {
       comment: ""
     };
+
+    this.loadMore = this.loadMore.bind(this);
+  }
+
+  componentDidMount() {
+    const { actions, articleSlug } = this.props;
+    actions.comment.getComments(articleSlug, true);
   }
 
   onHandleChange = (event) => {
@@ -20,11 +27,15 @@ class CommentsContainer extends Component {
   };
 
   onSubmit = () => {
-    const { actions, article } = this.props;
+    const { actions, articleSlug } = this.props;
     const { comment } = this.state;
-    const { slug } = article;
-    actions.createComment({ comment, slug });
+    actions.comment.createComment({ comment, articleSlug });
   };
+
+  loadMore() {
+    const { actions, articleSlug } = this.props;
+    actions.comment.getComments(articleSlug);
+  }
 
   render() {
     const { comments } = this.props;
@@ -33,17 +44,18 @@ class CommentsContainer extends Component {
 }
 CommentsContainer.propTypes = {
   actions: PropTypes.object.isRequired,
-  article: PropTypes.object.isRequired,
-  comments: PropTypes.object.isRequired
+  comments: PropTypes.object.isRequired,
+  articleSlug: PropTypes.string.isRequired
 };
 
 const mapStateToProp = state => ({
-  article: state.articleReducer.articles.single_article,
-  comments: state.commentReducer.articles.comments
+  comments: state.commentReducer
 });
 
 const mapDispatchToProp = dispatch => ({
-  actions: bindActionCreators(ActionCreators, dispatch)
+  actions: {
+    comment: bindActionCreators(ActionCreators, dispatch)
+  }
 });
 
 export default connect(
