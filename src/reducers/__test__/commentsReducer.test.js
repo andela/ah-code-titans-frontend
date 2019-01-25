@@ -41,4 +41,39 @@ describe("test suite for comments reducers", () => {
       )
     ).toEqual({ comments: ["comment success"] });
   });
+
+  it("should handle get reply comment success ", () => {
+    expect(
+      commentReducer(
+        {
+          comments: []
+        },
+        {
+          type: Types.GET_REPLY_COMMENT_SUCCESS,
+          payload: {
+            comments: ["comment success"],
+            parentId: 1,
+            offset: 0,
+            reset: false
+          }
+        }
+      )
+    ).toEqual({ comments: ["comment success"] });
+  });
+
+  it("should handle get reply comment failure ", () => {
+    expect(
+      commentReducer(
+        {
+          comments: []
+        },
+        {
+          type: Types.GET_REPLY_COMMENT_FAILURE,
+          payload: {
+            comments: []
+          }
+        }
+      )
+    ).toEqual({ comments: [] });
+  });
 });

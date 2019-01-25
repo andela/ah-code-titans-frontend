@@ -65,7 +65,6 @@ const commentReducer = (state = {}, action) => {
               hasMore: true
             });
           }
-
           return comment;
         })
       };
