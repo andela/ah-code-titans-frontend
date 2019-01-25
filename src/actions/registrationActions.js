@@ -3,6 +3,13 @@ import toastr from "../helpers/toastrConfig";
 import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE } from "./actionTypes";
 import instance from "../api/axiosConfig";
 
+toastr.options = {
+  closeButton: true,
+  timeOut: 100000,
+  positionClass: "toast-top-center",
+  tapToDismiss: false
+};
+
 /* eslint-disable import/prefer-default-export */
 export const registerRequest = () => ({
   type: REGISTER_REQUEST

@@ -12,7 +12,6 @@ class RegistrationContainer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
-    this.resetState = this.resetState.bind(this);
     this.isFormValid = this.isFormValid.bind(this);
     this.fieldValidation = this.fieldValidation.bind(this);
     this.state = {
@@ -31,6 +30,7 @@ class RegistrationContainer extends Component {
     e.preventDefault();
     const { dispatch } = this.props;
     dispatch({ user: this.state });
+    e.target.reset();
   }
 
   handleChange(e) {
