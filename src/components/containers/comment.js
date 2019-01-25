@@ -15,7 +15,6 @@ class Comment extends Component {
       replyComment: ""
     };
     this.toggleReply = this.toggleReply.bind(this);
-    this.onHandleChange = this.onHandleChange.bind(this);
   }
 
   onHandleChange = (event) => {
