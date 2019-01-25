@@ -10,7 +10,7 @@ class SingleArticle extends Component {
     event.preventDefault();
     const tagText = event.target.innerHTML;
     const { actions } = this.props;
-    actions.tagsSearch.getAllSpecificTagRelatedArticles(tagText);
+    actions.tagsSearch.getAllSpecificTagRelatedArticles(tagText.toLowerCase());
   }
 
   render() {

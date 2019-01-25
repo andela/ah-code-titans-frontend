@@ -10,10 +10,9 @@ import TagSection from "../views/TagSection";
 class DiscoverPage extends Component {
   onNavTagClick = (event) => {
     event.preventDefault();
-    let navText = event.target.innerHTML;
-    navText = navText.charAt(0).toUpperCase() + navText.slice(1).toLowerCase();
+    const navText = event.target.innerHTML;
     const { actions } = this.props;
-    actions.tagSearch.getAllSpecificTagRelatedArticles(navText);
+    actions.tagSearch.getAllSpecificTagRelatedArticles(navText.toLowerCase());
   }
 
   render() {
