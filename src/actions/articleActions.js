@@ -14,7 +14,7 @@ export const retrieveArticlesFailure = (data = {}) => ({
 });
 
 export const getArticles = (articlesSection, reset = false) => (dispatch, getState) => {
-  const link = getState().articleReducer.articles[articlesSection].next;
+  const link = getState().article.articles[articlesSection].next;
 
   ArticleAPI.getAllArticles(reset ? "" : link).then((response) => {
     if (response.success && response.content.results !== undefined) {

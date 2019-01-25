@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-
+import { Link } from "react-router-dom";
 import { Item } from "semantic-ui-react";
 
 const Article = (props) => {
@@ -13,8 +13,11 @@ const Article = (props) => {
 
   return (
     <Item className="article--2">
+
       <Item.Content>
-        <Item.Header as="a">{article.title}</Item.Header>
+        <Link to={`/article/${article.slug}`}>
+          <Item.Header as="h3">{article.title}</Item.Header>
+        </Link>
         <Item.Meta>
           <span className="right floated date">{`${createdTime} ago`}</span>
           <span className="ui black">{`${article.time_to_read} min read`}</span>
@@ -23,7 +26,9 @@ const Article = (props) => {
           {article.description}
         </Item.Description>
       </Item.Content>
-      <Item.Image size="small" position="right" src={article.image} rounded alt={article.title} />
+      <Link to={`/article/${article.slug}`}>
+        <Item.Image size="small" position="right" src={article.image} rounded alt={article.title} />
+      </Link>
     </Item>
   );
 };

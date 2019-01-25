@@ -25,7 +25,7 @@ export default function SocialAuthSuccessPage(props) {
                   history.replace("/");
                 }}
               >
-                Skip
+                {"Don't show this again"}
                 <Icon name="right arrow" />
               </Button>
             )

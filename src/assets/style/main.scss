@@ -1,4 +1,5 @@
 @import "./abstract/variables";
+@import "./base/base";
 @import "./components/authenticationPopup.scss";
 @import "./components/headers/header.scss";
 
@@ -18,8 +19,8 @@
       background-color: $primary__color !important;
 
       &.inverted {
-        color: #fff;
-        box-shadow: 0 0 0 .2rem #fff inset !important;
+        color: $primary__color;
+        box-shadow: 0 0 0 .2rem $primary__color inset !important;
         background-color: transparent !important;
 
         &:hover {
@@ -32,9 +33,11 @@
       background-color: $secondary__color !important;
 
       &.inverted {
-        color: #fff !important;
+        color: #FFF !important;
         box-shadow: 0 0 0 .1rem #FFF inset !important;
+        background-color: transparent !important;
         &:hover {
+          color: #FFF;
           background-color: $secondary__color--light !important;
         }
       }

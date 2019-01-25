@@ -12,9 +12,9 @@ const HomePage = props => (
     <div className="hp__landing">
       <LandingSection />
     </div>
-    <Container textAlign="center" fluid className="hp__tags">
+    <div className="hp__tags">
       <TagSection />
-    </Container>
+    </div>
     <div className="hp__section__1">
       <Grid container>
         <Grid.Row>

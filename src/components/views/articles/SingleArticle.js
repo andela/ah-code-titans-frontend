@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import * as actionGenerators from "../../../actions/articlesActions";
 import HeaderComponent from "../../containers/headers/index";
 import * as tagSearching from "../../../actions/tagSearchingActions";
+import "../../../assets/style/pages/createArticle.scss";
 
 class SingleArticle extends Component {
   constructor(props) {
@@ -68,7 +69,7 @@ class SingleArticle extends Component {
     if (article.id === undefined) return <div />;
 
     return (
-      <div>
+      <div className="createArticle">
         <HeaderComponent location={location} />
         <div className="container">
 

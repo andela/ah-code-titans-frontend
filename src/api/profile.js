@@ -1,10 +1,10 @@
 /* eslint-disable consistent-return */
-import instance from "./axiosConfig";
+import { axiosProtected } from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
 
 export default class profileApi {
   static profile(username) {
-    return instance
+    return axiosProtected
       .get(`/api/profiles/${username}`)
       .then((response) => {
         if (response.status === 200) {
@@ -19,7 +19,7 @@ export default class profileApi {
   }
 
   static updateProfile(username, data) {
-    return instance
+    return axiosProtected
       .put(`/api/profiles/edit/${username}`, data)
       .then((response) => {
         if (response.status === 200) {

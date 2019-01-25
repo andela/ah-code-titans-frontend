@@ -1,4 +1,4 @@
-import articlesReducers from "../../reducers/articlesReducers";
+import articlesReducers from "../../reducers/articleReducer";
 import initialState from "../../store/initialState";
 
 import {

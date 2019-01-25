@@ -1,6 +1,6 @@
 import { DELAY } from "../config";
 
-const article = {
+export const article = {
   id: 1,
   author: {
     username: "msloan",

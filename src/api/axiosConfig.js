@@ -1,17 +1,23 @@
 import axios from "axios";
 
-const instance = axios.create({
+export const axiosUnprotected = axios.create({
+  baseURL: process.env.REACT_APP_API,
+  headers: { "Content-Type": "application/json" }
+});
+
+export const axiosProtected = axios.create({
   baseURL: process.env.REACT_APP_API,
   headers: { "Content-Type": "application/json" }
 });
 
 const token = localStorage.getItem("user");
+
 let authToken;
 if (token !== null) {
   authToken = token.replace(/"/g, "");
-  instance.defaults.headers.common.Authorization = `Token ${authToken}`;
+  axiosProtected.defaults.headers.common.Authorization = `Token ${authToken}`;
 } else {
   delete axios.defaults.headers.common.Authorization;
 }
 
-export default instance;
+export default axiosUnprotected;

@@ -30,6 +30,12 @@ export default (state = {}, action) => {
       articles[payload.section] = section;
       return { ...state, articles };
     }
+    case types.CREATE_ARTICLE_SUCCESS: {
+      return { ...state, article: action.payload };
+    }
+    case (types.GET_SPECIFIC_ARTICLE_SUCCESS): {
+      return { ...state, singleArticle: action.payload };
+    }
     default:
       return state;
   }

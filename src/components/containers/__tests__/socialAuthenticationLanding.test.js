@@ -47,7 +47,7 @@ describe("SocialAuthenticationLanding :", () => {
     const { enzymeWrapper } = setup(<SocialAuthentication {...props} />);
     const button = enzymeWrapper.find("button");
 
-    expect(button.at(0).text()).toBe("Skip");
+    expect(button.at(0).text()).toBe("Don't show this again");
     expect(button.at(1).text()).toBe("Continue");
   });
 

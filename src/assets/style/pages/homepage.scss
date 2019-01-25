@@ -14,6 +14,8 @@
 
     &__tags{
         float:left;
+        transform: translateX(-50%);
+        margin: 1rem 0 0 50%;
     }
     &__section{
         &__1{
@@ -38,7 +40,7 @@
 
 .recentStories {
     height: 50rem;
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: scroll;
     padding: 2rem;
 }
