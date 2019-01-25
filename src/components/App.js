@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Switch, Route } from "react-router";
+import { Switch, Route, Redirect } from "react-router";
 import HomePage from "./containers/homePage";
 import NotFoundPage from "./views/NotFoundPage";
 import RegistrationPage from "./containers/registration";
@@ -9,11 +10,28 @@ import ResetRequestPage from "./containers/resetRequest";
 import UpdatePasswordPage from "./containers/updatePassword";
 import LoginPage from "./containers/login";
 import SocialAuthenticationLanding from "./containers/socialAuthenticationLanding";
+import ProfilePage from "./containers/profile/Profile";
+// import HeaderComponent from "./containers/headers/index"
+
 /* eslint-disable react/prefer-stateless-function */
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.checkIfAuthenticated = this.checkIfAuthenticated.bind(this);
+  }
+
+  checkIfAuthenticated(Component, props) {
+    const { auth } = this.props;
+    return auth.authentication !== ""
+      ? <Component {...props} />
+      : <Redirect to="/" />;
+  }
+
   render() {
     return (
       <div>
+        {/* <HeaderComponent location={location} /> */}
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/social/auth" component={SocialAuthenticationLanding} />
@@ -21,6 +39,7 @@ class App extends React.Component {
           <Route path="/change_password" component={UpdatePasswordPage} />
           <Route path="/signup" component={RegistrationPage} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/profile" render={props => this.checkIfAuthenticated(ProfilePage, props)} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
@@ -28,4 +47,12 @@ class App extends React.Component {
   }
 }
 
-export default connect()(App);
+App.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.loginReducer.auth
+});
+
+export default connect(mapStateToProps)(App);

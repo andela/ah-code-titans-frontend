@@ -11,7 +11,7 @@ export function Header(props) {
   return (
     auth.authentication !== ""
       ? <UserHeader currentPath={location.pathname} />
-      : <GeneralHeader currentPath={location.pathname} />
+      : <GeneralHeader />
   );
 }
 

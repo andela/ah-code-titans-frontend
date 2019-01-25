@@ -1,9 +1,10 @@
 import React from "react";
+// import { Button } from "semantic-ui-react";
 
-export default function HomePage() {
-  return (
-    <div>
-      <h1>HomePage</h1>
-    </div>
-  );
-}
+const HomePage = () => (
+  <div>
+    <h1>HomePage</h1>
+  </div>
+);
+
+export default HomePage;
