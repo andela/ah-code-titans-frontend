@@ -4,11 +4,13 @@ import loginReducer from "./loginReducer";
 import registrationReducer from "./registrationReducer";
 import userSettingsReducer from "./userSettingsReducer";
 import profileReducer from "./profileReducer";
+import article from "./articlesReducers";
 
 export default history => combineReducers({
   router: connectRouter(history),
   registrationReducer,
   loginReducer,
   userSettingsReducer,
-  profileReducer
+  profileReducer,
+  article
 });

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "ckeditor4-react": "^0.1.0",
     "connected-react-router": "^6.1.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
@@ -11,6 +12,8 @@
     "object-assign": "^4.1.1",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
+    "react-ckeditor-component": "^1.1.0",
+    "react-confirm-alert": "^2.0.7",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",

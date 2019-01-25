@@ -13,6 +13,9 @@ import SocialAuthenticationLanding from "./containers/socialAuthenticationLandin
 import ProfilePage from "./containers/profile/Profile";
 // import HeaderComponent from "./containers/headers/index"
 
+import ArticleContainer from "./containers/articlesContainer";
+import SingleArticle from "./views/articles/SingleArticle";
+import "../assets/style/articles/style.scss";
 /* eslint-disable react/prefer-stateless-function */
 class App extends React.Component {
   constructor(props) {
@@ -40,6 +43,8 @@ class App extends React.Component {
           <Route path="/signup" component={RegistrationPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/profile" render={props => this.checkIfAuthenticated(ProfilePage, props)} />
+          <Route path="/create_article" component={ArticleContainer} />
+          <Route path="/article/:slug" component={SingleArticle} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>

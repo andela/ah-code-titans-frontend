@@ -17,5 +17,13 @@ export default {
   },
   profileReducer: {
     profile: {}
+  },
+  article: {
+    article: {
+
+    },
+    singleArticle: {
+
+    }
   }
 };
