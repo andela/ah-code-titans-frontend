@@ -43,8 +43,15 @@ export default {
       },
       singleArticle: {}
     },
-    tag: {
-      articles: {}
+    commentReducers: {
+      comments: [],
+      mainOffset: {
+        next: 0,
+        previous: 0
+      },
+      tag: {
+        articles: {}
+      }
     }
   }
 };

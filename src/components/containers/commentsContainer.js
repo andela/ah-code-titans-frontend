@@ -49,7 +49,7 @@ CommentsContainer.propTypes = {
 };
 
 const mapStateToProp = state => ({
-  comments: state.commentReducer
+  comments: state.commentReducers
 });
 
 const mapDispatchToProp = dispatch => ({

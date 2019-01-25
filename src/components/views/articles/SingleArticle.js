@@ -11,6 +11,7 @@ import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 
 import * as actionGenerators from "../../../actions/articlesActions";
+import CommentsContainer from "../../containers/commentsContainer";
 import HeaderComponent from "../../containers/headers/index";
 import * as tagSearching from "../../../actions/tagSearchingActions";
 import "../../../assets/style/pages/createArticle.scss";
@@ -27,13 +28,11 @@ class SingleArticle extends Component {
   }
 
   componentDidMount = () => {
-    const {
-      actions, match
-    } = this.props;
+    const { actions, match } = this.props;
     actions.article.getSingleArticle(match.params.slug);
 
     this.checkIfAuthenticated();
-  }
+  };
 
   componentDidUpdate() {
     const { currentArticle } = this.state;
@@ -63,50 +62,59 @@ class SingleArticle extends Component {
   }
 
   render() {
-    const { article, location } = this.props;
+    const { article, location, match } = this.props;
     const { userIsAuthor } = this.state;
-
     if (article.id === undefined) return <div />;
 
     return (
       <div className="createArticle">
         <HeaderComponent location={location} />
         <div className="container">
-
           <br />
           <h1 className="ui header centered">{article.title}</h1>
           <hr />
           <div className="ui container spread__content">
             <p>{article.description}</p>
-            <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{ article.author.username } </i></Link></p>
+            <p className="ui text right aligned">
+              Authored by:{" "}
+              <Link to="/profile">
+                <i>{article.author.username} </i>
+              </Link>
+            </p>
             <div className="ui time_to_read">
-              <i className="clock icon" /> {article.time_to_read} {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
+              <i className="clock icon" /> {article.time_to_read}{" "}
+              {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
             </div>
             <br />
           </div>
           <br />
           <div className="main__first">
-            <div className="ui container article__body" dangerouslySetInnerHTML={{ __html: article.body }} />
+            <div
+              className="ui container article__body"
+              dangerouslySetInnerHTML={{ __html: article.body }}
+            />
             <br />
             <div className="article__tags">
               {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
             </div>
             <hr />
             <br />
-            { userIsAuthor ? (
+            {userIsAuthor ? (
               <div className="spread__content">
-                <button type="button" className="ui positive button">Edit This Article</button>
-                <button type="submit" className="ui negative button">Delete Article</button>
+                <button type="button" className="ui positive button">
+                  Edit This Article
+                </button>
+                <button type="submit" className="ui negative button">
+                  Delete Article
+                </button>
               </div>
-            )
-              : <div />}
-
+            ) : (
+              <div />
+            )}
           </div>
-
+          <CommentsContainer articleSlug={match.params.slug} />
         </div>
-
       </div>
-
     );
   }
 }
@@ -131,4 +139,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleArticle);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SingleArticle);

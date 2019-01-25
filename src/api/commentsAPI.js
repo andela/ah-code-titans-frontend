@@ -4,7 +4,7 @@ import instance from "./axiosConfig";
 export default class CommentsApi {
   static createComments(comment) {
     return instance
-      .post(`/api/articles/${comment.slug}/comments`, {
+      .post(`/api/articles/${comment.articleSlug}/comments`, {
         text: comment.comment,
         parent: 0
       })
@@ -13,7 +13,7 @@ export default class CommentsApi {
           return { success: true, data: response.data };
         }
       })
-      .catch(response => ({ success: false, data: response }));
+      .catch(response => ({ success: false, error: { status: response.response.status } }));
   }
 
   static createReplyComment(comment) {
@@ -32,7 +32,7 @@ export default class CommentsApi {
 
   static getReplyComment(comment) {
     return instance
-      .get(`/api/articles/${comment.slug}/comment/${comment.id}/0`)
+      .get(`/api/articles/${comment.slug}/comment/${comment.comment.id}/0`)
       .then((response) => {
         if (response) {
           return { success: true, data: response.data };
@@ -41,15 +41,15 @@ export default class CommentsApi {
       .catch(response => ({ success: false, data: response }));
   }
 
-  static getComments(slug) {
+  static getComments(slug, offset) {
     return instance
-      .get(`/api/articles/${slug}/comments/0`)
+      .get(`/api/articles/${slug}/comments/${offset}`)
       .then((response) => {
         if (response) {
           return { success: true, data: response.data };
         }
       })
-      .catch(response => ({ success: false, data: response }));
+      .catch(response => ({ success: false, error: { status: response.response.status } }));
   }
 
   static deleteComment(slug, commentId) {

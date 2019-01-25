@@ -1,8 +1,9 @@
 /* eslint-disable prefer-const */
 import objectAssign from "object-assign";
 import * as types from "../actions/actionTypes";
+import initialState from "../store/initialState";
 
-const commentReducer = (state = {}, action) => {
+const commentReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_ARTICLE_COMMENTS_SUCCESS: {
       let newState = objectAssign({}, state);
@@ -65,6 +66,7 @@ const commentReducer = (state = {}, action) => {
               hasMore: true
             });
           }
+
           return comment;
         })
       };

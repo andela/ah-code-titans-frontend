@@ -26,7 +26,7 @@ export const getReplyCommentFailure = payload => ({
 });
 
 export const getComments = (slug, reset = false) => (dispatch, getState) => {
-  const offset = getState().commentReducer.mainOffset.next;
+  const offset = getState().commentReducers.mainOffset.next;
   CommentsApi.getComments(slug, reset ? 0 : offset).then((response) => {
     response.data = { ...response.data, reset };
     if (response.success) {
@@ -48,7 +48,7 @@ export const getReplyComment = (comment, reset = false) => (dispatch) => {
           reset
         })
       );
-    } else if (response.error.status === 404) {
+    } else if (response.data.status === 404) {
       dispatch(getReplyCommentFailure({ parentId: comment.comment.id }));
     }
   });

@@ -15,6 +15,7 @@ class Comment extends Component {
       replyComment: ""
     };
     this.toggleReply = this.toggleReply.bind(this);
+    this.onHandleChange = this.onHandleChange.bind(this);
   }
 
   onHandleChange = (event) => {
@@ -27,6 +28,7 @@ class Comment extends Component {
     const { comment, actions } = this.props;
     const { replyComment } = this.state;
     const { id } = comment;
+
     if (event.which === 13 || event.keyCode === 13) {
       actions.createReplyComment({ replyComment, slug, id });
     }
@@ -37,7 +39,6 @@ class Comment extends Component {
     const { comment, actions } = this.props;
     const { toggleReply } = this.state;
     this.setState({ toggleReply: !toggleReply });
-
     if (!toggleReply === true) {
       actions.getReplyComment({ slug, comment });
     }

@@ -27,7 +27,7 @@ const CommentsView = (props) => {
           <Button
             id="btn-add__comment"
             size="large"
-            content="Add Reply"
+            content="Add Comment"
             labelPosition="left"
             icon="edit"
             primary

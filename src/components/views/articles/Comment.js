@@ -17,8 +17,8 @@ const InputComponent = (props) => {
 
 InputComponent.propTypes = {
   comment: PropTypes.string.isRequired,
-  onHandleChange: PropTypes.func.isRequired,
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
+  onHandleChange: PropTypes.func.isRequired
 };
 
 function renderComments(props) {
@@ -82,13 +82,13 @@ function CommentComponent(props) {
 
 CommentComponent.propTypes = {
   comment: PropTypes.array.isRequired,
-  parent: PropTypes.object.isRequired,
-  toggleReply: PropTypes.bool.isRequired,
-  replyComment: PropTypes.string.isRequired
+  parent: PropTypes.array.isRequired,
+  toggleReply: PropTypes.array.isRequired,
+  replyComment: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-  comments: state.commentReducer.comments
+  comments: state.commentReducers.comments
 });
 
 export default connect(mapStateToProps)(CommentComponent);
