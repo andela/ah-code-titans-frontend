@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable implicit-arrow-linebreak */
 import React from "react";
 import PropTypes from "prop-types";
 import {
@@ -44,9 +45,8 @@ const CommentsView = (props) => {
             </Container>
 )}
         >
-          {comments.comments.map((comment, i) => (
-            <NewComment comment={comment} key={i} />
-          ))}
+          {comments.comments.map((comment, i) =>
+            (comment.parent === 0 ? <NewComment comment={comment} key={i} /> : null))}
         </InfiniteScroll>
       </Comment.Group>
     </div>
