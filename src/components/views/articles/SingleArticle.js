@@ -337,7 +337,6 @@ class SingleArticle extends Component {
     );
   }
 }
-// End here
 
 SingleArticle.propTypes = {
   article: PropTypes.object.isRequired,
