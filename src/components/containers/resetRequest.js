@@ -1,6 +1,8 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import ResetView from "../views/ResetRequestForm";
 import ResetPasswordAPI from "../../api/resetPasswordAPI";
 
@@ -40,14 +42,19 @@ class ResetRequestPage extends Component {
   };
 
   render() {
+    const { parent } = this.props;
     return (
       <ResetView
         state={this.state}
         onHandleChange={this.onHandleChange}
         onHandleSubmit={this.onHandleSubmit}
+        parent={parent}
       />
     );
   }
 }
+ResetRequestPage.propTypes = {
+  parent: PropTypes.object.isRequired
+};
 
-export default ResetRequestPage;
+export default connect(null)(ResetRequestPage);

@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import {
   Menu, Container, Input, Image, Header, Responsive, Popup, Divider
 } from "semantic-ui-react";
@@ -39,9 +38,7 @@ export default function UserHeader(props) {
   return (
     <Menu borderless main="true" className="header--user">
       <Container>
-        <Link to="/">
-          <Menu.Item><Header>Authors Haven</Header></Menu.Item>
-        </Link>
+        <Menu.Item><Header>Authors Haven</Header></Menu.Item>
 
         <Menu.Menu position="right" className="secondary">
 

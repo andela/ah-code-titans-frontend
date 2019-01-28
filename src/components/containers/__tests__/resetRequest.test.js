@@ -1,12 +1,21 @@
 import React from "react";
 import { mount } from "enzyme";
+import { Provider } from "react-redux";
+import configureMockStore from "redux-mock-store";
 import ResetRequestPage from "../resetRequest";
+
+const mockStore = configureMockStore();
+const store = mockStore({});
 
 describe("ResetRequest Component", () => {
   let resetComponent = "";
 
   beforeEach(() => {
-    resetComponent = mount(<ResetRequestPage />);
+    resetComponent = mount(
+      <Provider store={store}>
+        <ResetRequestPage />
+      </Provider>
+    );
   });
 
   afterEach(() => {

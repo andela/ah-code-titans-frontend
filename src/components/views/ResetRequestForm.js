@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button, Form, Header, Loader, Dimmer, Container
+  Button, Form, Header, Loader, Dimmer, Container, Icon
 } from "semantic-ui-react";
 
 export const HandleErrors = (props) => {
@@ -14,7 +14,9 @@ HandleErrors.propTypes = {
 };
 
 const ResetView = (props) => {
-  const { state, onHandleChange, onHandleSubmit } = props;
+  const {
+    state, onHandleChange, onHandleSubmit, parent
+  } = props;
 
   return (
     <div className="auth__requestReset">
@@ -42,6 +44,20 @@ const ResetView = (props) => {
             </Button>
           </Form.Field>
         </Form>
+        <br />
+        <Button
+          id="backBtn"
+          icon
+          type="button"
+          secondary
+          inverted
+          onClick={() => {
+            parent.setView(2);
+          }}
+        >
+          <Icon name="left arrow" />
+            Back to Login
+        </Button>
       </Container>
 
     </div>
@@ -50,6 +66,7 @@ const ResetView = (props) => {
 
 ResetView.propTypes = {
   state: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired,
   onHandleChange: PropTypes.func.isRequired,
   onHandleSubmit: PropTypes.func.isRequired
 };
