@@ -25,8 +25,6 @@ class SingleArticle extends Component {
       userIsAuthor: false,
       currentArticle: {}
     };
-    this.handleDislike = this.handleDislike.bind(this);
-    this.handleLike = this.handleLike.bind(this);
     this.checkIfAuthenticated = this.checkIfAuthenticated.bind(this);
     this.checkIsLoggedIn = this.checkIsLoggedIn.bind(this);
   }
@@ -122,14 +120,7 @@ class SingleArticle extends Component {
               {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
             </div>
             <hr />
-            {isLoggedIn ? (
-              <LikeDislikeComponent
-                likesDislikes={this.props}
-                onClick={{ like: this.handleLike, dislike: this.handleDislike }}
-              />
-            ) : (
-              <div />
-            )}
+            {isLoggedIn ? <LikeDislikeComponent {...this.props} /> : <div />}
 
             <br />
             {userIsAuthor ? (
@@ -157,20 +148,12 @@ SingleArticle.propTypes = {
   actions: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  likeArticle: PropTypes.func.isRequired,
-  dislikeArticle: PropTypes.func.isRequired
+  location: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   article: state.article.singleArticle,
-  auth: state.loginReducer.auth,
-  dislikeIcon: state.likeDislikeReducer.dislikeIcon,
-  likeIcon: state.likeDislikeReducer.likeIcon,
-  likes: state.likeDislikeReducer.likes,
-  dislikes: state.likeDislikeReducer.dislikes,
-  isLiking: state.likeDislikeReducer.isLiking,
-  isDisliking: state.likeDislikeReducer.isDisliking
+  auth: state.loginReducer.auth
 });
 
 const mapDispatchToProps = dispatch => ({

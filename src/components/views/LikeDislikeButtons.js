@@ -1,33 +1,48 @@
 import React, { Component } from "react";
 import { Button, Icon, Label } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
+import { likeAsync, dislikeAsync } from "../../actions/likeDislikeActions";
 
 export class LikeDislikeButtons extends Component {
   constructor(props) {
     super(props);
+    this.handleDislike = this.handleDislike.bind(this);
+    this.handleLike = this.handleLike.bind(this);
     this.state = {};
   }
 
-  render() {
-    const { likesDislikes, onClick } = this.props;
-    const {
-      likes, dislikes, isFetching, likeIcon, dislikeIcon, isLiking
-    } = likesDislikes;
-    const { like, dislike } = onClick;
+  handleLike(e) {
+    const { likeArticle, article } = this.props;
+    const { slug } = article;
+    likeArticle(slug);
+  }
 
+  handleDislike(e) {
+    const { dislikeArticle, article } = this.props;
+    const { slug } = article;
+    dislikeArticle(slug);
+  }
+
+  render() {
+    const { article, isLiking, isDisliking } = this.props;
+    const {
+      liked, disliked, likes, dislikes
+    } = article;
     return (
       <div className="likedislike">
-        <Button as="div" labelPosition="right" onClick={like}>
-          <Button icon loading={isLiking}>
-            <Icon name={likeIcon} />
+        <Button as="div" labelPosition="right">
+          <Button icon loading={isLiking} onClick={this.handleLike}>
+            <Icon name={liked === true ? "thumbs up" : "thumbs up outline"} />
           </Button>
           <Label basic pointing="left">
             {likes}
           </Label>
         </Button>
-        <Button as="div" labelPosition="right" onClick={dislike}>
-          <Button icon loading={isFetching}>
-            <Icon name={dislikeIcon} />
+        <Button as="div" labelPosition="right">
+          <Button icon loading={isDisliking} onClick={this.handleDislike}>
+            <Icon name={disliked === true ? "thumbs down" : "thumbs down outline"} />
           </Button>
           <Label basic pointing="left">
             {dislikes}
@@ -38,9 +53,30 @@ export class LikeDislikeButtons extends Component {
   }
 }
 
-LikeDislikeButtons.propTypes = {
-  likesDislikes: PropTypes.object.isRequired,
-  onClick: PropTypes.object.isRequired
+const mapStateToProps = state => ({
+  isLiking: state.likeDislikeReducer.isLiking,
+  isDisliking: state.likeDislikeReducer.isDisliking
+});
+
+const mapDispatchToProps = dispatch => ({
+  likeArticle: bindActionCreators(likeAsync, dispatch),
+  dislikeArticle: bindActionCreators(dislikeAsync, dispatch)
+});
+
+LikeDislikeButtons.defaultProps = {
+  isLiking: false,
+  isDisliking: false
 };
 
-export default LikeDislikeButtons;
+LikeDislikeButtons.propTypes = {
+  article: PropTypes.object.isRequired,
+  likeArticle: PropTypes.func.isRequired,
+  dislikeArticle: PropTypes.func.isRequired,
+  isLiking: PropTypes.bool,
+  isDisliking: PropTypes.bool
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LikeDislikeButtons);

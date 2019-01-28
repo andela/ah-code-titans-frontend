@@ -7,6 +7,7 @@ import {
   DISLIKE_ARTICLE_REQUEST
 } from "./actionTypes";
 import instance from "../api/axiosConfig";
+import { getSingleArticle } from "./articlesActions";
 
 export const likeArticleRequest = () => ({
   type: LIKE_ARTICLE_REQUEST
@@ -43,6 +44,7 @@ export const likeAsync = slug => (dispatch) => {
     .then((res) => {
       const response = res.data;
       dispatch(likeArticleSuccess(response));
+      dispatch(getSingleArticle(slug));
     })
     .catch(err => dispatch(likeArticleFailure(err)));
 };
@@ -54,6 +56,7 @@ export const dislikeAsync = slug => (dispatch) => {
     .then((res) => {
       const response = res.data;
       dispatch(dislikeArticleSuccess(response));
+      dispatch(getSingleArticle(slug));
     })
     .catch(err => dispatch(likeArticleFailure(err)));
 };
