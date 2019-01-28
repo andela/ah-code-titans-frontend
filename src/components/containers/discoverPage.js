@@ -4,7 +4,7 @@ import { Item, Container } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import Article from "../views/article2";
-import * as tagSearching from "../../actions/tagSearchActions";
+import * as tagSearching from "../../actions/tagSearchingActions";
 import TagSection from "../views/TagSection";
 import HeaderComponent from "./headers/index";
 
@@ -44,7 +44,7 @@ class DiscoverPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    articles: state.tagReducer.tagSearchedArticles.articles.data
+    articles: state.tag.tagSearchedArticles.articles.data
   };
 }
 const mapDispatchToProps = dispatch => ({

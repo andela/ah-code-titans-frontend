@@ -39,13 +39,13 @@ Article.propTypes = {
 Article.defaultProps = {
   article: {
     id: 1,
-    slug: "mouth-letter-commercial-happen-allow",
-    title: "Mouth letter commercial happen allow.",
-    description: "['Set hundred entire process. Play author send member measure American.']",
-    image: "https://picsum.photos/1024/768/?random",
+    slug: "",
+    title: "",
+    description: "",
+    image: "",
     time_to_read: 0,
-    createdAt: "2019-01-22T14:27:18.601955Z",
-    updatedAt: "2019-01-22T14:27:18.601979Z"
+    createdAt: "",
+    updatedAt: ""
   }
 };
 

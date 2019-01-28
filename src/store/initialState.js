@@ -26,7 +26,7 @@ export default {
 
     }
   },
-  tagsearched_articles: {
+  tag: {
     articles: {}
   }
 };

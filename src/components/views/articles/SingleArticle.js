@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 import * as actionGenerators from "../../../actions/articlesActions";
 import HeaderComponent from "../../containers/headers/index";
-import * as tagSearching from "../../../actions/tagSearchActions";
+import * as tagSearching from "../../../actions/tagSearchingActions";
 
 class SingleArticle extends Component {
   constructor(props) {
