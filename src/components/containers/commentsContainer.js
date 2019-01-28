@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -9,7 +10,8 @@ class CommentsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: ""
+      comment: "",
+      enableCommentButton: true
     };
 
     this.loadMore = this.loadMore.bind(this);
@@ -21,9 +23,19 @@ class CommentsContainer extends Component {
   }
 
   onHandleChange = (event) => {
+    const { value } = event.target;
     this.setState({
-      comment: event.target.value
+      comment: value
     });
+    if (value) {
+      this.setState({
+        enableCommentButton: false
+      });
+    } else {
+      this.setState({
+        enableCommentButton: true
+      });
+    }
   };
 
   onSubmit = () => {

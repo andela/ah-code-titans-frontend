@@ -32,6 +32,7 @@ const CommentsView = (props) => {
             labelPosition="left"
             icon="edit"
             primary
+            disabled={parent.state.enableCommentButton}
           />
         </Form>
 
