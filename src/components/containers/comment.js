@@ -40,7 +40,7 @@ class Comment extends Component {
     const { toggleReply } = this.state;
     this.setState({ toggleReply: !toggleReply });
     if (!toggleReply) {
-      actions.getReplyComment({ slug, comment });
+      actions.getReplyComment({ slug, comment }, true);
     }
   }
 
