@@ -55,7 +55,7 @@ export default class ArticleAPI {
           return {
             success: false,
             error: {
-              message: "Failed to retrieve the article!"
+              message: "Article was not found!"
             }
           };
         }
@@ -89,14 +89,17 @@ export default class ArticleAPI {
 
   static deleteArticle(slug) {
     return instance.delete(`/api/article/${slug}`)
-      .then(response => ({
-        success: true,
-        content: response.date.article
-      }))
+      .then((response) => {
+        window.location.assign("/create_article");
+        return {
+          success: true,
+          content: response.date.article
+        };
+      })
       .catch(error => ({
         success: false,
         error: {
-          message: "Article was not found!"
+          message: "Article was deleted"
         }
       }));
   }
@@ -112,11 +115,11 @@ export default class ArticleAPI {
           title,
           description,
           body,
-          tag_list: tag_list.split(",")
+          tag_list
         }
       }).then((response) => {
       if (response) {
-        window.location.assign(`/article/${slug}`);
+        window.location.assign(`/article/${response.data.articles.article.slug}`);
         return {
           success: true,
           article: response.data
@@ -124,7 +127,7 @@ export default class ArticleAPI {
       }
     }).catch((error) => {
       if (error.response) {
-        toastr.warning("Please login to post an article");
+        toastr.warning("An error occurred. Please try again");
         return {
           success: false,
           error: error.response.data

@@ -1,8 +1,7 @@
+/* eslint-disable react/no-danger */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable camelcase */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -13,8 +12,8 @@ import { Container } from "semantic-ui-react";
 import RateArticle from "../../containers/rating/RateArticle";
 import GetRates from "../../containers/rating/GetRates";
 
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import * as actionGenerators from "../../../actions/articlesActions";
 import CommentsContainer from "../../containers/commentsContainer";
 import HeaderComponent from "../../containers/headers/index";
@@ -38,6 +37,7 @@ class SingleArticle extends Component {
     };
     this.checkIfAuthenticated = this.checkIfAuthenticated.bind(this);
     this.checkIsLoggedIn = this.checkIsLoggedIn.bind(this);
+    this.checkIfIsAuthor = this.checkIfIsAuthor.bind(this);
   }
 
   componentDidMount = () => {
@@ -45,13 +45,15 @@ class SingleArticle extends Component {
     actions.article.getSingleArticle(match.params.slug);
     this.checkIsLoggedIn();
     this.checkIfAuthenticated();
+
+    this.checkIfIsAuthor();
   };
 
   componentDidUpdate() {
     const { currentArticle } = this.state;
     const { article } = this.props;
     if (article !== currentArticle) {
-      this.checkIfAuthenticated();
+      this.checkIfIsAuthor();
     }
   }
 
@@ -82,9 +84,8 @@ class SingleArticle extends Component {
         {
           label: "Yes",
           onClick: () => {
-            const { actions, history, match } = this.props;
+            const { actions, match } = this.props;
             actions.article.deleteArticle(match.params.slug);
-            history.push("/profile");
           }
         },
         {
@@ -98,6 +99,7 @@ class SingleArticle extends Component {
   handleEditArticle = () => {
     const { article } = this.props;
     const {
+      // eslint-disable-next-line camelcase
       title, body, description, tag_list
     } = article;
 
@@ -106,7 +108,7 @@ class SingleArticle extends Component {
       title,
       body,
       description,
-      tag_list
+      tag_list: tag_list.join()
     });
   }
 
@@ -130,15 +132,16 @@ class SingleArticle extends Component {
       // eslint-disable-next-line camelcase
       title, description, body, tag_list
     } = this.state;
+
     const { actions, match } = this.props;
     actions.article.editArticle(match.params.slug, {
-      title, description, body, tag_list
+      title, description, body, tag_list: tag_list.split(",")
     });
   }
 
   resetForm = () => {
     confirmAlert({
-      title: "Confirm discard",
+      title: "Confirm discard.",
       message: "Are you sure you want to discard?",
       buttons: [
         {
@@ -160,7 +163,7 @@ class SingleArticle extends Component {
     });
   };
 
-  checkIfAuthenticated() {
+  checkIfIsAuthor() {
     const { auth } = this.props;
     const { article } = this.props;
 
@@ -188,21 +191,23 @@ class SingleArticle extends Component {
 
     return (
       <div>
+        <HeaderComponent location={location} />
         {
           (editing) ? (
-            <CreateArticleForm
-              state={this.state}
-              onHandleChange={this.onHandleChange}
-              onHandleEditorChange={this.onHandleEditorChange}
-              handleKeyCommand={this.handleKeyCommand}
-              onSubmit={this.onSubmit}
-              resetForm={this.resetForm}
-            />
+            <div>
+              <CreateArticleForm
+                state={this.state}
+                onHandleChange={this.onHandleChange}
+                onHandleEditorChange={this.onHandleEditorChange}
+                handleKeyCommand={this.handleKeyCommand}
+                onSubmit={this.onSubmit}
+                resetForm={this.resetForm}
+              />
+            </div>
+
           ) : (
             <div>
-              <HeaderComponent location={location} />
               <div className="container">
-
                 <br />
                 <h1 className="ui header centered">{article.title}</h1>
                 <hr />
@@ -211,7 +216,6 @@ class SingleArticle extends Component {
                   <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{ article.author.username } </i></Link></p>
                   <div className="ui time_to_read">
                     <i className="clock icon" />
-                    { }
                     {article.time_to_read < 1 ? "Less than a" : article.time_to_read} {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
                   </div>
                   <br />
@@ -267,7 +271,8 @@ SingleArticle.propTypes = {
   location: PropTypes.object.isRequired,
   dislikeArticle: PropTypes.func.isRequired,
   likeArticle: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
