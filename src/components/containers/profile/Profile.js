@@ -49,6 +49,7 @@ export class Profile extends React.Component {
                   {!editing ? (
                     <Button
                       className="profile__editBtn"
+                      primary
                       size="mini"
                       onClick={() => this.toggleEditProfile(true)}
                     >
@@ -57,6 +58,7 @@ export class Profile extends React.Component {
                   ) : (
                     <Button
                       className="profile__editBtn"
+                      primary
                       size="mini"
                       onClick={() => this.toggleEditProfile(false)}
                     >

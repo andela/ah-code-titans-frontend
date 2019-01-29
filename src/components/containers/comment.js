@@ -60,7 +60,7 @@ class Comment extends Component {
 }
 
 const mapStateToProp = state => ({
-  comments: state.commentReducer
+  comments: state.comment
 });
 
 const mapDispatchToProp = dispatch => ({

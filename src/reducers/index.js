@@ -4,11 +4,11 @@ import loginReducer from "./loginReducer";
 import registrationReducer from "./registrationReducer";
 import likeDislike from "./likeDislikeReducer";
 import userSettingsReducer from "./userSettingsReducer";
-import commentReducer from "./commentReducer";
+import comment from "./commentReducer";
 import profileReducer from "./profileReducer";
 import article from "./articleReducer";
 import tag from "./tagSearchReducer";
-import rateArticleReducer from "./rateArticleReducer";
+import rateArticle from "./rateArticleReducer";
 
 export default history => combineReducers({
   router: connectRouter(history),
@@ -18,7 +18,7 @@ export default history => combineReducers({
   profileReducer,
   article,
   tag,
-  commentReducer,
   likeDislike,
-  rateArticleReducer
+  comment,
+  rateArticle
 });

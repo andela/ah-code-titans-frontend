@@ -11,19 +11,19 @@ export const getArticleRateSuccess = data => ({
   data
 });
 
-export const getRates = () => (dispatch) => {
-  rateArticleApi.getArticleRate().then((response) => {
+export const getRates = slug => (dispatch) => {
+  rateArticleApi.getArticleRate(slug).then((response) => {
     if (response.success) {
       dispatch(getArticleRateSuccess(response.articleRating));
     }
   });
 };
 
-export const rateArticle = rate => (dispatch) => {
-  rateArticleApi.rateArticle(rate).then((response) => {
+export const rateArticle = (rate, slug) => (dispatch) => {
+  rateArticleApi.rateArticle(rate, slug).then((response) => {
     if (response.success) {
       dispatch(rateArticleSuccess(rate));
-      dispatch(getRates());
+      dispatch(getRates(slug));
     }
   });
 };

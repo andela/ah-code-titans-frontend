@@ -15,32 +15,47 @@ class GetRates extends React.Component {
 
   componentDidMount() {
     const { rate } = this.props;
-    rate.getRates();
+    const slug = window.location.pathname.slice(9);
+    rate.getRates(slug);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Any time props.averageRating changes, update state.
+    const { averageRating } = this.props;
+    if (nextProps.averageRating !== averageRating) {
+      this.setState({
+        rating: nextProps.averageRating
+      });
+    }
   }
 
   render() {
     const { rating } = this.state;
+
     return (
-      <StarRatings
-        rating={rating}
-        starRatedColor="blue"
-        numberOfStars={5}
-        name="rating"
-        starDimension="25px"
-        starSpacing="5px"
-      />
+      <div>
+        <StarRatings
+          rating={rating}
+          starRatedColor="gold"
+          numberOfStars={5}
+          name="rating"
+          starDimension="30px"
+          starSpacing="5px"
+        />
+      </div>
+
     );
   }
 }
 
 GetRates.propTypes = {
   averageRating: PropTypes.object.isRequired,
-  rate: PropTypes.object.isRequired
+  rate: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    averageRating: state.rateArticleReducer.rating
+    averageRating: state.rateArticle.rating
   };
 }
 

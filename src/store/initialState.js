@@ -36,7 +36,7 @@ export default {
       }
     }
   },
-  commentReducer: {
+  comment: {
     comments: [],
     mainOffset: {
       next: 0,
@@ -46,8 +46,8 @@ export default {
       articles: {}
     }
   },
-  rateArticleReducer: {
+  rateArticle: {
     rate: {},
-    rating: {}
+    rating: 0
   }
 };

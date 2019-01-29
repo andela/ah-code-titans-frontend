@@ -9,6 +9,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
+import { Container } from "semantic-ui-react";
+import RateArticle from "../../containers/rating/RateArticle";
+import GetRates from "../../containers/rating/GetRates";
 
 import * as actionGenerators from "../../../actions/articlesActions";
 import CommentsContainer from "../../containers/commentsContainer";
@@ -108,6 +111,7 @@ class SingleArticle extends Component {
               {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
             </div>
             <br />
+            <Container textAlign="right"><GetRates /></Container>
           </div>
           <br />
           <div className="main__first">
@@ -120,8 +124,23 @@ class SingleArticle extends Component {
               {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
             </div>
             <hr />
-            {isLoggedIn ? <LikeDislikeComponent {...this.props} /> : <div />}
+            {isLoggedIn ? (
+              <LikeDislikeComponent
+                style={{ color: "blue" }}
+                {...this.props}
+              />
 
+            ) : <div />}
+
+            { !userIsAuthor ? (
+              <div >
+                <p textAlign="left"><b>Rate this article:</b></p>
+                <RateArticle />
+              </div>
+            ) : (
+              <div />
+            )
+          }
             <br />
             {userIsAuthor ? (
               <div className="spread__content">

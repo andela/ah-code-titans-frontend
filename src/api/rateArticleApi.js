@@ -1,23 +1,14 @@
-import axios from "axios";
 import instance from "./axiosConfig";
-
-const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRlbm8iLCJyZWZyZXNoX3Rva2VuIjpmYWxzZSwiaWF0IjoxNTQ4MzE0MTM5LCJuYmYiOjE1NDgzMTM4MzksImV4cCI6MTU0ODMxNzczOX0.fdVW4OCkvWHSJGErQKHStQTqLZB4y1JEpt9W1qICqgA";
-
-axios.defaults.headers.common.Authorization = token;
+import toastr from "../helpers/toastrConfig";
 
 export default class rateArticleApi {
-  static rateArticle(rated) {
+  static rateArticle(rated, slug) {
     return instance
       .post(
-        "/api/article/javascript-es6/rate",
+        `/api/article/${slug}/rate`,
         {
           article: {
             rate: rated
-          }
-        },
-        {
-          headers: {
-            Authorization: `Token ${token}`
           }
         }
       )
@@ -27,24 +18,48 @@ export default class rateArticleApi {
         }
       })
       .catch((err) => {
-        throw err;
+        if (err.response.status === 400) {
+          toastr.error("AN error occured try again");
+          return {
+            content: err.response.data
+          };
+        }
+        if (err.response.status === 401) {
+          toastr.error("Please login to get average rates on the article");
+          return {
+            content: err.response.data
+          };
+        }
       });
   }
 
-  static getArticleRate() {
+  static getArticleRate(slug) {
     return instance
-      .get("/api/article/javascript-es6/rating", {
-        headers: {
-          Authorization: `Token ${token}`
-        }
-      })
+      .get(`/api/article/${slug}/rating`)
       .then((response) => {
         if (response.status === 200) {
           return { success: true, articleRating: response.data["Rated at"] };
         }
       })
       .catch((err) => {
-        throw err;
+        if (err.response.status === 400) {
+          toastr.error("An error occured try again");
+          return {
+            content: err.response.data
+          };
+        }
+        if (err.response.status === 401) {
+          toastr.error("Please login to rate the article");
+          return {
+            content: err.response.data
+          };
+        }
+        if (err.response.status === 404) {
+          toastr.error("Articte was not found");
+          return {
+            content: err.response.data
+          };
+        }
       });
   }
 }

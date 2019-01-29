@@ -17,7 +17,8 @@ class RateArticle extends React.Component {
 
   changeRating(newRating, name) {
     const { rate } = this.props;
-    rate.rateArticle(newRating);
+    const slug = window.location.pathname.slice(9);
+    rate.rateArticle(newRating, slug);
     this.setState({
       rating: newRating
     });
@@ -26,15 +27,19 @@ class RateArticle extends React.Component {
   render() {
     const { rating } = this.state;
     return (
-      <StarRatings
-        rating={rating}
-        starRatedColor="blue"
-        changeRating={this.changeRating}
-        numberOfStars={5}
-        name="rating"
-        starDimension="25px"
-        starSpacing="5px"
-      />
+      <div>
+        <StarRatings
+          rating={rating}
+          starRatedColor="#00c3ff"
+          changeRating={this.changeRating}
+          numberOfStars={5}
+          name="rating"
+          starDimension="25px"
+          starSpacing="5px"
+        />
+
+      </div>
+
     );
   }
 }
