@@ -15,6 +15,8 @@ import ProfilePage from "./containers/profile/Profile";
 
 import ArticleContainer from "./containers/articlesContainer";
 import SingleArticle from "./views/articles/SingleArticle";
+import DiscoverPage from "./containers/discover2";
+
 import "../assets/style/articles/style.scss";
 /* eslint-disable react/prefer-stateless-function */
 class App extends React.Component {
@@ -45,6 +47,7 @@ class App extends React.Component {
           <Route path="/profile" render={props => this.checkIfAuthenticated(ProfilePage, props)} />
           <Route path="/create_article" component={ArticleContainer} />
           <Route path="/article/:slug" component={SingleArticle} />
+          <Route path="/discover" component={DiscoverPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
