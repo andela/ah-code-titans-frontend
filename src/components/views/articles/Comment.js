@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Comment, Input, CommentAction } from "semantic-ui-react";
+import { Comment, Form, CommentAction } from "semantic-ui-react";
 import moment from "moment";
 import ReplyComponent from "./ReplyComment";
 
@@ -10,7 +10,9 @@ const InputComponent = (props) => {
   const { comment, onHandleChange, submit } = props;
   return (
     <div>
-      <Input value={comment} onChange={onHandleChange} onKeyPress={submit} placeholder="Reply..." />
+      <Form reply size="large">
+        <Form.TextArea autoHeight value={comment} onChange={onHandleChange} onKeyPress={submit} />
+      </Form>
     </div>
   );
 };
@@ -61,7 +63,7 @@ function CommentComponent(props) {
                   parent.toggleReplyComments();
                 }}
               >
-                View replies
+                {toggleReplyComment ? "Hide replies" : "View replies"}
                 <div className={`comment__content--${toggleReplyComment ? "active" : "disabled"}`}>
                   {renderComments(props)}
                 </div>
