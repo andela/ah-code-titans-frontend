@@ -29,12 +29,14 @@ class DiscoverPage extends Component {
         <br />
         <Container text>
           <Item.Group>
-            { articles.map(article => (
-              <Article
-                key={article.id}
-                article={article}
-              />
-            ))}
+            { articles.length > 0
+              ? articles.map(article => (
+                <Article
+                  key={article.id}
+                  article={article}
+                />
+              ))
+              : "Articles not found matching the tag"}
           </Item.Group>
         </Container>
       </div>
@@ -55,7 +57,7 @@ const mapDispatchToProps = dispatch => ({
 
 DiscoverPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  articles: PropTypes.object.isRequired,
+  articles: PropTypes.array.isRequired,
   location: PropTypes.object.isRequired
 };
 
