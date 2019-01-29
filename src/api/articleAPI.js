@@ -34,13 +34,6 @@ export default class ArticleAPI {
           error: error.response.data
         };
       }
-      if (error.response.status === 503) {
-        toastr.warning("Please login to post an article");
-        return {
-          success: false,
-          error: error.response.data
-        };
-      }
     });
   }
 
@@ -90,7 +83,10 @@ export default class ArticleAPI {
   static deleteArticle(slug) {
     return instance.delete(`/api/article/${slug}`)
       .then((response) => {
-        window.location.assign("/create_article");
+        toastr.success("Article has been deleted.");
+        setTimeout(() => {
+          window.location.assign("/profile");
+        }, 2000);
         return {
           success: true,
           content: response.date.article
@@ -119,7 +115,10 @@ export default class ArticleAPI {
         }
       }).then((response) => {
       if (response) {
-        window.location.assign(`/article/${response.data.articles.article.slug}`);
+        toastr.success("Article details updated");
+        setTimeout(() => {
+          window.location.assign(`/article/${response.data.articles.article.slug}`);
+        }, 2000);
         return {
           success: true,
           article: response.data

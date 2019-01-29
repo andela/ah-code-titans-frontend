@@ -22,6 +22,7 @@ import "../../../assets/style/pages/createArticle.scss";
 import LikeDislikeComponent from "../LikeDislikeButtons";
 import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 import CreateArticleForm from "./CreateArticleForm";
+import "../../../assets/style/articles/style.scss";
 
 class SingleArticle extends Component {
   constructor(props) {
@@ -207,7 +208,7 @@ class SingleArticle extends Component {
 
           ) : (
             <div>
-              <div className="container">
+              <div className="article__container">
                 <br />
                 <h1 className="ui header centered">{article.title}</h1>
                 <hr />

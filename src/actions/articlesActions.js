@@ -44,7 +44,6 @@ export const getSingleArticle = slug => (dispatch) => {
       if (response.success) {
         dispatch(getSpecificArticle(response.content));
       } else {
-        toastr.error(response.error.message);
         dispatch(getSpecificArticle(response.error.message));
       }
     });
@@ -54,11 +53,9 @@ export const deleteArticle = slug => (dispatch) => {
   ArticleAPI.deleteArticle(slug)
     .then((response) => {
       if (response.success) {
-        toastr.warning("Article has been deleted.");
         dispatch(deleteSpecificArticle(response.article));
       } else {
         dispatch(deleteSpecificArticle(response.error.message));
-        toastr.error(response.error.message);
       }
     });
 };
