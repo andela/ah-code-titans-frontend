@@ -89,6 +89,10 @@
 }
 
 .comment {
+  &__actions {
+    margin: 10px !important;
+  }
+
   &__content {
 
     &--active,
@@ -105,8 +109,11 @@
       height: 0;
     }
   }
-}
-.ui{
+
+  &__button__replies {
+    color: $secondary__color !important;
+  }
+}.ui{
   &.button {
     &.primary {
       background-color: $primary__color;

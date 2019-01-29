@@ -12,10 +12,11 @@ class Comment extends Component {
 
     this.state = {
       toggleReply: false,
+      toggleReplyComment: false,
       replyComment: ""
     };
     this.toggleReply = this.toggleReply.bind(this);
-    this.onHandleChange = this.onHandleChange.bind(this);
+    this.toggleReplyComments = this.toggleReplyComments.bind(this);
   }
 
   onHandleChange = (event) => {
@@ -31,15 +32,23 @@ class Comment extends Component {
 
     if (event.which === 13 || event.keyCode === 13) {
       actions.createReplyComment({ replyComment, slug, id });
+      this.setState({
+        replyComment: ""
+      });
     }
     return true;
   };
 
   toggleReply() {
-    const { comment, actions } = this.props;
     const { toggleReply } = this.state;
     this.setState({ toggleReply: !toggleReply });
-    if (!toggleReply) {
+  }
+
+  toggleReplyComments() {
+    const { comment, actions } = this.props;
+    const { toggleReplyComment } = this.state;
+    this.setState({ toggleReplyComment: !toggleReplyComment });
+    if (!toggleReplyComment) {
       actions.getReplyComment({ slug, comment }, true);
     }
   }

@@ -2,9 +2,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Comment, Input } from "semantic-ui-react";
+import { Comment, Input, CommentAction } from "semantic-ui-react";
 import moment from "moment";
-import NewComment from "../../containers/comment";
+import ReplyComponent from "./ReplyComment";
 
 const InputComponent = (props) => {
   const { comment, onHandleChange, submit } = props;
@@ -25,7 +25,7 @@ function renderComments(props) {
   const { comment, comments } = props;
   return comments.map((item, i) => {
     if (item.parent === comment.id) {
-      return <NewComment comment={item} key={i} />;
+      return <ReplyComponent comment={item} key={i} />;
     }
 
     return null;
@@ -34,7 +34,7 @@ function renderComments(props) {
 
 function CommentComponent(props) {
   const {
-    comment, parent, toggleReply, replyComment
+    comment, parent, toggleReply, replyComment, toggleReplyComment
   } = props;
 
   const time = moment(comment.created_at, "YYYY-MM-DD HH:mm:ss")
@@ -54,7 +54,19 @@ function CommentComponent(props) {
             <Comment.Text>
               <p>{comment.text}</p>
             </Comment.Text>
-            <Comment.Actions>
+            <Comment.Actions className="comment__actions">
+              <CommentAction
+                className="comment__button__replies"
+                onClick={() => {
+                  parent.toggleReplyComments();
+                }}
+              >
+                View replies
+                <div className={`comment__content--${toggleReplyComment ? "active" : "disabled"}`}>
+                  {renderComments(props)}
+                </div>
+              </CommentAction>
+
               <Comment.Action
                 onClick={() => {
                   parent.toggleReply();
@@ -62,18 +74,16 @@ function CommentComponent(props) {
               >
                 Reply
               </Comment.Action>
+              <div className={`comment__content--${toggleReply ? "active" : "disabled"}`}>
+                <InputComponent
+                  comment={replyComment}
+                  onHandleChange={parent.onHandleChange}
+                  submit={parent.onSubmit}
+                />
+              </div>
             </Comment.Actions>
           </Comment.Content>
-          <Comment.Group>
-            <div className={`comment__content--${toggleReply ? "active" : "disabled"}`}>
-              <InputComponent
-                comment={replyComment}
-                onHandleChange={parent.onHandleChange}
-                submit={parent.onSubmit}
-              />
-              {renderComments(props)}
-            </div>
-          </Comment.Group>
+          <Comment.Group />
         </Comment>
       </div>
     </div>
@@ -83,8 +93,9 @@ function CommentComponent(props) {
 CommentComponent.propTypes = {
   comment: PropTypes.array.isRequired,
   parent: PropTypes.array.isRequired,
-  toggleReply: PropTypes.array.isRequired,
-  replyComment: PropTypes.array.isRequired
+  toggleReply: PropTypes.bool.isRequired,
+  replyComment: PropTypes.array.isRequired,
+  toggleReplyComment: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({

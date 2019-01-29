@@ -42,6 +42,9 @@ class CommentsContainer extends Component {
     const { actions, articleSlug } = this.props;
     const { comment } = this.state;
     actions.comment.createComment({ comment, articleSlug });
+    this.setState({
+      comment: ""
+    });
   };
 
   loadMore() {
