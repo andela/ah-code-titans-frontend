@@ -95,12 +95,8 @@ class Comment extends Component {
 }
 
 const mapStateToProp = state => ({
-<<<<<<< HEAD
-  comments: state.comment
-=======
-  comments: state.commentReducer,
+  comments: state.comment,
   user: state.loginReducer.auth
->>>>>>> feat(edit): Implements edit and deletion of comments
 });
 
 const mapDispatchToProp = dispatch => ({
