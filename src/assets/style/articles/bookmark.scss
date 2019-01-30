@@ -1,7 +1,7 @@
 .bookmark {
   
     &__position {
-      padding: 0 2rem;
+      padding: .3rem 2rem;
       float: right;
     }
     &__position:hover {
@@ -11,9 +11,12 @@
     &__float {
         padding: 0 0 5rem 0 !important;
         float: right;
+        p {
+            margin-bottom: 0 !important;
+        }
       }
     &__float:hover {
-    color: #00b6ee !important;
-    cursor: pointer;
+        color: #00b6ee !important;
+        cursor: pointer;
     }
 }

@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import {
-  Container, Button, Popup, Divider
+  Button, Popup, Divider
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
@@ -30,6 +30,8 @@ import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 import CreateArticleForm from "./CreateArticleForm";
 import "../../../assets/style/articles/style.scss";
 import "../../../assets/style/articles/bookmark.scss";
+import ShareArticle from "./ShareArticle";
+import SocialShareAPI from "../../../api/socialShareAPI";
 
 class SingleArticle extends Component {
   constructor(props, context) {
@@ -176,6 +178,11 @@ class SingleArticle extends Component {
     window.location.assign(`/article/${match.params.slug}`);
   };
 
+  handleSocialShare = (event) => {
+    const { match } = this.props;
+    SocialShareAPI.socialShare(match.params.slug, event);
+  }
+
   handleLike(e) {
     const { likeArticle, article } = this.props;
     const { slug } = article;
@@ -257,30 +264,37 @@ class SingleArticle extends Component {
             <Divider />
             <div className="ui container spread__content">
               <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{ article.author.username } </i></Link></p>
-              <div className="ui time_to_read">
-                <i className="clock icon" />
-                {article.time_to_read < 1 ? "Less than a" : article.time_to_read} {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
+
+              <div className="spread__content">
+                <div>
+                  <GetRates />
+                </div>
+
+                <div>
+
+                  <div className="ui time_to_read">
+                    <i className="clock icon" />
+                    {article.time_to_read < 1 ? "Less than a" : article.time_to_read} {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
+                  </div>
+                  {
+                  bookmarked ? (
+                    <div onClick={this.unBookmarkArticle} className="bookmark__position">
+                      <i className="bookmark icon" />
+                    Unbookmark
+                    </div>
+
+                  ) : (
+                    <div onClick={this.bookmarkArticle} className="bookmark__position">
+                      <i className="bookmark outline icon" />
+                    Bookmark
+                    </div>
+                  )
+                }
+
+                </div>
               </div>
               <br />
-              {
-                bookmarked ? (
-                  <div onClick={this.unBookmarkArticle}>
-                    <span className="bookmark__position">
-                      <i className="bookmark icon" />
-                      Unbookmark
-                    </span>
-                  </div>
 
-                ) : (
-                  <div onClick={this.bookmarkArticle}>
-                    <span className="bookmark__position">
-                      <i className="bookmark outline icon" />
-                  Bookmark
-                    </span>
-                  </div>
-                )
-              }
-              <Container textAlign="right"><GetRates /></Container>
             </div>
             <br />
             <div className="main__first">
@@ -310,14 +324,28 @@ class SingleArticle extends Component {
                 </div>
               )
                 : <div />}
+              <br />
               <div className="spread__content">
-                <div className="article__sharing">
+                <div>
                   <ShareArticle
                     handleSocialShare={this.handleSocialShare}
                   />
                 </div>
-                <div className="bookmark__article" />
-
+                <div className="bookmark__article">
+                  {
+                          bookmarked ? (
+                            <span className="bookmark__float">
+                              <p id="share-text"><b>Unbookmark this article.</b></p>
+                              <Button circular color="yellow" icon="bookmark" onClick={this.unBookmarkArticle} />
+                            </span>
+                          ) : (
+                            <span className="bookmark__float">
+                              <p id="share-text"><b>Bookmark this article.</b></p>
+                              <Button circular color="grey" icon="bookmark" onClick={this.bookmarkArticle} />
+                            </span>
+                          )
+                        }
+                </div>
               </div>
 
               <br />
