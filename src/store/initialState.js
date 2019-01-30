@@ -34,24 +34,16 @@ export default {
         next: "",
         results: []
       }
+    }
+  },
+  commentReducer: {
+    comments: [],
+    mainOffset: {
+      next: 0,
+      previous: 0
     },
-    commentReducer: {
-      comments: [],
-      mainOffset: {
-        next: 0,
-        previous: 0
-      },
-      singleArticle: {}
-    },
-    commentReducers: {
-      comments: [],
-      mainOffset: {
-        next: 0,
-        previous: 0
-      },
-      tag: {
-        articles: {}
-      }
+    tag: {
+      articles: {}
     }
   }
 };

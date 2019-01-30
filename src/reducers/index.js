@@ -3,7 +3,7 @@ import { connectRouter } from "connected-react-router";
 import loginReducer from "./loginReducer";
 import registrationReducer from "./registrationReducer";
 import userSettingsReducer from "./userSettingsReducer";
-import commentReducers from "./commentReducer";
+import commentReducer from "./commentReducer";
 import profileReducer from "./profileReducer";
 import article from "./articleReducer";
 import tag from "./tagSearchReducer";
@@ -16,5 +16,5 @@ export default history => combineReducers({
   profileReducer,
   article,
   tag,
-  commentReducers
+  commentReducer
 });
