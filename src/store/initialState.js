@@ -25,5 +25,8 @@ export default {
     singleArticle: {
 
     }
+  },
+  tag: {
+    articles: {}
   }
 };

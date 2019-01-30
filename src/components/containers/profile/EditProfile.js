@@ -106,8 +106,8 @@ class EditProfile extends React.Component {
             />
           </Form.Field>
 
-          <Button type="submit" color="green">
-            Update
+          <Button type="submit" className="btn-forms-primary" color="green" inverted>
+          Update
           </Button>
         </Form>
       </Grid.Row>
