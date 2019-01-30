@@ -64,18 +64,57 @@
   }
 }
 
-#tagBar{
+#tagBar {
   overflow: auto;
 }
 
 .SB {
   &::-webkit-scrollbar-thumb {
-      background-color: $secondary__color;
-      outline: .1rem solid $secondary__color--light;
-      width: .2rem;
+    background-color: $secondary__color;
+    outline: .1rem solid $secondary__color--light;
+    width: .2rem;
   }
 }
-.ui{
+
+#comments {
+  display: flex;
+}
+
+#btn-add__comment {
+  margin-bottom: 4em;
+}
+
+#comment-section {
+  width: 100%;
+}
+
+.comment {
+  &__actions {
+    margin: 10px !important;
+  }
+
+  &__content {
+
+    &--active,
+    &--disabled {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    &--active {
+      height: auto;
+    }
+
+    &--disabled {
+      height: 0;
+      width: 0;
+    }
+  }
+
+  &__button__replies {
+    color: $secondary__color !important;
+  }
+}.ui{
   &.button {
     &.primary {
       background-color: $primary__color;
