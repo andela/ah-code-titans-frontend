@@ -19,6 +19,7 @@ import RateArticle from "../../containers/rating/RateArticle";
 import GetRates from "../../containers/rating/GetRates";
 import * as actionGenerators from "../../../actions/articlesActions";
 import CommentsContainer from "../../containers/commentsContainer";
+import * as bookmarkActions from "../../../actions/bookmarkArticleActions";
 import HeaderComponent from "../../containers/headers/index";
 import * as tagSearching from "../../../actions/tagSearchingActions";
 import "../../../assets/style/pages/createArticle.scss";
@@ -37,10 +38,13 @@ class SingleArticle extends Component {
       title: "",
       description: "",
       body: "",
-      tag_list: ""
+      tag_list: "",
+      bookmarked: props.bookmarked
     };
     this.checkIsLoggedIn = this.checkIsLoggedIn.bind(this);
     this.checkIfIsAuthor = this.checkIfIsAuthor.bind(this);
+    this.bookmarkArticle = this.bookmarkArticle.bind(this);
+    this.unBookmarkArticle = this.unBookmarkArticle.bind(this);
   }
 
   componentDidMount = () => {
@@ -49,6 +53,13 @@ class SingleArticle extends Component {
     this.checkIsLoggedIn();
     this.checkIfIsAuthor();
   };
+
+  componentWillReceiveProps(nextProps) {
+    const { bookmarked } = this.props;
+    if (nextProps.bookmarked !== bookmarked) {
+      this.setState({ bookmarked: nextProps.bookmarked });
+    }
+  }
 
   componentDidUpdate() {
     const { currentArticle } = this.state;
@@ -178,6 +189,20 @@ class SingleArticle extends Component {
     dislikeArticle(slug);
   }
 
+  bookmarkArticle() {
+    const { actions } = this.props;
+    const slug = window.location.pathname.slice(9);
+
+    actions.bookmark.bookmarkArticle(slug);
+  }
+
+  unBookmarkArticle() {
+    const { actions } = this.props;
+    const slug = window.location.pathname.slice(9);
+
+    actions.bookmark.unBookmarkArticle(slug);
+  }
+
   checkIfIsAuthor() {
     const { auth } = this.props;
     const { article } = this.props;
@@ -186,6 +211,7 @@ class SingleArticle extends Component {
       if (article.id !== undefined && article.author.username === auth.user.username) {
         this.setState({ userIsAuthor: true });
         this.setState({ currentArticle: article });
+        this.setState({ bookmarked: article.bookmarked });
       }
     }
   }
@@ -200,7 +226,9 @@ class SingleArticle extends Component {
 
   render() {
     const { article, location, match } = this.props;
-    const { userIsAuthor, editing, isLoggedIn } = this.state;
+    const {
+      userIsAuthor, editing, isLoggedIn, bookmarked
+    } = this.state;
 
     if (article.id === undefined) return <div />;
 
@@ -238,6 +266,19 @@ class SingleArticle extends Component {
                   {article.time_to_read < 1 ? "Less than a" : article.time_to_read}{" "}
                   {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
                 </div>
+                {
+              bookmarked ? (
+                <span>
+                  <i className="bookmark icon" onClick={this.unBookmarkArticle} />
+                bookmark
+                </span>
+              ) : (
+                <span>
+                  <i className="bookmark outline icon" onClick={this.bookmarkArticle} />
+              bookmark
+                </span>
+              )
+            }
                 <br />
                 <Container textAlign="right">
                   <GetRates />
@@ -300,21 +341,24 @@ SingleArticle.propTypes = {
   location: PropTypes.object.isRequired,
   dislikeArticle: PropTypes.func.isRequired,
   likeArticle: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  bookmarked: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   article: state.article.singleArticle,
-  auth: state.loginReducer.auth
+  auth: state.loginReducer.auth,
+  bookmarked: state.article.singleArticle.bookmarked
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: {
     article: bindActionCreators(actionGenerators, dispatch),
-    tagsSearch: bindActionCreators(tagSearching, dispatch)
-  },
-  likeArticle: bindActionCreators(likeAsync, dispatch),
-  dislikeArticle: bindActionCreators(dislikeAsync, dispatch)
+    tagsSearch: bindActionCreators(tagSearching, dispatch),
+    likeArticle: bindActionCreators(likeAsync, dispatch),
+    dislikeArticle: bindActionCreators(dislikeAsync, dispatch),
+    bookmark: bindActionCreators(bookmarkActions, dispatch)
+  }
 });
 
 export default connect(
