@@ -13,7 +13,9 @@ class Comment extends Component {
     this.state = {
       toggleReply: false,
       toggleReplyComment: false,
-      replyComment: ""
+      replyComment: "",
+      editCommentToggle: false,
+      editReplyCommentToggle: false
     };
     this.toggleReply = this.toggleReply.bind(this);
     this.toggleReplyComments = this.toggleReplyComments.bind(this);
@@ -39,9 +41,31 @@ class Comment extends Component {
     return true;
   };
 
+  // update comment section
+  editComment = (event) => {
+    const { comment, actions } = this.props;
+    const { replyComment } = this.state;
+    const { id } = comment;
+
+    if (event.which === 13 || event.keyCode === 13) {
+      actions.updateComment({ slug, id, replyComment });
+      this.setState({
+        replyComment: ""
+      });
+    }
+    return true;
+  };
+
+  // delete comment
+  deleteComment = () => {
+    const { comment, actions } = this.props;
+    const { id } = comment;
+    actions.deleteComment({ slug, id });
+  };
+
   toggleReply() {
     const { toggleReply } = this.state;
-    this.setState({ toggleReply: !toggleReply });
+    this.setState({ toggleReply: !toggleReply, replyComment: "", editCommentToggle: false });
   }
 
   toggleReplyComments() {
@@ -53,14 +77,30 @@ class Comment extends Component {
     }
   }
 
-  render() {
+  // update comment section
+  toggleEditComments() {
     const { comment } = this.props;
-    return <NewCommentView comment={comment} parent={this} {...this.state} />;
+    const { editCommentToggle } = this.state;
+    this.setState({
+      editCommentToggle: !editCommentToggle,
+      replyComment: comment.text,
+      toggleReply: false
+    });
+  }
+
+  render() {
+    const { comment, user } = this.props;
+    return <NewCommentView user={user} comment={comment} parent={this} {...this.state} />;
   }
 }
 
 const mapStateToProp = state => ({
+<<<<<<< HEAD
   comments: state.comment
+=======
+  comments: state.commentReducer,
+  user: state.loginReducer.auth
+>>>>>>> feat(edit): Implements edit and deletion of comments
 });
 
 const mapDispatchToProp = dispatch => ({
@@ -69,7 +109,8 @@ const mapDispatchToProp = dispatch => ({
 
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default connect(

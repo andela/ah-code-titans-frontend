@@ -38,6 +38,22 @@ export const getComments = (slug, reset = false) => (dispatch, getState) => {
   });
 };
 
+export const updateComment = comment => (dispatch) => {
+  CommentsApi.updateComment(comment).then((response) => {
+    if (response.success) {
+      dispatch(getComments(comment.slug, true));
+    }
+  });
+};
+
+export const deleteComment = comment => (dispatch) => {
+  CommentsApi.deleteComment(comment).then((response) => {
+    if (response.success) {
+      dispatch(getComments(comment.slug, true));
+    }
+  });
+};
+
 export const getReplyComment = (comment, reset = false) => (dispatch) => {
   CommentsApi.getReplyComment(comment).then((response) => {
     if (response.success) {
