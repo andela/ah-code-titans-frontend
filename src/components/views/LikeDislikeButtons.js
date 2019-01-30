@@ -54,8 +54,8 @@ export class LikeDislikeButtons extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLiking: state.likeDislikeReducer.isLiking,
-  isDisliking: state.likeDislikeReducer.isDisliking
+  isLiking: state.likeDislike.isLiking,
+  isDisliking: state.likeDislike.isDisliking
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -43,8 +43,8 @@ export const likeAsync = slug => (dispatch) => {
     .post(`api/articles/${slug}/like/`)
     .then((res) => {
       const response = res.data;
-      dispatch(likeArticleSuccess(response));
       dispatch(getSingleArticle(slug));
+      dispatch(likeArticleSuccess(response));
     })
     .catch(err => dispatch(likeArticleFailure(err)));
 };
@@ -55,8 +55,8 @@ export const dislikeAsync = slug => (dispatch) => {
     .post(`api/articles/${slug}/dislike/`)
     .then((res) => {
       const response = res.data;
-      dispatch(dislikeArticleSuccess(response));
       dispatch(getSingleArticle(slug));
+      dispatch(dislikeArticleSuccess(response));
     })
     .catch(err => dispatch(likeArticleFailure(err)));
 };

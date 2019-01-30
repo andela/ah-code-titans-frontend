@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
 import loginReducer from "./loginReducer";
 import registrationReducer from "./registrationReducer";
-import likeDislikeReducer from "./likeDislikeReducer";
+import likeDislike from "./likeDislikeReducer";
 import userSettingsReducer from "./userSettingsReducer";
 import commentReducer from "./commentReducer";
 import profileReducer from "./profileReducer";
@@ -18,5 +18,5 @@ export default history => combineReducers({
   article,
   tag,
   commentReducer,
-  likeDislikeReducer
+  likeDislike
 });

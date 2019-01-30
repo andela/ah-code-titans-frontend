@@ -49,7 +49,7 @@ class SingleArticle extends Component {
     const tagText = event.target.innerHTML;
     const { actions } = this.props;
     actions.tagsSearch.getAllSpecificTagRelatedArticles(tagText.toLowerCase());
-  }
+  };
 
   handleLike(e) {
     const { likeArticle, article } = this.props;
@@ -148,7 +148,9 @@ SingleArticle.propTypes = {
   actions: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  dislikeArticle: PropTypes.func.isRequired,
+  likeArticle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
