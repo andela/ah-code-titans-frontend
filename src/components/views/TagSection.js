@@ -16,11 +16,9 @@ Tag.propTypes = {
 };
 
 function TagSection(props) {
-  const { onNavTagClick } = props;
   const tags = [
     "CULTURE",
     "MUSIC",
-    "TRAVEL",
     "TECH",
     "ART",
     "STARTUPS",
@@ -41,13 +39,9 @@ function TagSection(props) {
 
   return (
     <Menu secondary>
-      {tags.map(tag => <Tag onNavTagClick={onNavTagClick} key={cuid()} tag={tag} />)}
+      {tags.map(tag => <Tag {...props} key={cuid()} tag={tag} />)}
     </Menu>
   );
 }
-
-TagSection.propTypes = {
-  onNavTagClick: PropTypes.func.isRequired
-};
 
 export default TagSection;

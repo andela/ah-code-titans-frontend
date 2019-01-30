@@ -1,6 +1,6 @@
-import * as types from "../actions/actionTypes";
-import initialState from "../store/initialState";
-import profileReducer from "./profileReducer";
+import * as types from "../../actions/actionTypes";
+import initialState from "../../store/initialState";
+import profileReducer from "../profileReducer";
 
 const data = {
   username: "deno",

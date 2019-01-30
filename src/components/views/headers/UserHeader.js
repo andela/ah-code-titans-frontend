@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import {
   Menu, Container, Input, Image, Header, Responsive, Popup, Divider
 } from "semantic-ui-react";
+import { history } from "../../../store/configureStore";
 
 import DefaultUserPic from "../../../assets/img/person.png";
 
@@ -32,14 +34,36 @@ function UserPopup() {
 }
 
 export default function UserHeader(props) {
-  const { auth } = props;
+  const { currentPath, auth } = props;
 
   return (
     <Menu borderless main="true" className="header--user">
       <Container>
-        <Menu.Item><Header>Authors Haven</Header></Menu.Item>
+        <Link to="/">
+          <Menu.Item><Header>Authors Haven</Header></Menu.Item>
+        </Link>
 
         <Menu.Menu position="right" className="secondary">
+
+          <Responsive
+            as={Menu.Item}
+            minWidth={Responsive.onlyTablet.minWidth}
+            active={currentPath === "/"}
+            onClick={() => {
+              history.replace("/");
+            }}
+          >Home
+          </Responsive>
+
+          <Responsive
+            as={Menu.Item}
+            minWidth={Responsive.onlyTablet.minWidth}
+            active={currentPath === "/discover"}
+            onClick={() => {
+              history.replace("/discover");
+            }}
+          >Discover
+          </Responsive>
 
           <Responsive as={Menu.Menu} minWidth={Responsive.onlyTablet.minWidth}>
             <Menu.Item className="item">
@@ -48,10 +72,10 @@ export default function UserHeader(props) {
           </Responsive>
 
           <Menu.Item position="right" className="floated user">
-            <span className="header__user__name">{auth.user.username}</span>
+            <span className="user__name">{auth.user.username}</span>
 
             <Popup
-              trigger={<Image className="header__user__image" src={DefaultUserPic} avatar />}
+              trigger={<Image className="user__image" src={DefaultUserPic} avatar />}
               content={<UserPopup />}
               on="click"
               position="top right"
@@ -64,5 +88,6 @@ export default function UserHeader(props) {
 }
 
 UserHeader.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  currentPath: PropTypes.string.isRequired
 };

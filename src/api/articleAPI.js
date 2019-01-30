@@ -1,15 +1,16 @@
 /* eslint-disable consistent-return */
-import instance from "./axiosConfig";
+import { MOCK } from "./config";
+import { axiosProtected, axiosUnprotected } from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
+import articleAPIMock from "./mock/articleAPI";
 
-// instance.defaults.headers.common.Authorization = this.state.user;
 export default class ArticleAPI {
   static createArticle(articleDetails) {
     const {
       // eslint-disable-next-line camelcase
       title, description, body, tag_list
     } = articleDetails;
-    return instance.post("/api/articles/",
+    return axiosProtected.post("/api/articles/",
       {
         article: {
           title,
@@ -44,7 +45,7 @@ export default class ArticleAPI {
   }
 
   static getSingleArticle(slug) {
-    return instance.get(`/api/article/${slug}`, {})
+    return axiosUnprotected.get(`/api/article/${slug}`, {})
       .then(response => ({
         success: true,
         content: response.data.articles
@@ -55,6 +56,31 @@ export default class ArticleAPI {
             success: false,
             error: {
               message: "Failed to retrieve the article!"
+            }
+          };
+        }
+      });
+  }
+
+  static getAllArticles(link) {
+    if (MOCK) return articleAPIMock.getAllArticles();
+
+    return axiosUnprotected.get(link === "" ? "/api/articles/all" : link)
+      .then((response) => {
+        if (response.status === 200) {
+          return {
+            success: true,
+            content: response.data.articles
+          };
+        }
+      })
+      .catch((response) => {
+        if (response.response.status !== 200) {
+          return {
+            success: false,
+            error: {
+              message: "Failed to retrieve articles!",
+              status: response.response.status
             }
           };
         }

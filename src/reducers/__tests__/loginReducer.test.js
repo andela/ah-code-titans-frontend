@@ -2,7 +2,7 @@
 import * as types from "../../actions/actionTypes";
 import loginReducer from "../loginReducer";
 import initialState from "../../store/initialState";
-import { testDetails } from "../../actions/__test__/authenticationActions.test";
+import { testDetails } from "../../actions/__tests__/authenticationActions.test";
 
 describe("reducer", () => {
   it("should return the initial state", () => {

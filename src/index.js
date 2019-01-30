@@ -1,17 +1,25 @@
 /* eslint-disable import/prefer-default-export */
 import React from "react";
 import { render } from "react-dom";
-import "semantic-ui-css/semantic.min.css";
-// delays the rendering of your app's UI until your
-// persisted state has been retrieved and saved to redux
+import { Provider } from "react-redux";
+import { ConnectedRouter } from "connected-react-router";
+import { PersistGate } from "redux-persist/integration/react";
+
 import App from "./components/App";
 import configureStore, { history } from "./store/configureStore";
 import initialState from "./store/initialState";
-import setupBase from "./setupBase";
+
+import "semantic-ui-css/semantic.min.css";
 
 const { store, persistor } = configureStore(initialState);
 
 render(
-  setupBase(store, persistor, history, <App />),
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </PersistGate>
+  </Provider>,
   document.getElementById("root")
 );
