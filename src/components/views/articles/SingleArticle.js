@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable camelcase */
 /* eslint-disable react/no-danger */
 /* eslint-disable react/no-array-index-key */
@@ -27,6 +29,7 @@ import LikeDislikeComponent from "../LikeDislikeButtons";
 import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 import CreateArticleForm from "./CreateArticleForm";
 import "../../../assets/style/articles/style.scss";
+import "../../../assets/style/articles/bookmark.scss";
 
 class SingleArticle extends Component {
   constructor(props, context) {
@@ -47,12 +50,12 @@ class SingleArticle extends Component {
     this.unBookmarkArticle = this.unBookmarkArticle.bind(this);
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { actions, match } = this.props;
     actions.article.getSingleArticle(match.params.slug);
     this.checkIsLoggedIn();
     this.checkIfIsAuthor();
-  };
+  }
 
   componentWillReceiveProps(nextProps) {
     const { bookmarked } = this.props;
@@ -268,15 +271,20 @@ class SingleArticle extends Component {
                 </div>
                 {
               bookmarked ? (
-                <span>
-                  <i className="bookmark icon" onClick={this.unBookmarkArticle} />
-                bookmark
-                </span>
+                <div onClick={this.unBookmarkArticle}>
+                  <span className="bookmark__position">
+                    <i className="bookmark icon" />
+                    Unbookmark
+                  </span>
+                </div>
+
               ) : (
-                <span>
-                  <i className="bookmark outline icon" onClick={this.bookmarkArticle} />
-              bookmark
-                </span>
+                <div onClick={this.bookmarkArticle}>
+                  <span className="bookmark__position">
+                    <i className="bookmark outline icon" />
+                Bookmark
+                  </span>
+                </div>
               )
             }
                 <br />
@@ -322,6 +330,17 @@ class SingleArticle extends Component {
                 ) : (
                   <div />
                 )}
+                {
+              bookmarked ? (
+                <span className="bookmark__float">
+                  <Button circular color="yellow" icon="bookmark" onClick={this.unBookmarkArticle} />
+                </span>
+              ) : (
+                <span className="bookmark__float">
+                  <Button circular color="grey" icon="bookmark" onClick={this.bookmarkArticle} />
+                </span>
+              )
+            }
                 <Divider hidden />
                 <CommentsContainer articleSlug={match.params.slug} />
               </div>

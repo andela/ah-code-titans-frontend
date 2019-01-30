@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import instance from "./axiosConfig";
 
 export default class bookmarkArticleApi {
