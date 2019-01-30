@@ -1,7 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Menu, Container, Input, Image, Header, Responsive, Popup, Divider
+  Menu,
+  Container,
+  Input,
+  Image,
+  Header,
+  Responsive,
+  Popup,
+  Divider
 } from "semantic-ui-react";
 import { history } from "../../../store/configureStore";
 
@@ -10,7 +17,6 @@ import DefaultUserPic from "../../../assets/img/person.png";
 function UserPopup() {
   return (
     <Menu vertical secondary>
-
       <Menu.Item name="createArticle">
         <a href="/create_article">
           <Header as="h3">Create an Article</Header>

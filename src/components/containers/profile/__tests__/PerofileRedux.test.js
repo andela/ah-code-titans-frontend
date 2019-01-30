@@ -19,6 +19,7 @@ describe("profile with props: ", () => {
         website: ""
       },
       actions: { getProfile: () => Promise.resolve() },
+      getReadingStats: () => Promise.resolve(),
       editing: false
     };
 

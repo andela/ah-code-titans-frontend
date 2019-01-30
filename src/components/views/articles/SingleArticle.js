@@ -104,8 +104,8 @@ class SingleArticle extends Component {
 
   handleEditArticle = () => {
     const { article } = this.props;
+    /* eslint-disable camelcase */
     const {
-      // eslint-disable-next-line camelcase
       title,
       body,
       description,
@@ -138,6 +138,7 @@ class SingleArticle extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
+    /* eslint-disable camelcase */
     const {
       // eslint-disable-next-line camelcase
       title, description, body, tag_list
