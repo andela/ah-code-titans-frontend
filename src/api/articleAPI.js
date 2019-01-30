@@ -45,6 +45,8 @@ export default class ArticleAPI {
       }))
       .catch((response) => {
         if (response.response.status !== 200) {
+          toastr.error("Article was not found");
+          setTimeout(() => { window.location.assign("/profile"); }, 1000);
           return {
             success: false,
             error: {
@@ -81,7 +83,7 @@ export default class ArticleAPI {
   }
 
   static deleteArticle(slug) {
-    return instance.delete(`/api/article/${slug}`)
+    return axiosProtected.delete(`/api/article/${slug}`)
       .then((response) => {
         toastr.success("Article has been deleted.");
         setTimeout(() => {
@@ -105,7 +107,7 @@ export default class ArticleAPI {
       // eslint-disable-next-line camelcase
       title, description, body, tag_list
     } = articleDetails;
-    return instance.put(`/api/article/${slug}`,
+    return axiosProtected.put(`/api/article/${slug}`,
       {
         article: {
           title,

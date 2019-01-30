@@ -21,6 +21,8 @@ export default {
   article: {
     article: {},
     singleArticle: {},
+    editedArticle: {},
+    deletedArticle: {},
     articles: {
       landingSection: {
         next: "",
@@ -41,13 +43,14 @@ export default {
     mainOffset: {
       next: 0,
       previous: 0
-    },
-    tag: {
-      articles: {}
     }
   },
   rateArticle: {
     rate: {},
     rating: 0
+  },
+  tag: {
+    articles: {}
   }
+
 };

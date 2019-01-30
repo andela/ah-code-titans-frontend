@@ -7,13 +7,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
+import {
+  Container, Button, Popup, Divider
+} from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { Container } from "semantic-ui-react";
-import RateArticle from "../../containers/rating/RateArticle";
-import GetRates from "../../containers/rating/GetRates";
-
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+
+import RateArticle from "../../containers/rating/RateArticle";
+import GetRates from "../../containers/rating/GetRates";
 import * as actionGenerators from "../../../actions/articlesActions";
 import CommentsContainer from "../../containers/commentsContainer";
 import HeaderComponent from "../../containers/headers/index";
@@ -25,8 +27,8 @@ import CreateArticleForm from "./CreateArticleForm";
 import "../../../assets/style/articles/style.scss";
 
 class SingleArticle extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       userIsAuthor: false,
       currentArticle: {},
@@ -36,7 +38,6 @@ class SingleArticle extends Component {
       body: "",
       tag_list: ""
     };
-    this.checkIfAuthenticated = this.checkIfAuthenticated.bind(this);
     this.checkIsLoggedIn = this.checkIsLoggedIn.bind(this);
     this.checkIfIsAuthor = this.checkIfIsAuthor.bind(this);
   }
@@ -45,8 +46,6 @@ class SingleArticle extends Component {
     const { actions, match } = this.props;
     actions.article.getSingleArticle(match.params.slug);
     this.checkIsLoggedIn();
-    this.checkIfAuthenticated();
-
     this.checkIfIsAuthor();
   };
 
@@ -64,18 +63,6 @@ class SingleArticle extends Component {
     const { actions } = this.props;
     actions.tagsSearch.getAllSpecificTagRelatedArticles(tagText.toLowerCase());
   };
-
-  handleLike(e) {
-    const { likeArticle, article } = this.props;
-    const { slug } = article;
-    likeArticle(slug);
-  }
-
-  handleDislike(e) {
-    const { dislikeArticle, article } = this.props;
-    const { slug } = article;
-    dislikeArticle(slug);
-  }
 
   handleDeleteArticle = () => {
     confirmAlert({
@@ -143,7 +130,7 @@ class SingleArticle extends Component {
   resetForm = () => {
     confirmAlert({
       title: "Confirm discard.",
-      message: "Are you sure you want to discard?",
+      message: "Are you sure you want to clear all fields?",
       buttons: [
         {
           label: "Yes",
@@ -163,6 +150,23 @@ class SingleArticle extends Component {
       ]
     });
   };
+
+  cancelEdit = () => {
+    const { match } = this.props;
+    window.location.assign(`/article/${match.params.slug}`);
+  };
+
+  handleLike(e) {
+    const { likeArticle, article } = this.props;
+    const { slug } = article;
+    likeArticle(slug);
+  }
+
+  handleDislike(e) {
+    const { dislikeArticle, article } = this.props;
+    const { slug } = article;
+    dislikeArticle(slug);
+  }
 
   checkIfIsAuthor() {
     const { auth } = this.props;
@@ -203,6 +207,7 @@ class SingleArticle extends Component {
                 handleKeyCommand={this.handleKeyCommand}
                 onSubmit={this.onSubmit}
                 resetForm={this.resetForm}
+                cancelEdit={this.cancelEdit}
               />
             </div>
 
@@ -211,7 +216,7 @@ class SingleArticle extends Component {
               <div className="article__container">
                 <br />
                 <h1 className="ui header centered">{article.title}</h1>
-                <hr />
+                <Divider />
                 <div className="ui container spread__content">
                   <p>{article.description}</p>
                   <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{ article.author.username } </i></Link></p>
@@ -220,6 +225,7 @@ class SingleArticle extends Component {
                     {article.time_to_read < 1 ? "Less than a" : article.time_to_read} {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
                   </div>
                   <br />
+                  <Container textAlign="right"><GetRates /></Container>
                 </div>
                 <br />
                 <div className="main__first">
@@ -228,10 +234,10 @@ class SingleArticle extends Component {
                   <div className="article__tags">
                     {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
                   </div>
-                  <hr />
+                  <Divider />
                   {isLoggedIn ? <LikeDislikeComponent {...this.props} /> : <div />}
-                  { !userIsAuthor ? (
-                    <div >
+                  { isLoggedIn && !userIsAuthor ? (
+                    <div>
                       <p textAlign="left"><b>Rate this article:</b></p>
                       <RateArticle />
                     </div>
@@ -242,12 +248,15 @@ class SingleArticle extends Component {
 
                   <br />
                   { userIsAuthor ? (
-                    <div className="spread__content">
-                      <button type="button" className="ui positive button" onClick={this.handleEditArticle}>Edit This Article</button>
-                      <button type="submit" className="ui negative button" onClick={this.handleDeleteArticle}>Delete Article</button>
+                    <div className="button__group">
+                      <Popup trigger={<Button size="tiny">Update Article</Button>} flowing hoverable>
+                        <Button icon="edit" positive onClick={this.handleEditArticle} />
+                        <Button icon="trash" negative onClick={this.handleDeleteArticle} />
+                      </Popup>
                     </div>
                   )
                     : <div />}
+                  <Divider hidden />
                   <CommentsContainer articleSlug={match.params.slug} />
 
                 </div>
@@ -272,8 +281,7 @@ SingleArticle.propTypes = {
   location: PropTypes.object.isRequired,
   dislikeArticle: PropTypes.func.isRequired,
   likeArticle: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

@@ -24,6 +24,7 @@ export default class profileApi {
       .then((response) => {
         if (response.status === 200) {
           toastr.success("Updated profile successfully ");
+          setTimeout(() => { window.location.assign("/profile"); }, 2000);
           return {
             content: response.data
           };
@@ -39,7 +40,7 @@ export default class profileApi {
         }
         if (response.response.status === 401) {
           toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/login");
+          window.location.assign("/");
           return {
             content: response.response.data
           };
