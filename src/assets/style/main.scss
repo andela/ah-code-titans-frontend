@@ -60,3 +60,15 @@
     }
   }
 }
+
+#tagBar{
+  overflow: auto;
+}
+
+.SB {
+  &::-webkit-scrollbar-thumb {
+      background-color: $secondary__color;
+      outline: .1rem solid $secondary__color--light;
+      width: .2rem;
+  }
+}

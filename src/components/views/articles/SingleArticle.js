@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable camelcase */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-danger */
@@ -10,6 +12,7 @@ import { Link } from "react-router-dom";
 
 import * as actionGenerators from "../../../actions/articlesActions";
 import HeaderComponent from "../../containers/headers/index";
+import * as tagSearching from "../../../actions/tagSearchingActions";
 
 class SingleArticle extends Component {
   constructor(props) {
@@ -37,6 +40,13 @@ class SingleArticle extends Component {
     if (article !== currentArticle) {
       this.checkIfAuthenticated();
     }
+  }
+
+  onTagClick = (event) => {
+    event.preventDefault();
+    const tagText = event.target.innerHTML;
+    const { actions } = this.props;
+    actions.tagsSearch.getAllSpecificTagRelatedArticles(tagText.toLowerCase());
   }
 
   checkIfAuthenticated() {
@@ -78,7 +88,7 @@ class SingleArticle extends Component {
             <div className="ui container article__body" dangerouslySetInnerHTML={{ __html: article.body }} />
             <br />
             <div className="article__tags">
-              {article.tag_list.map((tag, i) => <a className="ui tag label" key={i}>{tag}</a>)}
+              {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
             </div>
             <hr />
             <br />
@@ -115,7 +125,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    article: bindActionCreators(actionGenerators, dispatch)
+    article: bindActionCreators(actionGenerators, dispatch),
+    tagsSearch: bindActionCreators(tagSearching, dispatch)
   }
 });
 
