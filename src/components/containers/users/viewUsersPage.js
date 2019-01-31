@@ -63,7 +63,7 @@ class ViewUsersPage extends Component {
 
   renderProfile() {
     const { clickedUser, follow } = this.state;
-    const { location } = this.props;
+    const { location, user } = this.props;
     return (
       <div>
         <HeaderComponent location={location} />
@@ -71,6 +71,7 @@ class ViewUsersPage extends Component {
           profile={clickedUser}
           follow={follow}
           onFollowUnfollowClick={this.onFollowUnfollowClick}
+          user={user}
         />
       </div>
     );
@@ -84,6 +85,11 @@ class ViewUsersPage extends Component {
     return this.renderProfiles();
   }
 }
+function mapStateToProps(state) {
+  return {
+    user: state.loginReducer.auth
+  };
+}
 
 const mapDispatchToProps = dispatch => ({
   actions: {
@@ -93,7 +99,8 @@ const mapDispatchToProps = dispatch => ({
 
 ViewUsersPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
-export default connect(null, mapDispatchToProps)(ViewUsersPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewUsersPage);

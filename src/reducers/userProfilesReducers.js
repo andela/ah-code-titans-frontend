@@ -5,7 +5,11 @@ export default (state = {}, action) => {
   switch (action.type) {
     case types.REQUEST_PROFILES_SUCCESS: {
       const profiles = objectAssign({}, state);
-      profiles.users = profiles.users.concat(action.payload);
+      if (profiles.users.length === 0) {
+        profiles.users = profiles.users.concat(action.payload);
+      } else {
+        profiles.users = action.payload;
+      }
       return profiles;
     }
     case types.REQUEST_PROFILES_FAILURE: {

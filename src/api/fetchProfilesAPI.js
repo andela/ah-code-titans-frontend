@@ -5,7 +5,7 @@ import toastr from "../helpers/toastrConfig";
 export default class RetrieveUserProfilesAPI {
   static getUsers() {
     return instance.get(
-      "/api/profiles/"
+      "/api/profiles/?limit=123456789"
     ).then((response) => {
       if (response.status === 200) {
         return response;
@@ -38,6 +38,8 @@ export default class RetrieveUserProfilesAPI {
           toastr.warning("You have already followed this user");
         } else if (response.response.status === 500 || response.response.status === 504) {
           toastr.info("Please try again after some time");
+        } else if (response.response.status === 406) {
+          toastr.error("You cannot follow your self!");
         }
       });
   }
