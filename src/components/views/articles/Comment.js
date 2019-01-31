@@ -101,7 +101,7 @@ CommentComponent.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  comments: state.commentReducer.comments
+  comments: state.comment.comments
 });
 
 export default connect(mapStateToProps)(CommentComponent);
