@@ -7,8 +7,9 @@ export const getArticleCommentSuccess = payload => ({
   payload
 });
 
-export const getArticleCommentFailure = () => ({
-  type: types.GET_ARTICLE_COMMENTS_FAILURE
+export const getArticleCommentFailure = payload => ({
+  type: types.GET_ARTICLE_COMMENTS_FAILURE,
+  payload
 });
 
 export const createCommentSuccess = comment => ({
@@ -33,7 +34,7 @@ export const getComments = (slug, reset = false) => (dispatch, getState) => {
     if (response.success) {
       dispatch(getArticleCommentSuccess(response.data));
     } else if (response.error.status === 404) {
-      dispatch(getArticleCommentFailure());
+      dispatch(getArticleCommentFailure({ reset }));
     }
   });
 };

@@ -51,7 +51,13 @@ const commentReducer = (state = initialState, action) => {
       };
     }
     case types.GET_ARTICLE_COMMENTS_FAILURE: {
-      return { ...state, hasMore: false };
+      let { comments } = objectAssign({}, state);
+      const { reset } = action.payload;
+
+      if (reset) {
+        comments = [];
+      }
+      return { ...state, hasMore: false, comments };
     }
     case types.GET_REPLY_COMMENT_FAILURE: {
       const nextState = objectAssign({}, state);

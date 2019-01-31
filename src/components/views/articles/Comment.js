@@ -85,7 +85,7 @@ function CommentComponent(props) {
     <div>
       <div id="comment">
         <Comment>
-          <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
+          <Comment.Avatar src={comment.user.image} />
           <Comment.Content>
             <Comment.Author as="a">{comment.user.username}</Comment.Author>
             <Comment.Metadata>
@@ -125,7 +125,7 @@ function CommentComponent(props) {
               {/* update and delete section here note that */}
               <Comment.Action className="comment__actions__options">
                 {user.user.username === comment.user.username ? (
-                  <Popup trigger={<Icon name="options" />} flowing hoverable>
+                  <Popup trigger={<Icon name="content" />} flowing hoverable>
                     <Grid centered divided columns={2}>
                       <Grid.Column textAlign="center">
                         <Icon
