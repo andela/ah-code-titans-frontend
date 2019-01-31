@@ -8,19 +8,22 @@ export default function LandingSectionTwo(props) {
   const { articles } = props;
   if (articles.length < 3) return (<div />);
   return (
-    <Grid>
-      <Grid.Column>
-        <Grid.Column>
+    <Grid padded={false}>
+      <Grid.Row>
+
+        <Grid.Column width={4}>
           <Article article={articles[1]} />
         </Grid.Column>
-        <Grid.Column>
+
+        <Grid.Column width={4}>
           <Article article={articles[2]} />
         </Grid.Column>
-      </Grid.Column>
 
-      <Grid.Column>
-        <Article article={articles[0]} />
-      </Grid.Column>
+        <Grid.Column width={8}>
+          <Article article={articles[0]} />
+        </Grid.Column>
+
+      </Grid.Row>
     </Grid>
   );
 }

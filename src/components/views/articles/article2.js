@@ -1,15 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import { Item } from "semantic-ui-react";
+import { humanizeTime, humanizeTimeToRead } from "../../../helpers/time";
 
 const Article = (props) => {
   const { article } = props;
   if (article.createdAt === undefined) return <div />;
-
-  const time = moment(article.createdAt, "YYYY-MM-DD HH:mm:ss").utc(3).local();
-  const createdTime = moment.duration(time.diff(moment()), "milliseconds").humanize();
 
   return (
     <Item className="article--2">
@@ -19,8 +16,8 @@ const Article = (props) => {
           <Item.Header as="h3">{article.title}</Item.Header>
         </Link>
         <Item.Meta>
-          <span className="right floated date">{`${createdTime} ago`}</span>
-          <span className="ui black">{`${article.time_to_read} min read`}</span>
+          <span className="right floated date">{humanizeTime(article.createdAt)}</span>
+          <span className="ui black">{humanizeTimeToRead(article.time_to_read)}</span>
         </Item.Meta>
         <Item.Description>
           {article.description}

@@ -24,8 +24,9 @@ class LandingSection extends Component {
       slider: {
         dots: true,
         infinite: true,
-        speed: 500,
-        autoPlaySpeed: 3000,
+        speed: 1500,
+        autoplay: true,
+        autoplaySpeed: 5000,
         slidesToShow: 1,
         slidesToScroll: 1
       }
@@ -53,18 +54,15 @@ class LandingSection extends Component {
     });
 
     return (
-      <Slider {...slider} withBars>
+      <Slider {...slider}>
         <div>
-
           <LandingSectionOne articles={articlesList[0]} />
         </div>
         <div>
           <LandingSectionTwo articles={articlesList[1]} />
-
         </div>
         <div>
           <LandingSectionOne articles={articlesList[2]} />
-
         </div>
       </Slider>
     );

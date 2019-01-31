@@ -19,12 +19,12 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 import RateArticle from "../../containers/rating/RateArticle";
 import GetRates from "../../containers/rating/GetRates";
-import * as actionGenerators from "../../../actions/articlesActions";
 import CommentsContainer from "../../containers/commentsContainer";
 import * as bookmarkActions from "../../../actions/bookmarkArticleActions";
+import * as articleActions from "../../../actions/articleActions";
 import HeaderComponent from "../../containers/headers/index";
-import * as tagSearching from "../../../actions/tagSearchingActions";
-import "../../../assets/style/pages/createArticle.scss";
+import { humanizeTimeToRead } from "../../../helpers/time";
+
 import LikeDislikeComponent from "../LikeDislikeButtons";
 import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 import CreateArticleForm from "./CreateArticleForm";
@@ -76,9 +76,7 @@ class SingleArticle extends Component {
 
   onTagClick = (event) => {
     event.preventDefault();
-    const tagText = event.target.innerHTML;
-    const { actions } = this.props;
-    actions.tagsSearch.getAllSpecificTagRelatedArticles(tagText.toLowerCase());
+    window.location.href = `/discover?tag=${event.target.innerHTML}`;
   };
 
   handleDeleteArticle = () => {
@@ -96,7 +94,7 @@ class SingleArticle extends Component {
         },
         {
           label: "No",
-          onClick: () => {}
+          onClick: () => { }
         }
       ]
     });
@@ -168,7 +166,7 @@ class SingleArticle extends Component {
         },
         {
           label: "No",
-          onClick: () => {}
+          onClick: () => { }
         }
       ]
     });
@@ -243,97 +241,97 @@ class SingleArticle extends Component {
       <div>
         <HeaderComponent location={location} />
         {
-      (editing) ? (
-        <div>
-          <CreateArticleForm
-            state={this.state}
-            onHandleChange={this.onHandleChange}
-            onHandleEditorChange={this.onHandleEditorChange}
-            handleKeyCommand={this.handleKeyCommand}
-            onSubmit={this.onSubmit}
-            resetForm={this.resetForm}
-            cancelEdit={this.cancelEdit}
-          />
-        </div>
+          (editing) ? (
+            <div>
+              <CreateArticleForm
+                state={this.state}
+                onHandleChange={this.onHandleChange}
+                onHandleEditorChange={this.onHandleEditorChange}
+                handleKeyCommand={this.handleKeyCommand}
+                onSubmit={this.onSubmit}
+                resetForm={this.resetForm}
+                cancelEdit={this.cancelEdit}
+              />
+            </div>
 
-      ) : (
-        <div>
-          <div className="article__container">
-            <br />
-            <h1 className="ui header centered">{article.title}</h1>
-            <p className="ui header centered article__desc"> {article.description}</p>
-            <Divider />
-            <div className="ui container spread__content">
-              <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{ article.author.username } </i></Link></p>
+          ) : (
+            <div>
+              <div className="article__container">
+                <br />
+                <h1 className="ui header centered">{article.title}</h1>
+                <p className="ui header centered article__desc"> {article.description}</p>
+                <Divider />
+                <div className="ui container spread__content">
+                  <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{article.author.username} </i></Link></p>
 
-              <div className="spread__content">
-                <div>
-                  <GetRates />
-                </div>
-
-                <div>
-
-                  <div className="ui time_to_read">
-                    <i className="clock icon" />
-                    {article.time_to_read < 1 ? "Less than a" : article.time_to_read} {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
-                  </div>
-                  {
-                  bookmarked ? (
-                    <div onClick={this.unBookmarkArticle} className="bookmark__position">
-                      <i className="bookmark icon" />
-                    Unbookmark
+                  <div className="spread__content">
+                    <div>
+                      <GetRates />
                     </div>
 
+                    <div>
+
+                      <div className="ui time_to_read">
+                        <i className="clock icon" />
+                        {humanizeTimeToRead(article.time_to_read)}
+                      </div>
+                      {
+                          bookmarked ? (
+                            <div onClick={this.unBookmarkArticle} className="bookmark__position">
+                              <i className="bookmark icon" />
+                              Unbookmark
+                            </div>
+
+                          ) : (
+                            <div onClick={this.bookmarkArticle} className="bookmark__position">
+                              <i className="bookmark outline icon" />
+                                Bookmark
+                            </div>
+                          )
+                        }
+
+                    </div>
+                  </div>
+                  <br />
+
+                </div>
+                <br />
+                <div className="main__first">
+                  <div className="ui container article__body" dangerouslySetInnerHTML={{ __html: article.body }} />
+                  <br />
+                  <div className="article__tags">
+                    {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
+                  </div>
+                  <Divider />
+                  {isLoggedIn ? <LikeDislikeComponent {...this.props} /> : <div />}
+                  {isLoggedIn && !userIsAuthor ? (
+                    <div>
+                      <p textAlign="left"><b>Rate this article.</b></p>
+                      <RateArticle />
+                    </div>
                   ) : (
-                    <div onClick={this.bookmarkArticle} className="bookmark__position">
-                      <i className="bookmark outline icon" />
-                    Bookmark
+                    <div />
+                  )
+                    }
+
+                  {userIsAuthor ? (
+                    <div className="button__group">
+                      <Popup trigger={<Button>Update Article</Button>} flowing hoverable>
+                        <Button icon="edit" positive onClick={this.handleEditArticle} />
+                        <Button icon="trash" negative onClick={this.handleDeleteArticle} />
+                      </Popup>
                     </div>
                   )
-                }
-
-                </div>
-              </div>
-              <br />
-
-            </div>
-            <br />
-            <div className="main__first">
-              <div className="ui container article__body" dangerouslySetInnerHTML={{ __html: article.body }} />
-              <br />
-              <div className="article__tags">
-                {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
-              </div>
-              <Divider />
-              {isLoggedIn ? <LikeDislikeComponent {...this.props} /> : <div />}
-              { isLoggedIn && !userIsAuthor ? (
-                <div>
-                  <p textAlign="left"><b>Rate this article.</b></p>
-                  <RateArticle />
-                </div>
-              ) : (
-                <div />
-              )
-            }
-
-              { userIsAuthor ? (
-                <div className="button__group">
-                  <Popup trigger={<Button>Update Article</Button>} flowing hoverable>
-                    <Button icon="edit" positive onClick={this.handleEditArticle} />
-                    <Button icon="trash" negative onClick={this.handleDeleteArticle} />
-                  </Popup>
-                </div>
-              )
-                : <div />}
-              <br />
-              <div className="spread__content">
-                <div>
-                  <ShareArticle
-                    handleSocialShare={this.handleSocialShare}
-                  />
-                </div>
-                <div className="bookmark__article">
-                  {
+                    : <div />}
+                  <br />
+                  <div className="spread__content">
+                    <div>
+                      <ShareArticle
+                        handleSocialShare={this.handleSocialShare}
+                      />
+                    </div>
+                    <div className="bookmark__article">
+                      {
                           bookmarked ? (
                             <span className="bookmark__float">
                               <p id="share-text"><b>Unbookmark this article.</b></p>
@@ -346,21 +344,21 @@ class SingleArticle extends Component {
                             </span>
                           )
                         }
-                </div>
-              </div>
+                    </div>
+                  </div>
 
-              <br />
-              <Divider hidden />
-              <CommentsContainer articleSlug={match.params.slug} />
+                  <br />
+                  <Divider hidden />
+                  <CommentsContainer articleSlug={match.params.slug} />
+
+                </div>
+
+              </div>
 
             </div>
 
-          </div>
-
-        </div>
-
-      )
-    }
+          )
+        }
 
       </div>
     );
@@ -387,8 +385,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    article: bindActionCreators(actionGenerators, dispatch),
-    tagsSearch: bindActionCreators(tagSearching, dispatch),
+    article: bindActionCreators(articleActions, dispatch),
     likeArticle: bindActionCreators(likeAsync, dispatch),
     dislikeArticle: bindActionCreators(dislikeAsync, dispatch),
     bookmark: bindActionCreators(bookmarkActions, dispatch)

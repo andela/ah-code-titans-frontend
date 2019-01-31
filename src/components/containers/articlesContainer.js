@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import * as ArticleActions from "../../actions/articlesActions";
+import * as ArticleActions from "../../actions/articleActions";
 import CreateArticleForm from "../views/articles/CreateArticleForm";
 import HeaderComponent from "./headers/index";
 

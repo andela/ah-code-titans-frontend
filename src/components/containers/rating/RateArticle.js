@@ -16,8 +16,8 @@ class RateArticle extends React.Component {
   }
 
   changeRating(newRating, name) {
-    const { rate } = this.props;
-    const slug = window.location.pathname.slice(9);
+    const { rate, match } = this.props;
+    const { slug } = match.params;
     rate.rateArticle(newRating, slug);
     this.setState({
       rating: newRating
@@ -45,7 +45,8 @@ class RateArticle extends React.Component {
 }
 
 RateArticle.propTypes = {
-  rate: PropTypes.object.isRequired
+  rate: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 function mapDispatchToProps(dispatch) {

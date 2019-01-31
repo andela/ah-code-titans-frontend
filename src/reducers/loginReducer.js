@@ -26,7 +26,14 @@ export default (state = {}, action) => {
     case types.LOGIN_BY_SOCIAL: {
       const auth = objectAssign({}, state.auth);
       auth.authentication = "social";
-      auth.user = { username: action.data.username };
+      auth.user = action.data;
+      localStorage.setItem("user", JSON.stringify(action.data));
+      return { ...state, auth };
+    }
+    case types.LOG_OUT: {
+      const auth = objectAssign({}, state.auth);
+      auth.authentication = "";
+      auth.user = {};
       return { ...state, auth };
     }
     default:

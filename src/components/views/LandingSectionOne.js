@@ -9,7 +9,7 @@ export default function LandingSectionOne(props) {
   if (articles.length < 3) return (<div />);
   return (
     <Grid padded={false}>
-      <Grid.Row column={2}>
+      <Grid.Row>
 
         <Grid.Column width={8}>
           <Article article={articles[0]} />

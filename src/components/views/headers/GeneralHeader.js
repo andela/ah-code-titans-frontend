@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Menu, Container, Input, Header, Responsive
+  Menu, Container, Header, Responsive, Image
 } from "semantic-ui-react";
 import { history } from "../../../store/configureStore";
+import SearchInput from "../../containers/searchInput";
 
 import AuthenticationPopup from "../AuthenticationPopup";
+import LOGO from "../../../assets/img/logo.png";
 
 export default function GeneralHeader(props) {
   const { currentPath } = props;
@@ -13,9 +15,20 @@ export default function GeneralHeader(props) {
   return (
     <Menu borderless main="true" className="header--general">
       <Container>
-        <Menu.Item><Header>Authors Haven</Header></Menu.Item>
+        <Menu.Item className="header__logo">
+          <a href="/">
+            <Image src={LOGO} />
+          </a>
+        </Menu.Item>
+
+        <Menu.Item className="header__text">
+          <Header>Authors Haven</Header>
+        </Menu.Item>
 
         <Menu.Menu position="right" className="secondary">
+          <Menu.Item className="item">
+            <SearchInput />
+          </Menu.Item>
 
           <Responsive
             as={Menu.Item}
@@ -35,12 +48,6 @@ export default function GeneralHeader(props) {
               history.replace("/discover");
             }}
           >Discover
-          </Responsive>
-
-          <Responsive as={Menu.Menu} minWidth={Responsive.onlyTablet.minWidth}>
-            <Menu.Item className="item">
-              <Input icon="search" placeholder="Search..." />
-            </Menu.Item>
           </Responsive>
 
           <Menu.Item position="right" className="">
