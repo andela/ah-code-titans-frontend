@@ -27,6 +27,11 @@ function UserPopup(props) {
       </Menu.Item>
 
       <Divider horizontal />
+      <Menu.Item name="users">
+        <a href="/profiles">
+          <Header as="h3">View Users</Header>
+        </a>
+      </Menu.Item>
 
       <Menu.Item name="profile">
         <a href="/profile">

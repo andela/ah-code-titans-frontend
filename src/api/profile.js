@@ -54,4 +54,42 @@ export default class profileApi {
         }
       });
   }
+
+  static retrieveUserFollowers() {
+    return instance.get(
+      "/api/profiles/followers"
+    ).then((response) => {
+      if (response.status === 200) {
+        return { data: response.data.followers };
+      }
+    })
+      .catch((response) => {
+        if (response.response.status === 401) {
+          toastr.error("You have been logged out. Please log in and try again");
+          window.location.assign("/login");
+        } else if (response.response.status === 500 || response.response.status === 504) {
+          toastr.info("Please try again after some time");
+          window.location.assign("/login");
+        }
+      });
+  }
+
+  static retrieveUsersFollowing() {
+    return instance.get(
+      "/api/profiles/following"
+    ).then((response) => {
+      if (response.status === 200) {
+        return { data: response.data.following };
+      }
+    })
+      .catch((response) => {
+        if (response.response.status === 401) {
+          toastr.error("You have been logged out. Please log in and try again");
+          window.location.assign("/login");
+        } else if (response.response.status === 500 || response.response.status === 504) {
+          toastr.info("Please try again after some time");
+          window.location.assign("/login");
+        }
+      });
+  }
 }
