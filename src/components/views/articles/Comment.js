@@ -16,7 +16,7 @@ const InputComponent = (props) => {
   } = props;
   return (
     <div>
-      <Form reply size="large" rows={2}>
+      <Form reply size="tiny" rows={2}>
         <Form.TextArea
           className="actions__inputs"
           value={comment}
