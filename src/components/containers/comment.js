@@ -32,7 +32,7 @@ class Comment extends Component {
     const { replyComment } = this.state;
     const { id } = comment;
 
-    if (event.which === 13 || event.keyCode === 13) {
+    if (event.key === "Enter") {
       actions.createReplyComment({ replyComment, slug, id });
       this.setState({
         replyComment: ""
@@ -47,7 +47,7 @@ class Comment extends Component {
     const { replyComment } = this.state;
     const { id } = comment;
 
-    if (event.which === 13 || event.keyCode === 13) {
+    if (event.key === "Enter") {
       actions.updateComment({ slug, id, replyComment });
       this.setState({
         replyComment: ""
