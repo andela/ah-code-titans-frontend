@@ -2,6 +2,7 @@
 import instance from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
 
+/* eslint-disable consistent-return */
 export default class rateArticleApi {
   static rateArticle(rated, slug) {
     return instance

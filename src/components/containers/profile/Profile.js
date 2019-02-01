@@ -5,12 +5,14 @@ import { bindActionCreators } from "redux";
 import {
   Header, Button, Grid, Image, Menu, Card
 } from "semantic-ui-react";
+import readingStatsAsync from "../../../actions/readingStatsAction";
 import * as profileActions from "../../../actions/profileActions";
 import ProfilePage from "../../views/ProfilePage";
 import EditProfile from "./EditProfile";
 import HeaderComponent from "../headers/index";
 
 import "../../../assets/style/profile.scss";
+import ReadStats from "../../views/ReadStats";
 
 export class Profile extends React.Component {
   constructor(props) {
@@ -24,10 +26,11 @@ export class Profile extends React.Component {
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
-  componentDidMount = () => {
-    const { actions, username } = this.props;
+  componentDidMount() {
+    const { actions, username, getReadingStats } = this.props;
     actions.getProfile(username);
-  };
+    getReadingStats();
+  }
 
   toggleEditProfile = editing => this.setState({ editing });
 
@@ -35,7 +38,9 @@ export class Profile extends React.Component {
 
   render() {
     const { editing, activeItem } = this.state;
-    const { getProfile, location } = this.props;
+    const {
+      getProfile, location, readArticleCount, isFetching
+    } = this.props;
 
     return (
       <div>
@@ -70,12 +75,7 @@ export class Profile extends React.Component {
                 <Card.Description>{getProfile.bio}</Card.Description>
               </Grid.Column>
               <Grid.Column>
-                <Image
-                  className="profile__image"
-                  circular
-                  size="tiny"
-                  src={getProfile.image}
-                />
+                <Image className="profile__image" circular size="tiny" src={getProfile.image} />
               </Grid.Column>
             </Grid.Row>
             <Menu attached="top" tabular>
@@ -85,25 +85,21 @@ export class Profile extends React.Component {
                 onClick={this.handleItemClick}
               />
               <Menu.Item
-                name="Articles"
-                active={activeItem === "Articles"}
+                name="Stats"
+                active={activeItem === "Stats"}
                 onClick={this.handleItemClick}
               />
             </Menu>
             {activeItem === "profile" ? (
               <Grid.Row>
                 <Grid.Column>
-                  {!editing ? (
-                    <ProfilePage profile={getProfile} />
-                  ) : (
-                    <EditProfile parent={this} />
-                  )}
+                  {!editing ? <ProfilePage profile={getProfile} /> : <EditProfile parent={this} />}
                 </Grid.Column>
               </Grid.Row>
             ) : (
               <Grid.Row>
                 <Grid.Column>
-                  <p>No articles</p>
+                  <ReadStats readArticleCount={readArticleCount} isFetching={isFetching} />
                 </Grid.Column>
               </Grid.Row>
             )}
@@ -118,19 +114,26 @@ Profile.propTypes = {
   getProfile: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  readArticleCount: PropTypes.number.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  getReadingStats: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     getProfile: state.profileReducer.profile,
-    username: state.loginReducer.auth.user.username
+    username: state.loginReducer.auth.user.username,
+    readingStats: state.readingStats.results,
+    readArticleCount: state.readingStats.count,
+    isFetching: state.readingStats.isFetching
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(profileActions, dispatch)
+    actions: bindActionCreators(profileActions, dispatch),
+    getReadingStats: bindActionCreators(readingStatsAsync, dispatch)
   };
 }
 

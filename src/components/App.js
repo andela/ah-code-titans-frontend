@@ -8,6 +8,7 @@ import NotFoundPage from "./views/NotFoundPage";
 import UpdatePasswordPage from "./containers/updatePassword";
 import SocialAuthenticationLanding from "./containers/socialAuthenticationLanding";
 import ProfilePage from "./containers/profile/Profile";
+
 import ArticleContainer from "./containers/articlesContainer";
 import SingleArticle from "./views/articles/SingleArticle";
 import DiscoverPage from "./containers/discoverPage";
