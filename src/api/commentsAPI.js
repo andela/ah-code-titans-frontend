@@ -52,9 +52,24 @@ export default class CommentsApi {
       .catch(response => ({ success: false, error: { status: response.response.status } }));
   }
 
-  static deleteComment(slug, commentId) {
+  // delete comment section
+  static deleteComment(comment) {
     return instance
-      .delete(`/api/articles/${slug}/comments/${commentId}`)
+      .delete(`/api/articles/${comment.slug}/comment/${comment.id}`)
+      .then((response) => {
+        if (response) {
+          return { success: true, data: response.data };
+        }
+      })
+      .catch(response => ({ success: false, data: response }));
+  }
+
+  // update comment section
+  static updateComment(comment) {
+    return instance
+      .put(`/api/articles/${comment.slug}/comment/${comment.id}`, {
+        text: comment.replyComment
+      })
       .then((response) => {
         if (response) {
           return { success: true, data: response.data };

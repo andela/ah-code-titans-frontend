@@ -13,7 +13,7 @@ const CommentsView = (props) => {
   const { parent, comments } = props;
   return (
     <div>
-      <Comment.Group id="comment-section" threaded size="huge">
+      <Comment.Group id="comment-section" threaded size="tiny">
         <Header as="h2" dividing>
           Comments
         </Header>

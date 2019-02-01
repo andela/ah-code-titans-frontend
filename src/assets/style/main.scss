@@ -36,6 +36,7 @@
         color: #FFF !important;
         box-shadow: 0 0 0 .1rem #FFF inset !important;
         background-color: transparent !important;
+
         &:hover {
           color: #FFF;
           background-color: $secondary__color--light !important;
@@ -80,6 +81,10 @@
   display: flex;
 }
 
+#comments {
+  display: flex;
+}
+
 #btn-add__comment {
   margin-bottom: 4em;
 }
@@ -91,6 +96,18 @@
 .comment {
   &__actions {
     margin: 10px !important;
+
+    &__replies {
+      float: left;
+    }
+
+    &__reply {
+      float: left;
+    }
+
+    &__options {
+      float: right;
+    }
   }
 
   &__content {
@@ -114,40 +131,54 @@
   &__button__replies {
     color: $secondary__color !important;
   }
-}.ui{
+}
+
+.actions__inputs {
+  height: auto !important;
+}
+
+.ui {
   &.button {
     &.primary {
       background-color: $primary__color;
+
       &.inverted {
         color: $primary__color;
         box-shadow: 0 0 0 .1rem $primary__color inset !important;
+
         &:hover {
           background-color: $primary__color--light;
         }
       }
     }
+
     &.secondary {
       background-color: $secondary__color;
-      &.inverted{
+
+      &.inverted {
         color: #fff;
         box-shadow: 0 0 0 .2rem #fff inset !important;
-        &:hover{
+
+        &:hover {
           background-color: $secondary__color--light;
         }
       }
     }
   }
+
   &.menu {
-    .item{
-      &:hover{
+    .item {
+      &:hover {
         color: $primary__color !important;
         background-color: transparent !important;
       }
-      &.active{
+
+      &.active {
         color: $primary__color;
         background-color: transparent !important;
         border-bottom: solid .15rem $primary__color;
-        &:hover{
+
+        &:hover {
           color: $primary__color--light !important;
         }
       }
