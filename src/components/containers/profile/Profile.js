@@ -26,11 +26,11 @@ export class Profile extends React.Component {
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { actions, username, getReadingStats } = this.props;
     actions.getProfile(username);
     getReadingStats();
-  };
+  }
 
   toggleEditProfile = editing => this.setState({ editing });
 
