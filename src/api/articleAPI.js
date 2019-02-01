@@ -34,13 +34,6 @@ export default class ArticleAPI {
           error: error.response.data
         };
       }
-      if (error.response.status === 503) {
-        toastr.warning("Please login to post an article");
-        return {
-          success: false,
-          error: error.response.data
-        };
-      }
     });
   }
 
@@ -52,10 +45,12 @@ export default class ArticleAPI {
       }))
       .catch((response) => {
         if (response.response.status !== 200) {
+          toastr.error("Article was not found");
+          setTimeout(() => { window.location.assign("/profile"); }, 1000);
           return {
             success: false,
             error: {
-              message: "Failed to retrieve the article!"
+              message: "Article was not found!"
             }
           };
         }
@@ -85,5 +80,60 @@ export default class ArticleAPI {
           };
         }
       });
+  }
+
+  static deleteArticle(slug) {
+    return axiosProtected.delete(`/api/article/${slug}`)
+      .then((response) => {
+        toastr.success("Article has been deleted.");
+        setTimeout(() => {
+          window.location.assign("/profile");
+        }, 2000);
+        return {
+          success: true,
+          content: response.date.article
+        };
+      })
+      .catch(error => ({
+        success: false,
+        error: {
+          message: "Article was deleted"
+        }
+      }));
+  }
+
+  static editArticle(slug, articleDetails) {
+    const {
+      // eslint-disable-next-line camelcase
+      title, description, body, tag_list
+    } = articleDetails;
+    return axiosProtected.put(`/api/article/${slug}`,
+      {
+        article: {
+          title,
+          description,
+          body,
+          tag_list
+        }
+      }).then((response) => {
+      if (response) {
+        toastr.success("Article details updated");
+        setTimeout(() => {
+          window.location.assign(`/article/${response.data.articles.article.slug}`);
+        }, 2000);
+        return {
+          success: true,
+          article: response.data
+        };
+      }
+    }).catch((error) => {
+      if (error.response) {
+        toastr.warning("An error occurred. Please try again");
+        return {
+          success: false,
+          error: error.response.data
+        };
+      }
+    });
   }
 }

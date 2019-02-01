@@ -48,7 +48,7 @@ class ArticlesContainer extends Component {
   resetForm = () => {
     confirmAlert({
       title: "Confirm discard",
-      message: "Are you sure you want to discard?",
+      message: "Are you sure you want to clear all fields?",
       buttons: [
         {
           label: "Yes",
@@ -69,6 +69,10 @@ class ArticlesContainer extends Component {
     });
   };
 
+  handleCancelCreation = () => {
+    window.location.assign("/");
+  }
+
   render() {
     const { location, auth } = this.props;
     return (
@@ -83,6 +87,7 @@ class ArticlesContainer extends Component {
               handleKeyCommand={this.handleKeyCommand}
               onSubmit={this.onSubmit}
               resetForm={this.resetForm}
+              handleCancelCreation={this.handleCancelCreation}
             />
 
           </div>
