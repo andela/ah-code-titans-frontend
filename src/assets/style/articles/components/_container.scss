@@ -5,6 +5,11 @@
     margin-top: $m-size;
 }
 
+.article__desc {
+    font-size: $s-size !important;
+    font-weight: 500 !important;
+}
+
 /* Read time styling  */
 .time_to_read{
    color:#008080;
@@ -15,12 +20,12 @@
    text-align: center;
 }
 
-.article__sharing{
-   float:right;
+#share-text {
+    padding-bottom: $ss-size;
 }
 
 .button__group {
-    margin-bottom: $m-size;
+    margin-bottom: $ss-size;
 }
 
 .main__first{
@@ -31,11 +36,10 @@
 .spread__content {
     display: flex;
     justify-content: space-between;
-}
-.divider {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+
+    .time_to_read{
+        float:right;
+    }
 }
 
 .ui.tag.label {
