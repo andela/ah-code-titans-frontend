@@ -1,7 +1,8 @@
 @import "./abstract/variables";
 @import "./base/base";
-@import "./components/authenticationPopup.scss";
-@import "./components/headers/header.scss";
+@import "./components/authenticationPopup";
+@import "./components/headers/header";
+@import "./components/article.scss";
 
 #err {
 
@@ -14,25 +15,33 @@
 
 
 .ui {
-  &.button {
+  &.primary{
+    &.button{
+        background-color: $primary__color !important;
+    }
+  }
+   &.secondary {
+     &.button{
+       background-color: $secondary__color !important;
+     }
+   }
+  &.inverted {
     &.primary {
-      background-color: $primary__color !important;
-
-      &.inverted {
-        color: $primary__color;
-        box-shadow: 0 0 0 .2rem $primary__color inset !important;
+      &.button {
         background-color: transparent !important;
-
+        &.active {
+          color: #FFF !important;
+          background-color: $primary__color !important;
+        }
         &:hover {
+          color: #FFF !important;
           background-color: $primary__color--light !important;
         }
+        
       }
     }
-
-    &.secondary {
-      background-color: $secondary__color !important;
-
-      &.inverted {
+    &.secondary{
+      &.button{
         color: #FFF !important;
         box-shadow: 0 0 0 .1rem #FFF inset !important;
         background-color: transparent !important;
@@ -74,6 +83,9 @@
     background-color: $secondary__color;
     outline: .1rem solid $secondary__color--light;
     width: .2rem;
+    &:hover{
+      background-color: $secondary__color--light;
+    }
   }
 }
 
@@ -135,55 +147,6 @@
 
 .actions__inputs {
   height: auto !important;
-}
-
-.ui {
-  &.button {
-    &.primary {
-      background-color: $primary__color;
-
-      &.inverted {
-        color: $primary__color;
-        box-shadow: 0 0 0 .1rem $primary__color inset !important;
-
-        &:hover {
-          background-color: $primary__color--light;
-        }
-      }
-    }
-
-    &.secondary {
-      background-color: $secondary__color;
-
-      &.inverted {
-        color: #fff;
-        box-shadow: 0 0 0 .2rem #fff inset !important;
-
-        &:hover {
-          background-color: $secondary__color--light;
-        }
-      }
-    }
-  }
-
-  &.menu {
-    .item {
-      &:hover {
-        color: $primary__color !important;
-        background-color: transparent !important;
-      }
-
-      &.active {
-        color: $primary__color;
-        background-color: transparent !important;
-        border-bottom: solid .15rem $primary__color;
-
-        &:hover {
-          color: $primary__color--light !important;
-        }
-      }
-    }
-  }
 }
 
 .likedislike {

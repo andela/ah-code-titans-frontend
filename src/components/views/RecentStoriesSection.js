@@ -22,7 +22,7 @@ export default function RecentStoriesSectionView(props) {
           loadMore={parent.loadMore}
           hasMore={hasMore}
           loader={(
-            <Container textAlign="center">
+            <Container textAlign="center" key={0}>
               <Loader size="medium" active inline />
             </Container>
             )}

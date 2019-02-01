@@ -11,8 +11,8 @@ import ProfilePage from "../../views/ProfilePage";
 import EditProfile from "./EditProfile";
 import HeaderComponent from "../headers/index";
 
-import "../../../assets/style/profile.scss";
 import ReadStats from "../../views/ReadStats";
+import "../../../assets/style/pages/profilePage.scss";
 
 export class Profile extends React.Component {
   constructor(props) {

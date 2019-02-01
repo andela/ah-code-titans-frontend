@@ -1,25 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   Menu,
   Container,
-  Input,
   Image,
   Header,
   Responsive,
   Popup,
   Divider
 } from "semantic-ui-react";
+import * as AuthenticationActions from "../../../actions/authenticationActions";
 import { history } from "../../../store/configureStore";
-
+import SearchInput from "../../containers/searchInput";
 import DefaultUserPic from "../../../assets/img/person.png";
 
-function UserPopup() {
+function UserPopup(props) {
+  const { actions } = props;
   return (
     <Menu vertical secondary>
       <Menu.Item name="createArticle">
         <a href="/create_article">
-          <Header as="h3">Create an Article</Header>
+          <Header as="h5">Create an Article</Header>
         </a>
       </Menu.Item>
 
@@ -27,26 +30,50 @@ function UserPopup() {
 
       <Menu.Item name="profile">
         <a href="/profile">
-          <Header as="h3">Profile</Header>
+          <Header as="h5">Profile</Header>
         </a>
       </Menu.Item>
 
       <Menu.Item name="profile">
-        <Header as="h3">Log out</Header>
+        <Header
+          as="h5"
+          onClick={() => {
+            actions.auth.logout();
+          }}
+        >Log out
+        </Header>
       </Menu.Item>
     </Menu>
   );
 }
 
-export default function UserHeader(props) {
+UserPopup.propTypes = {
+  actions: PropTypes.object.isRequired
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      auth: bindActionCreators(AuthenticationActions, dispatch)
+    }
+  };
+}
+
+function UserHeader(props) {
   const { currentPath, auth } = props;
 
   return (
     <Menu borderless main="true" className="header--user">
       <Container>
+        <Menu.Item>
+          <Image src="../../../../public/android-icon-192x192.png" />
+        </Menu.Item>
         <Menu.Item><Header>Authors Haven</Header></Menu.Item>
 
         <Menu.Menu position="right" className="secondary">
+          <Menu.Item className="item">
+            <SearchInput />
+          </Menu.Item>
 
           <Responsive
             as={Menu.Item}
@@ -68,18 +95,12 @@ export default function UserHeader(props) {
           >Discover
           </Responsive>
 
-          <Responsive as={Menu.Menu} minWidth={Responsive.onlyTablet.minWidth}>
-            <Menu.Item className="item">
-              <Input icon="search" placeholder="Search..." />
-            </Menu.Item>
-          </Responsive>
-
           <Menu.Item position="right" className="floated user">
             <span className="user__name">{auth.user.username}</span>
 
             <Popup
               trigger={<Image className="user__image" src={DefaultUserPic} avatar />}
-              content={<UserPopup />}
+              content={<UserPopup {...props} />}
               on="click"
               position="top right"
             />
@@ -94,3 +115,5 @@ UserHeader.propTypes = {
   auth: PropTypes.object.isRequired,
   currentPath: PropTypes.string.isRequired
 };
+
+export default connect(null, mapDispatchToProps)(UserHeader);

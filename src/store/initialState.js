@@ -1,3 +1,9 @@
+const initialArticlePaginationState = {
+  next: "",
+  isLoading: false,
+  results: []
+};
+
 export default {
   loginReducer: {
     auth: {
@@ -24,18 +30,10 @@ export default {
     editedArticle: {},
     deletedArticle: {},
     articles: {
-      landingSection: {
-        next: "",
-        results: []
-      },
-      topStoriesSection: {
-        next: "",
-        results: []
-      },
-      recentStoriesSection: {
-        next: "",
-        results: []
-      }
+      landingSection: initialArticlePaginationState,
+      topStoriesSection: initialArticlePaginationState,
+      recentStoriesSection: initialArticlePaginationState,
+      mainDiscoverSection: initialArticlePaginationState
     }
   },
   comment: {

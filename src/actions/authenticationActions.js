@@ -23,7 +23,7 @@ export const login = userDetails => (dispatch) => {
   AuthenticationAPI.login(userDetails).then((response) => {
     if (response.success) {
       toastr.success("Login Successful");
-      localStorage.setItem("user", JSON.stringify(response.content.token));
+      localStorage.setItem("user", JSON.stringify(response.content));
       dispatch(loginByEmailActionSuccess(response.content));
       history.replace("/");
     } else {
@@ -37,3 +37,16 @@ export const loginBySocial = data => ({
   type: types.LOGIN_BY_SOCIAL,
   data
 });
+
+export const logoutSuccess = () => ({
+  type: types.LOG_OUT
+});
+
+export const logout = () => (dispatch) => {
+  dispatch(logoutSuccess());
+
+  setTimeout(() => {
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  }, 1000);
+};

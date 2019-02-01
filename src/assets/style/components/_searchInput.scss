@@ -1,0 +1,10 @@
+.searchInput {
+    width: 0 !important;
+    transition: all .5s ease;
+    &:hover{
+        input,
+        .dropdown {
+            width: auto !important;
+        }
+    }
+}

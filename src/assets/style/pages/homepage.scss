@@ -1,28 +1,81 @@
 @import "../abstract/mixins";
-@import "../components/article.scss";
+@import "../abstract/variables";
 
-.hp{
+.hp {
     &__landing {
         width: 100%;
-        height: 60vh;
+        height: 80vh;
         float: left;
         overflow: hidden;
-        .column{
+        position: relative;
+
+        .column {
             padding: 0 !important;
+        }
+
+        .slick {
+            &-slider {
+                width: 100%;
+                height: 100%;
+            }
+
+            &-slide {
+                width: 100%;
+            }
+            &-dots {
+                bottom: 1rem;
+                position: absolute;
+                z-index: 500;
+
+                .slick-active button:before {
+                    color: $primary__color;
+                }
+
+                button:before {
+                    font-size: 1rem;
+                    color: $primary__color--light;
+                }
+            }
         }
     }
 
-    &__tags{
-        float:left;
+    &__tags {
+        float: left;
         transform: translateX(-50%);
         margin: 1rem 0 0 50%;
+        max-width: 100%;
+        overflow-x: scroll;
+        overflow-y: hidden;
     }
-    &__section{
-        &__1{
-            width:100%;
-            float:left;
-            margin-top:5rem;
+
+    &__sections {
+        width: 100%;
+        float: left;
+        margin-top: 5rem;
+        padding: 0 5%;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: auto auto;
+        grid-template-areas: "top recent";
+
+        @include respond(tab-land) {
+            grid-template-areas:
+                "top top"
+                "recent recent";
         }
+    }
+
+    &__topStories,
+    &__recentStories {
+        padding: 0 5%;
+    }
+
+    &__topStories {
+        grid-area: top;
+    }
+
+    &__recentStories {
+        grid-area: recent;
     }
 
     @include respond(tab-land) {

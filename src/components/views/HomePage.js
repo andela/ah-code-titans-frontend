@@ -1,5 +1,4 @@
 import React from "react";
-import { Grid, Container } from "semantic-ui-react";
 import LandingSection from "../containers/landingSection";
 import TopStoriesSection from "../containers/topStoriesSection";
 import RecentStoriesSection from "../containers/recentStoriesSection";
@@ -12,24 +11,18 @@ const HomePage = props => (
     <div className="hp__landing">
       <LandingSection />
     </div>
-    <div className="hp__tags">
+    <div className="hp__tags SB">
       <TagSection />
     </div>
-    <div className="hp__section__1">
-      <Grid container>
-        <Grid.Row>
-          <Grid.Column width={8}>
-            <Container>
-              <TopStoriesSection />
-            </Container>
-          </Grid.Column>
-          <Grid.Column width={8}>
-            <Container>
-              <RecentStoriesSection />
-            </Container>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+    <div className="hp__sections">
+
+      <div className="hp__topStories">
+        <TopStoriesSection />
+      </div>
+      <div className="hp__recentStories">
+        <RecentStoriesSection />
+      </div>
+
     </div>
   </div>
 );

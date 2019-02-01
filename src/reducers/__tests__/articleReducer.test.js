@@ -2,6 +2,7 @@
 import * as types from "../../actions/actionTypes";
 import articleReducer from "../articleReducer";
 import { article } from "../../api/mock/articleAPI";
+import initialState from "../../store/initialState";
 
 describe("Article Reducer :", () => {
   const articlesPayload = {
@@ -14,21 +15,31 @@ describe("Article Reducer :", () => {
     reset: false
   };
 
+  const newArticle = {
+    title: "The Avengers",
+    description: "A Marvel article",
+    body: "End Game is coming soon",
+    tag_list: ["Avengers", "Marvel"]
+  };
+
   const state = {
     articles: {
       landingSection: {
         next: "",
         previous: "",
+        isLoading: false,
         results: [article]
       },
       topStoriesSection: {
         next: "",
         previous: "",
+        isLoading: false,
         results: []
       },
       recentStoriesSection: {
         next: "",
         previous: "",
+        isLoading: false,
         results: []
       }
     }
@@ -87,5 +98,18 @@ describe("Article Reducer :", () => {
       state.articles[articlesPayload.section].results.length
     );
     expect(result).toEqual(state);
+  });
+
+  it("should provide the initial state", () => {
+    expect(articleReducer(initialState.article, {})).toEqual(initialState.article);
+  });
+  it("should add a new article", () => {
+    expect(articleReducer(initialState.articles,
+      { type: types.CREATE_ARTICLE_SUCCESS, payload: newArticle }).article).toEqual(newArticle);
+  });
+  it("should add a specific article", () => {
+    expect(articleReducer(initialState.singleArticle,
+      { type: types.GET_SPECIFIC_ARTICLE_SUCCESS, payload: newArticle })
+      .singleArticle).toEqual(newArticle);
   });
 });

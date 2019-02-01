@@ -20,7 +20,10 @@ describe("profile with props: ", () => {
       },
       actions: { getProfile: () => Promise.resolve() },
       getReadingStats: () => Promise.resolve(),
-      editing: false
+      editing: false,
+      location: {
+        pathname: "/"
+      }
     };
 
     const store = mockStore({

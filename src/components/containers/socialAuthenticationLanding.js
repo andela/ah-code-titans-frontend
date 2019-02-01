@@ -22,6 +22,8 @@ export class SocialAuthentication extends Component {
     const username = params.get("username");
     const success = params.get("success");
     const newUser = params.get("new_user");
+    const accessToken = params.get("t1");
+    const refreshToken = params.get("t2");
 
     let view = 1;
 
@@ -31,15 +33,26 @@ export class SocialAuthentication extends Component {
       view = 3;
     }
 
-    this.state = { view, username, success };
+    this.state = {
+      view,
+      username,
+      success,
+      accessToken,
+      refreshToken
+    };
   }
 
   componentDidMount() {
     const { actions } = this.props;
-    const { username, success } = this.state;
+    const {
+      username,
+      success,
+      accessToken,
+      refreshToken
+    } = this.state;
 
     if (success === "true") {
-      actions.auth.loginBySocial({ username });
+      actions.auth.loginBySocial({ username, accessToken, refreshToken });
     }
   }
 

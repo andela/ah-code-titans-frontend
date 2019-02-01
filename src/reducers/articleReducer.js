@@ -10,7 +10,8 @@ export default (state = {}, action) => {
 
       section.next = payload.content.next;
       section.previous = payload.content.previous;
-      section.more = true;
+      section.more = payload.content.next !== null;
+      section.isLoading = false;
 
       if (payload.content.reset) {
         section.results = payload.content.results;
@@ -27,6 +28,15 @@ export default (state = {}, action) => {
       const section = objectAssign({}, articles[payload.section]);
 
       section.more = false;
+      section.isLoading = false;
+      articles[payload.section] = section;
+      return { ...state, articles };
+    }
+    case types.RETRIEVE_ALL_ARTICLES_IS_LOADING: {
+      const articles = objectAssign({}, state.articles);
+      const payload = action.data;
+      const section = objectAssign({}, articles[payload.section]);
+      section.isLoading = true;
       articles[payload.section] = section;
       return { ...state, articles };
     }

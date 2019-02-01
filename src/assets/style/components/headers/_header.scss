@@ -1,13 +1,32 @@
 .header {
+
     &--general,
     &--user {
-        margin:0 !important;
+        margin: 0 !important;
+
+        .searchInput {
+            width: 25rem ;
+        }
     }
+
     &--user {
         .user {
             &__name {
                 margin-right: 1rem;
             }
         }
+    }
+    &__logo{
+        width: 5rem;
+        height: 4rem;
+        img {
+            border-radius: .21rem;
+            overflow: hidden;
+            min-width: 100%;
+            min-height: 100%;
+        }
+    }
+    &__text {
+        padding: 0 !important;
     }
 }

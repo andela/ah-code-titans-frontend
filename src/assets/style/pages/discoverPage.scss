@@ -1,0 +1,41 @@
+@import "../abstract//mixins";
+@import "../components/articleFilter";
+
+.discoverPage {
+    width: 80%;
+    float:left;
+    margin: 0 10%;
+    padding: 0 5%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+    "tags tags"
+    "search search"
+    "articles filters";
+    @include respond(tab-land){
+        width: 100%;
+        margin: 0;
+        grid-template-areas:
+        "tags tags"
+        "search search"
+        "filters filters"
+        "articles articles";
+    }
+    &__tags {
+        overflow: auto;
+        grid-area: tags;
+        margin: 1rem 0 3rem;
+    }
+    &__content{
+        grid-area: articles;
+    }
+    &__filter{
+        grid-area: filters;
+        padding: 0 2rem;
+    }
+    &__search {
+        grid-area: search;
+        margin-bottom: 3rem;
+    }
+}
