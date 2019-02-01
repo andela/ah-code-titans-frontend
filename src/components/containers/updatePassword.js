@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import toastr from "../../helpers/toastrConfig";
 import UpdatePasswordView from "../views/UpdatePasswordForm";
 import ResetPasswordAPI from "../../api/resetPasswordAPI";
 
@@ -63,6 +64,7 @@ class UpdatePasswordPage extends Component {
       this.setState({
         passwordButton: true
       });
+      toastr.error("Passwords should MATCH!!");
     }
   };
 

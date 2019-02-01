@@ -50,9 +50,11 @@ export default class ResetPasswordAPI {
       .catch((response) => {
         if (response.response.status === 504) {
           toastr.info("Please try again after sometime");
+        } else if (response.response.status === 503) {
+          toastr.info("Please try again after sometime");
         } else if (response.response.status === 401) {
           toastr.warning("Reset Link has expired request for another one!");
-        } else if (response.response.data === 500) {
+        } else if (response.response.status === 500) {
           toastr.error("Invalid reset link");
         }
       });

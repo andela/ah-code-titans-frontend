@@ -36,7 +36,7 @@ const UpdatePasswordView = (props) => {
               onChange={onInputChange}
               required
             />
-            {state.confirmPassword.value !== "" && !state.confirmPassword.value ? <HandleErrors message="Password should be alphanumeric and match password above" /> : ""}
+            {state.confirmPassword.value !== "" && !state.confirmPassword.valid ? <HandleErrors message="Password should be alphanumeric and match password above" /> : ""}
           </Form.Field>
           <Button
             className="passwordFrom__sendBtn"
