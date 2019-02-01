@@ -9,6 +9,7 @@ import profileReducer from "./profileReducer";
 import article from "./articleReducer";
 import tag from "./tagSearchReducer";
 import rateArticle from "./rateArticleReducer";
+import bookmark from "./bookmarkArticleReducer";
 
 export default history => combineReducers({
   router: connectRouter(history),
@@ -20,5 +21,6 @@ export default history => combineReducers({
   tag,
   likeDislike,
   comment,
-  rateArticle
+  rateArticle,
+  bookmark
 });

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable camelcase */
 /* eslint-disable react/no-danger */
 /* eslint-disable react/no-array-index-key */
@@ -19,6 +21,7 @@ import RateArticle from "../../containers/rating/RateArticle";
 import GetRates from "../../containers/rating/GetRates";
 import * as actionGenerators from "../../../actions/articlesActions";
 import CommentsContainer from "../../containers/commentsContainer";
+import * as bookmarkActions from "../../../actions/bookmarkArticleActions";
 import HeaderComponent from "../../containers/headers/index";
 import * as tagSearching from "../../../actions/tagSearchingActions";
 import "../../../assets/style/pages/createArticle.scss";
@@ -26,6 +29,7 @@ import LikeDislikeComponent from "../LikeDislikeButtons";
 import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 import CreateArticleForm from "./CreateArticleForm";
 import "../../../assets/style/articles/style.scss";
+import "../../../assets/style/articles/bookmark.scss";
 
 class SingleArticle extends Component {
   constructor(props, context) {
@@ -37,18 +41,28 @@ class SingleArticle extends Component {
       title: "",
       description: "",
       body: "",
-      tag_list: ""
+      tag_list: "",
+      bookmarked: props.bookmarked
     };
     this.checkIsLoggedIn = this.checkIsLoggedIn.bind(this);
     this.checkIfIsAuthor = this.checkIfIsAuthor.bind(this);
+    this.bookmarkArticle = this.bookmarkArticle.bind(this);
+    this.unBookmarkArticle = this.unBookmarkArticle.bind(this);
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { actions, match } = this.props;
     actions.article.getSingleArticle(match.params.slug);
     this.checkIsLoggedIn();
     this.checkIfIsAuthor();
-  };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { bookmarked } = this.props;
+    if (nextProps.bookmarked !== bookmarked) {
+      this.setState({ bookmarked: nextProps.bookmarked });
+    }
+  }
 
   componentDidUpdate() {
     const { currentArticle } = this.state;
@@ -178,6 +192,20 @@ class SingleArticle extends Component {
     dislikeArticle(slug);
   }
 
+  bookmarkArticle() {
+    const { actions } = this.props;
+    const slug = window.location.pathname.slice(9);
+
+    actions.bookmark.bookmarkArticle(slug);
+  }
+
+  unBookmarkArticle() {
+    const { actions } = this.props;
+    const slug = window.location.pathname.slice(9);
+
+    actions.bookmark.unBookmarkArticle(slug);
+  }
+
   checkIfIsAuthor() {
     const { auth } = this.props;
     const { article } = this.props;
@@ -186,6 +214,7 @@ class SingleArticle extends Component {
       if (article.id !== undefined && article.author.username === auth.user.username) {
         this.setState({ userIsAuthor: true });
         this.setState({ currentArticle: article });
+        this.setState({ bookmarked: article.bookmarked });
       }
     }
   }
@@ -200,7 +229,9 @@ class SingleArticle extends Component {
 
   render() {
     const { article, location, match } = this.props;
-    const { userIsAuthor, editing, isLoggedIn } = this.state;
+    const {
+      userIsAuthor, editing, isLoggedIn, bookmarked
+    } = this.state;
 
     if (article.id === undefined) return <div />;
 
@@ -238,6 +269,24 @@ class SingleArticle extends Component {
                   {article.time_to_read < 1 ? "Less than a" : article.time_to_read}{" "}
                   {parseInt(article.time_to_read, 10) > 1 ? "minutes read" : "minute read"}
                 </div>
+                {
+              bookmarked ? (
+                <div onClick={this.unBookmarkArticle}>
+                  <span className="bookmark__position">
+                    <i className="bookmark icon" />
+                    Unbookmark
+                  </span>
+                </div>
+
+              ) : (
+                <div onClick={this.bookmarkArticle}>
+                  <span className="bookmark__position">
+                    <i className="bookmark outline icon" />
+                Bookmark
+                  </span>
+                </div>
+              )
+            }
                 <br />
                 <Container textAlign="right">
                   <GetRates />
@@ -281,6 +330,17 @@ class SingleArticle extends Component {
                 ) : (
                   <div />
                 )}
+                {
+              bookmarked ? (
+                <span className="bookmark__float">
+                  <Button circular color="yellow" icon="bookmark" onClick={this.unBookmarkArticle} />
+                </span>
+              ) : (
+                <span className="bookmark__float">
+                  <Button circular color="grey" icon="bookmark" onClick={this.bookmarkArticle} />
+                </span>
+              )
+            }
                 <Divider hidden />
                 <CommentsContainer articleSlug={match.params.slug} />
               </div>
@@ -300,21 +360,24 @@ SingleArticle.propTypes = {
   location: PropTypes.object.isRequired,
   dislikeArticle: PropTypes.func.isRequired,
   likeArticle: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  bookmarked: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   article: state.article.singleArticle,
-  auth: state.loginReducer.auth
+  auth: state.loginReducer.auth,
+  bookmarked: state.article.singleArticle.bookmarked
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: {
     article: bindActionCreators(actionGenerators, dispatch),
-    tagsSearch: bindActionCreators(tagSearching, dispatch)
-  },
-  likeArticle: bindActionCreators(likeAsync, dispatch),
-  dislikeArticle: bindActionCreators(dislikeAsync, dispatch)
+    tagsSearch: bindActionCreators(tagSearching, dispatch),
+    likeArticle: bindActionCreators(likeAsync, dispatch),
+    dislikeArticle: bindActionCreators(dislikeAsync, dispatch),
+    bookmark: bindActionCreators(bookmarkActions, dispatch)
+  }
 });
 
 export default connect(

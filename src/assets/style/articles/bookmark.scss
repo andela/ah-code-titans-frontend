@@ -1,0 +1,19 @@
+.bookmark {
+  
+    &__position {
+      padding: 0 2rem;
+      float: right;
+    }
+    &__position:hover {
+        color: #00b6ee;
+        cursor: pointer;
+    }
+    &__float {
+        padding: 0 0 5rem 0 !important;
+        float: right;
+      }
+    &__float:hover {
+    color: #00b6ee !important;
+    cursor: pointer;
+    }
+}
