@@ -56,7 +56,7 @@ export default class profileApi {
   }
 
   static retrieveUserFollowers() {
-    return instance.get(
+    return axiosProtected.get(
       "/api/profiles/followers"
     ).then((response) => {
       if (response.status === 200) {
@@ -75,7 +75,7 @@ export default class profileApi {
   }
 
   static retrieveUsersFollowing() {
-    return instance.get(
+    return axiosProtected.get(
       "/api/profiles/following"
     ).then((response) => {
       if (response.status === 200) {

@@ -1,6 +1,6 @@
 import * as types from "./actionTypes";
 import bookmarkArticleApi from "../api/bookmarkArticleApi";
-import { getSingleArticle } from "./articlesActions";
+import { getSingleArticle } from "./articleActions";
 
 export const bookmarkArticleSuccess = data => ({
   type: types.BOOKMARK_ARTICLE_SUCCESS,

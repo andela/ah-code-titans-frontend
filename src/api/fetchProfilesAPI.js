@@ -14,7 +14,7 @@ export default class RetrieveUserProfilesAPI {
       .catch((response) => {
         if (response.response.status === 401) {
           toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/login");
+          window.location.assign("/");
         } else if (response.response.status === 500 || response.response.status === 504) {
           toastr.info("Please try again after some time");
           window.location.assign("/profile");
@@ -56,7 +56,7 @@ export default class RetrieveUserProfilesAPI {
       .catch((response) => {
         if (response.response.status === 401) {
           toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/login");
+          window.location.assign("/");
         } else if (response.response.status === 500 || response.response.status === 504) {
           toastr.info("Please try again after some time");
           window.location.assign("/profiles");

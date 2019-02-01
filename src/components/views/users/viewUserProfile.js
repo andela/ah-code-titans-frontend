@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-closing-tag-location */
 /* eslint-disable react/jsx-wrap-multilines */
 import React from "react";
 import {
@@ -5,6 +6,7 @@ import {
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import ProfilePage from "../ProfilePage";
+import "../../../assets/style/pages/profilePage.scss";
 
 const ViewUserProfile = (props) => {
   const {
@@ -23,25 +25,25 @@ const ViewUserProfile = (props) => {
 
               <Card.Description>{profile.bio}</Card.Description>
               <br />
-              <br />
               {user.user.username === profile.username ? <div />
                 : <div>
-                  {follow ?
+                  {follow ? (
                     <Button
                       className="profile__editBtn"
                       size="mini"
+                      primary
                       onClick={onFollowUnfollowClick}
                     >
                   Unfollow
-                    </Button>
-                    :  <Button
+                    </Button>)
+                    : (<Button
                       className="profile__editBtn"
                       size="mini"
+                      primary
                       onClick={onFollowUnfollowClick}
                     >
-                  Follow
-                    </Button>
-                  }
+                  Follow </Button>
+                    )}
                 </div>
               }
             </Grid.Column>

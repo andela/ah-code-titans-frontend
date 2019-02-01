@@ -21,6 +21,7 @@ import RateArticle from "../../containers/rating/RateArticle";
 import GetRates from "../../containers/rating/GetRates";
 import CommentsContainer from "../../containers/commentsContainer";
 import * as bookmarkActions from "../../../actions/bookmarkArticleActions";
+
 import * as articleActions from "../../../actions/articleActions";
 import HeaderComponent from "../../containers/headers/index";
 import { humanizeTimeToRead } from "../../../helpers/time";
@@ -28,10 +29,11 @@ import { humanizeTimeToRead } from "../../../helpers/time";
 import LikeDislikeComponent from "../LikeDislikeButtons";
 import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 import CreateArticleForm from "./CreateArticleForm";
-import "../../../assets/style/articles/style.scss";
-import "../../../assets/style/articles/bookmark.scss";
 import ShareArticle from "./ShareArticle";
 import SocialShareAPI from "../../../api/socialShareAPI";
+
+import "../../../assets/style/articles/style.scss";
+import "../../../assets/style/articles/bookmark.scss";
 
 class SingleArticle extends Component {
   constructor(props, context) {
@@ -262,7 +264,7 @@ class SingleArticle extends Component {
                 <p className="ui header centered article__desc"> {article.description}</p>
                 <Divider />
                 <div className="ui container spread__content">
-                  <p className="ui text right aligned">Authored by: <Link to="/profile"><i>{article.author.username} </i></Link></p>
+                  <p className="ui text right aligned">Authored by: <Link to={`/profiles/${article.author.username}`}><i>{article.author.username} </i></Link></p>
 
                   <div className="spread__content">
                     <div>
