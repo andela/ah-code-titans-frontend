@@ -63,4 +63,15 @@ export default class RetrieveUserProfilesAPI {
         }
       });
   }
+
+  static retrieveSpecificProfile(username) {
+    return instance.get(
+      `/api/profiles/${username}`
+    ).then((response) => {
+      if (response.status === 200) {
+        // console.log(response.data.data);
+        return response;
+      }
+    });
+  }
 }

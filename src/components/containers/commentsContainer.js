@@ -4,6 +4,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as ActionCreators from "../../actions/commentsActions";
+import * as profileSearchActions from "../../actions/searchedProfileActions";
+
 import CommentsView from "../views/articles/Comments";
 
 class CommentsContainer extends Component {
@@ -52,6 +54,11 @@ class CommentsContainer extends Component {
     actions.comment.getComments(articleSlug);
   }
 
+  handleCommentAuthorClick(e) {
+    const { actions } = this.props;
+    actions.author.fetchOtherProfile(e.target.innerHTML);
+  }
+
   render() {
     const { comments } = this.props;
     return <CommentsView parent={this} comments={comments} />;
@@ -69,7 +76,8 @@ const mapStateToProp = state => ({
 
 const mapDispatchToProp = dispatch => ({
   actions: {
-    comment: bindActionCreators(ActionCreators, dispatch)
+    comment: bindActionCreators(ActionCreators, dispatch),
+    author: bindActionCreators(profileSearchActions, dispatch)
   }
 });
 

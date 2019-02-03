@@ -55,5 +55,8 @@ export default {
   },
   profiles: {
     users: []
+  },
+  searchedProfile: {
+    user: {}
   }
 };

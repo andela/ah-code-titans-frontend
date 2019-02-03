@@ -12,6 +12,7 @@ import rateArticle from "./rateArticleReducer";
 import bookmark from "./bookmarkArticleReducer";
 import readingStats from "./readingStatsReducer";
 import profiles from "./userProfilesReducers";
+import searchedProfile from "./otherUserProfileReducer";
 
 export default history => combineReducers({
   router: connectRouter(history),
@@ -26,5 +27,6 @@ export default history => combineReducers({
   rateArticle,
   bookmark,
   readingStats,
-  profiles
+  profiles,
+  searchedProfile
 });

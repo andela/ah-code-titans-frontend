@@ -31,6 +31,7 @@ import { likeAsync, dislikeAsync } from "../../../actions/likeDislikeActions";
 import CreateArticleForm from "./CreateArticleForm";
 import ShareArticle from "./ShareArticle";
 import SocialShareAPI from "../../../api/socialShareAPI";
+import * as profileSearchActions from "../../../actions/searchedProfileActions";
 
 import "../../../assets/style/articles/style.scss";
 import "../../../assets/style/articles/bookmark.scss";
@@ -210,6 +211,11 @@ class SingleArticle extends Component {
     actions.bookmark.unBookmarkArticle(slug);
   }
 
+  handleAuthorClick(e) {
+    const { actions, article } = this.props;
+    actions.author.fetchOtherProfile(article.author.username);
+  }
+
   checkIfIsAuthor() {
     const { auth } = this.props;
     const { article } = this.props;
@@ -264,7 +270,7 @@ class SingleArticle extends Component {
                 <p className="ui header centered article__desc"> {article.description}</p>
                 <Divider />
                 <div className="ui container spread__content">
-                  <p className="ui text right aligned">Authored by: <Link to={`/profiles/${article.author.username}`}><i>{article.author.username} </i></Link></p>
+                  <p className="ui text right aligned">Authored by: <Link onClick={this.handleAuthorClick} to={`/user/${article.author.username}`}><i>{article.author.username} </i></Link></p>
 
                   <div className="spread__content">
                     <div>
@@ -390,7 +396,8 @@ const mapDispatchToProps = dispatch => ({
     article: bindActionCreators(articleActions, dispatch),
     likeArticle: bindActionCreators(likeAsync, dispatch),
     dislikeArticle: bindActionCreators(dislikeAsync, dispatch),
-    bookmark: bindActionCreators(bookmarkActions, dispatch)
+    bookmark: bindActionCreators(bookmarkActions, dispatch),
+    author: bindActionCreators(profileSearchActions, dispatch)
   }
 });
 
