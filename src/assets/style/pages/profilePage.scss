@@ -2,6 +2,12 @@
   &__image {
     margin: 0 auto;
   }
+  &__follow {
+    text-decoration: underline;
+    cursor: pointer;
+    float:left;
+    margin-right:2rem;
+  }
 
   &__editBtn {
     margin: 0 0.95em !important;

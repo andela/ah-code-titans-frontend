@@ -14,7 +14,9 @@ import SingleArticle from "./views/articles/SingleArticle";
 import DiscoverPage from "./containers/discoverPage";
 
 import "../assets/style/main.scss";
-
+import ViewUsersPage from "./containers/users/viewUsersPage";
+import viewOtherUserProfile from "./containers/users/viewOtherUserProfile";
+/* eslint-disable react/prefer-stateless-function */
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +41,8 @@ class App extends React.Component {
           <Route path="/create_article" component={ArticleContainer} />
           <Route path="/discover" component={DiscoverPage} />
           <Route path="/article/:slug" component={SingleArticle} />
+          <Route path="/profiles" component={ViewUsersPage} />
+          <Route path="/user/:username" component={viewOtherUserProfile} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>

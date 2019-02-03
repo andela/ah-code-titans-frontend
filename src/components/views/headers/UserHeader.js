@@ -16,6 +16,8 @@ import { history } from "../../../store/configureStore";
 import SearchInput from "../../containers/searchInput";
 import DefaultUserPic from "../../../assets/img/person.png";
 
+import LOGO from "../../../assets/img/logo.png";
+
 function UserPopup(props) {
   const { actions } = props;
   return (
@@ -25,9 +27,13 @@ function UserPopup(props) {
           <Header as="h5">Create an Article</Header>
         </a>
       </Menu.Item>
+      <Menu.Item name="users">
+        <a href="/profiles">
+          <Header as="h5">View Users</Header>
+        </a>
+      </Menu.Item>
 
       <Divider horizontal />
-
       <Menu.Item name="profile">
         <a href="/profile">
           <Header as="h5">Profile</Header>
@@ -65,10 +71,15 @@ function UserHeader(props) {
   return (
     <Menu borderless main="true" className="header--user">
       <Container>
-        <Menu.Item>
-          <Image src="../../../../public/android-icon-192x192.png" />
+        <Menu.Item className="header__logo">
+          <a href="/">
+            <Image src={LOGO} />
+          </a>
         </Menu.Item>
-        <Menu.Item><Header>Authors Haven</Header></Menu.Item>
+
+        <Menu.Item className="header__text">
+          <Header>Authors Haven</Header>
+        </Menu.Item>
 
         <Menu.Menu position="right" className="secondary">
           <Menu.Item className="item">

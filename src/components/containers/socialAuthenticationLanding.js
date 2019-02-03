@@ -52,7 +52,7 @@ export class SocialAuthentication extends Component {
     } = this.state;
 
     if (success === "true") {
-      actions.auth.loginBySocial({ username, accessToken, refreshToken });
+      actions.auth.loginBySocial({ username, token: accessToken, refreshToken });
     }
   }
 

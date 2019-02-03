@@ -52,5 +52,11 @@ export default {
   },
   bookmarkedReducer: {
     bookmark: ""
+  },
+  profiles: {
+    users: []
+  },
+  searchedProfile: {
+    user: {}
   }
 };

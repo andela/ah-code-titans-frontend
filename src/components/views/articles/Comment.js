@@ -87,7 +87,7 @@ function CommentComponent(props) {
         <Comment>
           <Comment.Avatar src={comment.user.image} />
           <Comment.Content>
-            <Comment.Author as="a">{comment.user.username}</Comment.Author>
+            <Comment.Author as="a" onClick={parent.handleCommentAuthorClick} href={`/user/${comment.user.username}`}>{comment.user.username}</Comment.Author>
             <Comment.Metadata>
               <div>{`${createdTime} ago`}</div>
             </Comment.Metadata>

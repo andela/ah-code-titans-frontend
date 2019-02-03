@@ -7,7 +7,7 @@ import {
   DISLIKE_ARTICLE_REQUEST
 } from "./actionTypes";
 import instance from "../api/axiosConfig";
-import { getSingleArticle } from "./articlesActions";
+import { getSingleArticle } from "./articleActions";
 
 export const likeArticleRequest = () => ({
   type: LIKE_ARTICLE_REQUEST

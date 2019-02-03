@@ -10,7 +10,7 @@ import {
   getSpecificArticle,
   deleteSpecificArticle,
   editSpecificArticle
-} from "../articlesActions";
+} from "../articleActions";
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);

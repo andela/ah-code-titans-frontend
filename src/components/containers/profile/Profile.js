@@ -2,14 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Link } from "react-router-dom";
 import {
-  Header, Button, Grid, Image, Menu, Card
+  Header, Button, Grid, Image, Menu, Card, Icon
 } from "semantic-ui-react";
 import readingStatsAsync from "../../../actions/readingStatsAction";
 import * as profileActions from "../../../actions/profileActions";
 import ProfilePage from "../../views/ProfilePage";
 import EditProfile from "./EditProfile";
 import HeaderComponent from "../headers/index";
+import profileApi from "../../../api/profile";
 
 import ReadStats from "../../views/ReadStats";
 import "../../../assets/style/pages/profilePage.scss";
@@ -19,7 +21,9 @@ export class Profile extends React.Component {
     super(props);
     this.state = {
       editing: false,
-      activeItem: "profile"
+      activeItem: "profile",
+      myFollowers: [],
+      following: []
     };
 
     this.toggleEditProfile = this.toggleEditProfile.bind(this);
@@ -30,6 +34,17 @@ export class Profile extends React.Component {
     const { actions, username, getReadingStats } = this.props;
     actions.getProfile(username);
     getReadingStats();
+
+    profileApi.retrieveUserFollowers().then((response) => {
+      this.setState({
+        myFollowers: response.data
+      });
+    });
+    profileApi.retrieveUsersFollowing().then((response) => {
+      this.setState({
+        following: response.data
+      });
+    });
   }
 
   toggleEditProfile = editing => this.setState({ editing });
@@ -37,7 +52,9 @@ export class Profile extends React.Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-    const { editing, activeItem } = this.state;
+    const {
+      editing, activeItem, myFollowers, following
+    } = this.state;
     const {
       getProfile, location, readArticleCount, isFetching
     } = this.props;
@@ -73,6 +90,19 @@ export class Profile extends React.Component {
                 </Header>
 
                 <Card.Description>{getProfile.bio}</Card.Description>
+                <br />
+                <div className="profile__follow" as={Link} to="/followers">
+                  <div className="extra content">
+                    <Icon className="users icon" />
+                    {`${myFollowers.length} Followers`}
+                  </div>
+                </div>
+                <div className="profile__follow" as={Link} to="/following">
+                  <div className="extra content">
+                    <Icon className="users icon" />
+                    { `Following ${following.length}`}
+                  </div>
+                </div>
               </Grid.Column>
               <Grid.Column>
                 <Image className="profile__image" circular size="tiny" src={getProfile.image} />
