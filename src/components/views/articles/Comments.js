@@ -47,7 +47,14 @@ const CommentsView = (props) => {
 )}
         >
           {comments.comments.map((comment, i) =>
-            (comment.parent === 0 ? <NewComment comment={comment} key={i} /> : null))}
+            (comment.parent === 0
+              ? (
+                <NewComment
+                  articleSlug={parent.props.articleSlug}
+                  comment={comment}
+                  key={i}
+                />
+              ) : null))}
         </InfiniteScroll>
       </Comment.Group>
     </div>

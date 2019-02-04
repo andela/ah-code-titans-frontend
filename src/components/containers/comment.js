@@ -28,12 +28,11 @@ class Comment extends Component {
   };
 
   onSubmit = (event) => {
-    const { comment, actions } = this.props;
+    const { comment, actions, articleSlug } = this.props;
     const { replyComment } = this.state;
     const { id } = comment;
-
     if (event.key === "Enter") {
-      actions.createReplyComment({ replyComment, slug, id });
+      actions.createReplyComment({ replyComment, slug: articleSlug, id });
       this.setState({
         replyComment: ""
       });
@@ -43,11 +42,11 @@ class Comment extends Component {
 
   // update comment section
   editComment = (event) => {
-    const { comment, actions } = this.props;
-    const { replyComment } = this.state;
-    const { id } = comment;
-
     if (event.key === "Enter") {
+      const { comment, actions } = this.props;
+      const { replyComment } = this.state;
+      const { id } = comment;
+
       actions.updateComment({ slug, id, replyComment });
       this.setState({
         replyComment: ""
@@ -69,11 +68,11 @@ class Comment extends Component {
   }
 
   toggleReplyComments() {
-    const { comment, actions } = this.props;
+    const { comment, actions, articleSlug } = this.props;
     const { toggleReplyComment } = this.state;
     this.setState({ toggleReplyComment: !toggleReplyComment });
     if (!toggleReplyComment) {
-      actions.getReplyComment({ slug, comment }, true);
+      actions.getReplyComment({ slug: articleSlug, comment }, true);
     }
   }
 
@@ -106,7 +105,8 @@ const mapDispatchToProp = dispatch => ({
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  articleSlug: PropTypes.string.isRequired
 };
 
 export default connect(

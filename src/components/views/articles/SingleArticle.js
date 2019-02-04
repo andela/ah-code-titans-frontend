@@ -315,7 +315,7 @@ class SingleArticle extends Component {
                   {isLoggedIn && !userIsAuthor ? (
                     <div>
                       <p textAlign="left"><b>Rate this article.</b></p>
-                      <RateArticle />
+                      <RateArticle {...this.props} />
                     </div>
                   ) : (
                     <div />
