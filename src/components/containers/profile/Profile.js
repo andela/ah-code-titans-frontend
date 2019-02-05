@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -15,6 +17,7 @@ import profileApi from "../../../api/profile";
 
 import ReadStats from "../../views/ReadStats";
 import "../../../assets/style/pages/profilePage.scss";
+import ListFollowUnFollow from "../users/ListFollowUnFollow";
 
 export class Profile extends React.Component {
   constructor(props) {
@@ -23,11 +26,14 @@ export class Profile extends React.Component {
       editing: false,
       activeItem: "profile",
       myFollowers: [],
-      following: []
+      following: [],
+      showFollowInfo: false,
+      followdata: []
     };
 
     this.toggleEditProfile = this.toggleEditProfile.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.renderUserInfo = this.renderUserInfo.bind(this);
   }
 
   componentDidMount() {
@@ -52,11 +58,30 @@ export class Profile extends React.Component {
 
   toggleEditProfile = editing => this.setState({ editing });
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name, showFollowInfo: false });
+
+  handleFollowInfo =(e, data) => {
+    this.setState({
+      showFollowInfo: true,
+      followdata: data
+    });
+  }
+
+  handleFollowTabUserClick = (e, data) => {
+    e.prevenfDefault();
+    const { actions } = this.props;
+    actions.followtab.fetchOtherProfile(data);
+  }
+
+  renderUserInfo(e) {
+    this.setState({
+      showFollowInfo: false
+    });
+  }
 
   render() {
     const {
-      editing, activeItem, myFollowers, following
+      editing, activeItem, myFollowers, following, showFollowInfo, followdata
     } = this.state;
     const {
       getProfile,
@@ -100,13 +125,13 @@ export class Profile extends React.Component {
                 <Card.Description>{getProfile.bio}</Card.Description>
                 <br />
                 <div className="profile__follow" as={Link} to="/followers">
-                  <div className="extra content">
+                  <div className="extra content" onClick={(event => this.handleFollowInfo(event, myFollowers))}>
                     <Icon className="users icon" />
                     {`${myFollowers.length} Followers`}
                   </div>
                 </div>
                 <div className="profile__follow" as={Link} to="/following">
-                  <div className="extra content">
+                  <div className="extra content" onClick={(event => this.handleFollowInfo(event, following))}>
                     <Icon className="users icon" />
                     {`Following ${following.length}`}
                   </div>
@@ -128,24 +153,33 @@ export class Profile extends React.Component {
                 onClick={this.handleItemClick}
               />
             </Menu>
-            {activeItem === "profile" ? (
-              <Grid.Row>
-                <Grid.Column>
-                  {!editing ? <ProfilePage profile={getProfile} /> : <EditProfile parent={this} />}
-                </Grid.Column>
-              </Grid.Row>
+            {!showFollowInfo ? (
+              <div>
+                {activeItem === "profile" ? (
+                  <Grid.Row>
+                    <Grid.Column>
+                      {!editing ? <ProfilePage profile={getProfile} /> : <EditProfile parent={this} />}
+                    </Grid.Column>
+                  </Grid.Row>
+                ) : (
+                  <Grid.Row>
+                    <Grid.Column>
+                      <ReadStats
+                        readArticleCount={readArticleCount}
+                        createdArticleCount={createdArticleCount}
+                        createdArticles={createdArticles}
+                        isFetching={isFetching}
+                      />
+                    </Grid.Column>
+                  </Grid.Row>
+                )}
+              </div>
             ) : (
-              <Grid.Row>
-                <Grid.Column>
-                  <ReadStats
-                    readArticleCount={readArticleCount}
-                    createdArticleCount={createdArticleCount}
-                    createdArticles={createdArticles}
-                    isFetching={isFetching}
-                  />
-                </Grid.Column>
-              </Grid.Row>
+              <div>
+                <ListFollowUnFollow profiles={followdata} handleFollowTabUserClick={this.handleFollowTabUserClick} />
+              </div>
             )}
+
           </Grid>
         </div>
       </div>
