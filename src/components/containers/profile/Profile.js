@@ -33,7 +33,7 @@ export class Profile extends React.Component {
   componentDidMount() {
     const { actions, username, getReadingStats } = this.props;
     actions.getProfile(username);
-    getReadingStats();
+    getReadingStats(username);
 
     profileApi.retrieveUserFollowers().then((response) => {
       this.setState({
@@ -56,7 +56,7 @@ export class Profile extends React.Component {
       editing, activeItem, myFollowers, following
     } = this.state;
     const {
-      getProfile, location, readArticleCount, isFetching
+      getProfile, location, readArticleCount, isFetching, createdArticles
     } = this.props;
 
     return (
@@ -100,7 +100,7 @@ export class Profile extends React.Component {
                 <div className="profile__follow" as={Link} to="/following">
                   <div className="extra content">
                     <Icon className="users icon" />
-                    { `Following ${following.length}`}
+                    {`Following ${following.length}`}
                   </div>
                 </div>
               </Grid.Column>
@@ -129,7 +129,11 @@ export class Profile extends React.Component {
             ) : (
               <Grid.Row>
                 <Grid.Column>
-                  <ReadStats readArticleCount={readArticleCount} isFetching={isFetching} />
+                  <ReadStats
+                    readArticleCount={readArticleCount}
+                    createdArticles={createdArticles}
+                    isFetching={isFetching}
+                  />
                 </Grid.Column>
               </Grid.Row>
             )}
@@ -147,7 +151,8 @@ Profile.propTypes = {
   location: PropTypes.object.isRequired,
   readArticleCount: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  getReadingStats: PropTypes.func.isRequired
+  getReadingStats: PropTypes.func.isRequired,
+  createdArticles: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -156,6 +161,7 @@ function mapStateToProps(state) {
     username: state.loginReducer.auth.user.username,
     readingStats: state.readingStats.results,
     readArticleCount: state.readingStats.count,
+    createdArticles: state.readingStats.results,
     isFetching: state.readingStats.isFetching
   };
 }
