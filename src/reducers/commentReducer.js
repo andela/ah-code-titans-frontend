@@ -9,9 +9,9 @@ const commentReducer = (state = initialState, action) => {
       let newState = objectAssign({}, state);
 
       if (action.payload.reset) {
-        newState.comments = action.payload.comments;
+        newState.comments = action.payload.comments.reverse();
       } else {
-        newState.comments = newState.comments.concat(action.payload.comments);
+        newState.comments = newState.comments.concat(action.payload.comments).reverse();
       }
 
       newState.hasMore = true;
@@ -31,23 +31,25 @@ const commentReducer = (state = initialState, action) => {
           }
         });
 
-        newComments = [...newComments, ...comments];
+        newComments = [...newComments, ...comments.reverse()];
       } else {
-        newComments = [...oldComments, ...comments];
+        newComments = [...oldComments, ...comments.reverse()];
       }
+
+      let ReplyComments = newComments.map((comment) => {
+        if (comment.id === parentId) {
+          return Object.assign({}, comment, {
+            hasMore: true,
+            offset
+          });
+        }
+
+        return comment;
+      });
 
       return {
         ...state,
-        comments: newComments.map((comment) => {
-          if (comment.id === parentId) {
-            return Object.assign({}, comment, {
-              hasMore: true,
-              offset
-            });
-          }
-
-          return comment;
-        })
+        comments: ReplyComments
       };
     }
     case types.GET_ARTICLE_COMMENTS_FAILURE: {

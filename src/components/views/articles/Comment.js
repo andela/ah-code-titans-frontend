@@ -3,7 +3,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-  Comment, Form, CommentAction, Icon, Popup, Grid
+  Comment,
+  Form,
+  CommentAction,
+  Icon,
+  Popup,
+  Grid,
+  TextArea,
+  Button
 } from "semantic-ui-react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -16,13 +23,20 @@ const InputComponent = (props) => {
   } = props;
   return (
     <div>
-      <Form reply size="tiny" rows={2}>
-        <Form.TextArea
+      <Form reply size="tiny" rows={2} onSubmit={submit}>
+        <TextArea
           className="actions__inputs"
           value={comment}
+          rows={1}
           onChange={onHandleChange}
-          onKeyPress={submit}
           placeholder={placeholder}
+        />
+        <Button
+          className="comment__actions__reply--button"
+          icon="send"
+          primary
+          size="tiny"
+          content="Send"
         />
       </Form>
     </div>
@@ -87,7 +101,13 @@ function CommentComponent(props) {
         <Comment>
           <Comment.Avatar src={comment.user.image} />
           <Comment.Content>
-            <Comment.Author as="a" onClick={parent.handleCommentAuthorClick} href={`/user/${comment.user.username}`}>{comment.user.username}</Comment.Author>
+            <Comment.Author
+              as="a"
+              onClick={parent.handleCommentAuthorClick}
+              href={`/user/${comment.user.username}`}
+            >
+              {comment.user.username}
+            </Comment.Author>
             <Comment.Metadata>
               <div>{`${createdTime} ago`}</div>
             </Comment.Metadata>
@@ -125,11 +145,16 @@ function CommentComponent(props) {
               {/* update and delete section here note that */}
               <Comment.Action className="comment__actions__options">
                 {user.user.username === comment.user.username ? (
-                  <Popup trigger={<Icon name="content" />} flowing hoverable>
+                  <Popup
+                    size="small"
+                    trigger={<Icon size="large" name="ellipsis horizontal" />}
+                    flowing
+                    hoverable
+                  >
                     <Grid centered divided columns={2}>
                       <Grid.Column textAlign="center">
                         <Icon
-                          size="large"
+                          size="small"
                           name="pencil alternate"
                           onClick={() => {
                             parent.toggleEditComments();
@@ -138,7 +163,7 @@ function CommentComponent(props) {
                       </Grid.Column>
                       <Grid.Column textAlign="center">
                         <Icon
-                          size="large"
+                          size="small"
                           name="trash alternate"
                           onClick={() => {
                             confirmDelete(parent.deleteComment);
@@ -151,6 +176,9 @@ function CommentComponent(props) {
                   ""
                 )}
               </Comment.Action>
+              <div className={`comment__content--${toggleReplyComment ? "active" : "disabled"}`}>
+                {renderComments(props)}
+              </div>
               {/* update comment section */}
               <div className={`comment__content--${editCommentToggle ? "active" : "disabled"}`}>
                 <InputComponent
@@ -165,13 +193,10 @@ function CommentComponent(props) {
                   comment={replyComment}
                   onHandleChange={parent.onHandleChange}
                   submit={parent.onSubmit}
-                  placeholder="Reply..."
+                  placeholder="write a reply..."
                 />
               </div>
             </Comment.Actions>
-            <div className={`comment__content--${toggleReplyComment ? "active" : "disabled"}`}>
-              {renderComments(props)}
-            </div>
           </Comment.Content>
           <Comment.Group />
         </Comment>

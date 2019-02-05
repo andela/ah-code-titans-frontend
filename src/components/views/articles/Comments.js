@@ -17,25 +17,6 @@ const CommentsView = (props) => {
         <Header as="h2" dividing>
           Comments
         </Header>
-
-        <Form reply onSubmit={parent.onSubmit} size="large">
-          <Form.TextArea
-            autoHeight
-            id="comment-textarea"
-            value={parent.state.comment}
-            onChange={parent.onHandleChange}
-          />
-          <Button
-            id="btn-add__comment"
-            size="large"
-            content="Add Comment"
-            labelPosition="left"
-            icon="edit"
-            primary
-            disabled={parent.state.enableCommentButton}
-          />
-        </Form>
-
         <InfiniteScroll
           pageStart={0}
           loadMore={parent.loadMore}
@@ -47,15 +28,28 @@ const CommentsView = (props) => {
 )}
         >
           {comments.comments.map((comment, i) =>
-            (comment.parent === 0
-              ? (
-                <NewComment
-                  articleSlug={parent.props.articleSlug}
-                  comment={comment}
-                  key={i}
-                />
-              ) : null))}
+            (comment.parent === 0 ? (
+              <NewComment articleSlug={parent.props.articleSlug} comment={comment} key={i} />
+            ) : null))}
         </InfiniteScroll>
+
+        <Form reply onSubmit={parent.onSubmit} size="large">
+          <Form.TextArea
+            autoHeight
+            id="comment-textarea"
+            value={parent.state.comment}
+            onChange={parent.onHandleChange}
+          />
+          <Button
+            className="comment__actions__reply--button"
+            size="large"
+            content="Add Comment"
+            labelPosition="left"
+            icon="edit"
+            primary
+            disabled={parent.state.enableCommentButton}
+          />
+        </Form>
       </Comment.Group>
     </div>
   );

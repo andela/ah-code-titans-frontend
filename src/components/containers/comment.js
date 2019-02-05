@@ -31,28 +31,23 @@ class Comment extends Component {
     const { comment, actions, articleSlug } = this.props;
     const { replyComment } = this.state;
     const { id } = comment;
-    if (event.key === "Enter") {
-      actions.createReplyComment({ replyComment, slug: articleSlug, id });
-      this.setState({
-        replyComment: ""
-      });
-    }
-    return true;
+    actions.createReplyComment({ replyComment, slug: articleSlug, id });
+    this.setState({
+      replyComment: "",
+      toggleReply: false
+    });
   };
 
   // update comment section
   editComment = (event) => {
-    if (event.key === "Enter") {
-      const { comment, actions } = this.props;
-      const { replyComment } = this.state;
-      const { id } = comment;
+    const { comment, actions } = this.props;
+    const { replyComment } = this.state;
+    const { id } = comment;
 
-      actions.updateComment({ slug, id, replyComment });
-      this.setState({
-        replyComment: ""
-      });
-    }
-    return true;
+    actions.updateComment({ slug, id, replyComment });
+    this.setState({
+      replyComment: ""
+    });
   };
 
   // delete comment

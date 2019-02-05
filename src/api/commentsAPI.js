@@ -61,7 +61,7 @@ export default class CommentsApi {
           return { success: true, data: response.data };
         }
       })
-      .catch(response => ({ success: false, data: response }));
+      .catch(response => ({ success: false, error: response }));
   }
 
   // update comment section
@@ -75,6 +75,6 @@ export default class CommentsApi {
           return { success: true, data: response.data };
         }
       })
-      .catch(response => ({ success: false, data: response }));
+      .catch(response => ({ success: false, error: response }));
   }
 }
