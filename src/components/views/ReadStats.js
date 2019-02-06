@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  Dimmer, Loader, Statistic, Icon, Divider, Table
+  Dimmer, Loader, Statistic, Divider, Table
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -12,21 +12,31 @@ class ReadStats extends Component {
   }
 
   render() {
-    const { isFetching, readArticleCount, createdArticles } = this.props;
+    const {
+      isFetching, readArticleCount, createdArticles, createdArticleCount
+    } = this.props;
 
     return (
       <div>
         <Dimmer active={isFetching} inverted>
           <Loader size="large">Loading</Loader>
         </Dimmer>
-        <Statistic size="tiny">
-          <Statistic.Value>
-            <Icon name="book" /> {readArticleCount}
-          </Statistic.Value>
-          <br />
-          <Statistic.Label>Articles You have authored</Statistic.Label>
-        </Statistic>
+        <Statistic.Group size="tiny">
+          <Statistic>
+            <Statistic.Value>
+              {createdArticleCount}
+            </Statistic.Value>
+            <Statistic.Label>Written articles</Statistic.Label>
+          </Statistic>
+          <Statistic>
+            <Statistic.Value>
+              {readArticleCount}
+            </Statistic.Value>
+            <Statistic.Label>Read articles</Statistic.Label>
+          </Statistic>
+        </Statistic.Group>
         <Divider />
+        <p>My articles</p>
         <Table striped>
           <Table.Header>
             <Table.Row>
@@ -61,7 +71,8 @@ class ReadStats extends Component {
 ReadStats.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   readArticleCount: PropTypes.number.isRequired,
-  createdArticles: PropTypes.array.isRequired
+  createdArticles: PropTypes.array.isRequired,
+  createdArticleCount: PropTypes.number.isRequired
 };
 
 export default ReadStats;

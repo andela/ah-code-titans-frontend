@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import {
   Header, Button, Grid, Image, Menu, Card, Icon
 } from "semantic-ui-react";
-import readingStatsAsync from "../../../actions/readingStatsAction";
+import { readingStatsAsync, articleReadStats } from "../../../actions/readingStatsAction";
 import * as profileActions from "../../../actions/profileActions";
 import ProfilePage from "../../views/ProfilePage";
 import EditProfile from "./EditProfile";
@@ -31,8 +31,11 @@ export class Profile extends React.Component {
   }
 
   componentDidMount() {
-    const { actions, username, getReadingStats } = this.props;
+    const {
+      actions, username, getReadingStats, getArticlesReadStats
+    } = this.props;
     actions.getProfile(username);
+    getArticlesReadStats();
     getReadingStats(username);
 
     profileApi.retrieveUserFollowers().then((response) => {
@@ -56,7 +59,12 @@ export class Profile extends React.Component {
       editing, activeItem, myFollowers, following
     } = this.state;
     const {
-      getProfile, location, readArticleCount, isFetching, createdArticles
+      getProfile,
+      location,
+      readArticleCount,
+      isFetching,
+      createdArticles,
+      createdArticleCount
     } = this.props;
 
     return (
@@ -131,6 +139,7 @@ export class Profile extends React.Component {
                 <Grid.Column>
                   <ReadStats
                     readArticleCount={readArticleCount}
+                    createdArticleCount={createdArticleCount}
                     createdArticles={createdArticles}
                     isFetching={isFetching}
                   />
@@ -152,16 +161,18 @@ Profile.propTypes = {
   readArticleCount: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   getReadingStats: PropTypes.func.isRequired,
-  createdArticles: PropTypes.array.isRequired
+  getArticlesReadStats: PropTypes.func.isRequired,
+  createdArticles: PropTypes.array.isRequired,
+  createdArticleCount: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     getProfile: state.profileReducer.profile,
     username: state.loginReducer.auth.user.username,
-    readingStats: state.readingStats.results,
-    readArticleCount: state.readingStats.count,
-    createdArticles: state.readingStats.results,
+    readArticleCount: state.readingStats.read.count,
+    createdArticleCount: state.readingStats.authored.count,
+    createdArticles: state.readingStats.authored.results,
     isFetching: state.readingStats.isFetching
   };
 }
@@ -169,7 +180,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(profileActions, dispatch),
-    getReadingStats: bindActionCreators(readingStatsAsync, dispatch)
+    getReadingStats: bindActionCreators(readingStatsAsync, dispatch),
+    getArticlesReadStats: bindActionCreators(articleReadStats, dispatch)
   };
 }
 

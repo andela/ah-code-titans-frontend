@@ -20,6 +20,7 @@ describe("profile with props: ", () => {
       },
       actions: { getProfile: () => Promise.resolve() },
       getReadingStats: () => Promise.resolve(),
+      getArticlesReadStats: () => Promise.resolve(),
       editing: false,
       location: {
         pathname: "/"

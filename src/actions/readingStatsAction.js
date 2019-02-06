@@ -16,24 +16,24 @@ export const statsRequestFailure = errors => ({
   payload: errors
 });
 
-// const readingStatsAsync = () => (dispatch) => {
-//   dispatch(statsRequest());
-//   instance
-//     .get("api/read-stats")
-//     .then((res) => {
-//       const response = res.data;
-//       dispatch(statsRequestSuccess(response));
-//     })
-//     .catch((err) => {
-//       const { data } = err.response;
-//       dispatch(statsRequestFailure(data));
-//     });
-// };
+export const readStatsRequest = () => ({
+  type: types.READ_STATS_REQUEST
+});
 
-const readingStatsAsync = user => (dispatch) => {
+export const readStatsRequestSuccess = response => ({
+  type: types.READ_STATS_REQUEST_SUCCESS,
+  payload: response
+});
+
+export const readStatsRequestFailure = errors => ({
+  type: types.READ_STATS_REQUEST_FAILURE,
+  payload: errors
+});
+
+export const readingStatsAsync = user => (dispatch) => {
   dispatch(statsRequest());
   instance
-    .get(`api/search/articles/?author=${user}&limit=${300}`)
+    .get(`api/search/articles/?author=${user}&limit=${3000}`)
     .then((res) => {
       const response = res.data;
       dispatch(statsRequestSuccess(response));
@@ -43,4 +43,17 @@ const readingStatsAsync = user => (dispatch) => {
       dispatch(statsRequestFailure(data));
     });
 };
-export default readingStatsAsync;
+
+export const articleReadStats = () => (dispatch) => {
+  dispatch(readStatsRequest());
+  instance
+    .get("api/read-stats")
+    .then((res) => {
+      const response = res.data;
+      dispatch(readStatsRequestSuccess(response));
+    })
+    .catch((err) => {
+      const { data } = err.response;
+      dispatch(readStatsRequestFailure(data));
+    });
+};
