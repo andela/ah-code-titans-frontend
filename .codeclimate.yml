@@ -1,13 +1,11 @@
 version: "2"
 checks:
-  file-lines:
-    enabled: false
   method-count:
     enabled: false
   method-lines:
     enabled: true
     config:
-      threshold: 30
+      threshold: 50
   return-statements:
     enabled: false
   similar-code:
