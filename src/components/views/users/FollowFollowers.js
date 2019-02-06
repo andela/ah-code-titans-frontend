@@ -6,14 +6,14 @@ import {
 import PropTypes from "prop-types";
 
 const FollowersFollowingUsers = (props) => {
-  const { profile, handleFollowTabUserClick } = props;
+  const { profile } = props;
   return (
     <div>
       <div className="ui text container font">
         <Grid columns="equal">
           <Grid.Row className="profile__pa">
             <Grid.Column>
-              <Header as={Link} to={`/user/${profile.username}`} onClick={(event => handleFollowTabUserClick(event, profile.username))}>
+              <Header as={Link} to={`/user/${profile.username}`}>
                 {profile.username}
               </Header>
               <Card.Description>{profile.bio}</Card.Description>
@@ -34,8 +34,7 @@ const FollowersFollowingUsers = (props) => {
 };
 
 FollowersFollowingUsers.propTypes = {
-  profile: PropTypes.object.isRequired,
-  handleFollowTabUserClick: PropTypes.func.isRequired
+  profile: PropTypes.object.isRequired
 };
 
 export default FollowersFollowingUsers;

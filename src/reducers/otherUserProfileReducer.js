@@ -3,7 +3,7 @@ import * as types from "../actions/actionTypes";
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case types.GET_PROFILE_SUCCESS: {
+    case types.GET_USER_PROFILE_SUCCESS: {
       let searchedProfile = objectAssign({}, state.searchedProfile);
       searchedProfile = action.data;
       // console.log(searchedProfile);

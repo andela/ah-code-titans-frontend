@@ -13,7 +13,7 @@ const ViewUsers = (props) => {
         <Grid columns="equal">
           <Grid.Row className="profile__pa">
             <Grid.Column>
-              <Header as={Link} to={`/profiles/${profile.username}`} onClick={(event => onUserNameClick(event, profile))}>
+              <Header as={Link} to={`/user/${profile.username}`} onClick={(event => onUserNameClick(event, profile))}>
                 {profile.username}
               </Header>
               <Card.Meta>

@@ -69,9 +69,17 @@ export default class RetrieveUserProfilesAPI {
       `/api/profiles/${username}`
     ).then((response) => {
       if (response.status === 200) {
-        // console.log(response.data.data);
         return response;
       }
-    });
+    })
+      .catch((response) => {
+        if (response.response.status === 401) {
+          toastr.error("You have been logged out. Please log in and try again");
+          window.location.assign("/");
+        } else if (response.response.status === 500 || response.response.status === 504) {
+          toastr.info("Please try again after some time");
+          window.location.assign("/");
+        }
+      });
   }
 }

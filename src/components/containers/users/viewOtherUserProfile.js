@@ -17,8 +17,8 @@ class ViewOtherUserProfile extends Component {
   }
 
   componentDidMount() {
-    const { actions, article } = this.props;
-    actions.author.fetchOtherProfile(article.author.username);
+    const { actions, match } = this.props;
+    actions.author.fetchOtherProfile(match.params.username);
   }
 
   onFollowUnfollowClick = () => {
@@ -73,7 +73,7 @@ const mapDispatchToProps = dispatch => ({
 
 ViewOtherUserProfile.propTypes = {
   actions: PropTypes.object.isRequired,
-  article: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   author: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired

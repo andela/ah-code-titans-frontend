@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint max-len: ["error", { "code": 120 }] */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -65,12 +66,6 @@ export class Profile extends React.Component {
       showFollowInfo: true,
       followdata: data
     });
-  }
-
-  handleFollowTabUserClick = (e, data) => {
-    e.prevenfDefault();
-    const { actions } = this.props;
-    actions.followtab.fetchOtherProfile(data);
   }
 
   renderUserInfo(e) {
@@ -176,7 +171,7 @@ export class Profile extends React.Component {
               </div>
             ) : (
               <div>
-                <ListFollowUnFollow profiles={followdata} handleFollowTabUserClick={this.handleFollowTabUserClick} />
+                <ListFollowUnFollow profiles={followdata} />
               </div>
             )}
 
