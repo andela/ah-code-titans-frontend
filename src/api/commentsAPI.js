@@ -32,7 +32,7 @@ export default class CommentsApi {
 
   static getReplyComment(comment) {
     return instance
-      .get(`/api/articles/${comment.slug}/comment/${comment.comment.id}/0`)
+      .get(`/api/articles/${comment.slug}/comment/${comment.id}/0`)
       .then((response) => {
         if (response) {
           return { success: true, data: response.data };

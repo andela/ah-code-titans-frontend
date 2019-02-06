@@ -39,10 +39,30 @@ export const getComments = (slug, reset = false) => (dispatch, getState) => {
   });
 };
 
+export const getReplyComment = (comment, reset = false) => (dispatch) => {
+  CommentsApi.getReplyComment({ slug: comment.slug, id: comment.id }).then((response) => {
+    if (response.success) {
+      dispatch(
+        getReplyCommentSuccess({
+          comments: response.data.comments,
+          parentId: comment.id,
+          offset: response.data.offset,
+          reset
+        })
+      );
+    } else if (response.data.status === 404) {
+      dispatch(getReplyCommentFailure({ parentId: comment.comment.id }));
+    }
+  });
+};
 export const updateComment = comment => (dispatch) => {
   CommentsApi.updateComment(comment).then((response) => {
     if (response.success) {
-      dispatch(getComments(comment.slug, true));
+      if (comment.parent === 0) {
+        dispatch(getComments(comment.slug, true));
+      } else {
+        dispatch(getReplyComment({ slug: comment.slug, id: comment.parent }, true));
+      }
     }
   });
 };
@@ -50,24 +70,11 @@ export const updateComment = comment => (dispatch) => {
 export const deleteComment = comment => (dispatch) => {
   CommentsApi.deleteComment(comment).then((response) => {
     if (response.success) {
-      dispatch(getComments(comment.slug, true));
-    }
-  });
-};
-
-export const getReplyComment = (comment, reset = false) => (dispatch) => {
-  CommentsApi.getReplyComment(comment).then((response) => {
-    if (response.success) {
-      dispatch(
-        getReplyCommentSuccess({
-          comments: response.data.comments,
-          parentId: comment.comment.id,
-          offset: response.data.offset,
-          reset
-        })
-      );
-    } else if (response.data.status === 404) {
-      dispatch(getReplyCommentFailure({ parentId: comment.comment.id }));
+      if (comment.parent === 0) {
+        dispatch(getComments(comment.slug, true));
+      } else {
+        dispatch(getReplyComment({ slug: comment.slug, id: comment.parent }, true));
+      }
     }
   });
 };
@@ -85,7 +92,7 @@ export const createComment = comment => (dispatch) => {
 export const createReplyComment = comment => (dispatch) => {
   CommentsApi.createReplyComment(comment).then((response) => {
     if (response.success) {
-      dispatch(getReplyComment({ slug: comment.slug, comment }, true));
+      dispatch(getReplyComment({ slug: comment.slug, id: comment.id }, true));
     } else if (response.error.status === 401) {
       toastr.error("Please login to reply on this comment");
     }

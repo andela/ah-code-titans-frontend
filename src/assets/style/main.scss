@@ -120,10 +120,7 @@
 
     &__reply {
       float: left;
-    }
-
-    &__options {
-      float: right;
+      color: $secondary__color !important;
     }
 
     &__reply--button {
@@ -142,6 +139,7 @@
 
     &--active {
       height: auto;
+      margin-top: 20px;
     }
 
     &--disabled {

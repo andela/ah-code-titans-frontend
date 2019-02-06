@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
@@ -5,7 +7,6 @@ import { connect } from "react-redux";
 import NewCommentView from "../views/articles/Comment";
 import * as commentActions from "../../actions/commentsActions";
 
-const slug = window.location.pathname.slice(9);
 class Comment extends Component {
   constructor(props) {
     super(props);
@@ -14,11 +15,15 @@ class Comment extends Component {
       toggleReply: false,
       toggleReplyComment: false,
       replyComment: "",
-      editCommentToggle: false,
-      editReplyCommentToggle: false
+      editCommentToggle: false
     };
     this.toggleReply = this.toggleReply.bind(this);
     this.toggleReplyComments = this.toggleReplyComments.bind(this);
+  }
+
+  componentDidMount() {
+    const { comment, actions, articleSlug } = this.props;
+    actions.getReplyComment({ slug: articleSlug, id: comment.id }, true);
   }
 
   onHandleChange = (event) => {
@@ -39,39 +44,49 @@ class Comment extends Component {
   };
 
   // update comment section
-  editComment = (event) => {
-    const { comment, actions } = this.props;
+  editComment = () => {
+    const { comment, actions, articleSlug } = this.props;
     const { replyComment } = this.state;
-    const { id } = comment;
+    const { id, parent } = comment;
 
-    actions.updateComment({ slug, id, replyComment });
+    actions.updateComment({
+      slug: articleSlug,
+      id,
+      replyComment,
+      parent
+    });
     this.setState({
-      replyComment: ""
+      replyComment: "",
+      editCommentToggle: false
     });
   };
 
   // delete comment
   deleteComment = () => {
-    const { comment, actions } = this.props;
-    const { id } = comment;
-    actions.deleteComment({ slug, id });
+    const { comment, actions, articleSlug } = this.props;
+    const { id, parent } = comment;
+    actions.deleteComment({ slug: articleSlug, id, parent });
   };
 
-  toggleReply() {
+  repliesComments = (props) => {
+    const { comments, comment } = props;
+    return comments.filter((singleComment, i) => {
+      if (singleComment.parent === comment.id) {
+        return singleComment;
+      }
+    });
+  };
+
+  toggleReply(props) {
     const { toggleReply } = this.state;
     this.setState({ toggleReply: !toggleReply, replyComment: "", editCommentToggle: false });
   }
 
   toggleReplyComments() {
-    const { comment, actions, articleSlug } = this.props;
     const { toggleReplyComment } = this.state;
     this.setState({ toggleReplyComment: !toggleReplyComment });
-    if (!toggleReplyComment) {
-      actions.getReplyComment({ slug: articleSlug, comment }, true);
-    }
   }
 
-  // update comment section
   toggleEditComments() {
     const { comment } = this.props;
     const { editCommentToggle } = this.state;

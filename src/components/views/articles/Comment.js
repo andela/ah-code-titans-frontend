@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import {
   Comment,
   Form,
-  CommentAction,
   Icon,
   Popup,
   Grid,
@@ -50,15 +49,8 @@ InputComponent.propTypes = {
   placeholder: PropTypes.string.isRequired
 };
 
-function renderComments(props) {
-  const { comment, comments } = props;
-  return comments.map((item, i) => {
-    if (item.parent === comment.id) {
-      return <NewComment comment={item} key={i} />;
-    }
-
-    return null;
-  });
+function renderComments(comments, slug) {
+  return comments.map((item, i) => <NewComment articleSlug={slug} comment={item} key={i} />);
 }
 
 export const confirmDelete = (props) => {
@@ -91,6 +83,7 @@ function CommentComponent(props) {
     toggleReplyComment
   } = props;
 
+  const replies = parent.repliesComments(props);
   const time = moment(comment.created_at, "YYYY-MM-DD HH:mm:ss")
     .utc(3)
     .local();
@@ -112,23 +105,22 @@ function CommentComponent(props) {
               <div>{`${createdTime} ago`}</div>
             </Comment.Metadata>
             <Comment.Text className="comment__text">
-              <p lassName="comment__text__body">{comment.text}</p>
+              <p className="comment__text__body">{comment.text}</p>
             </Comment.Text>
 
             <Comment.Actions className="comment__actions">
-              {comment.parent === 0 ? (
-                <CommentAction
+              {comment.parent === 0 && replies.length > 0 ? (
+                <Comment.Action
                   className="comment__button__replies"
                   onClick={() => {
                     parent.toggleReplyComments();
                   }}
                 >
                   {toggleReplyComment ? "Hide replies" : "View replies"}
-                </CommentAction>
+                </Comment.Action>
               ) : (
                 <div />
               )}
-
               {comment.parent === 0 ? (
                 <Comment.Action
                   className="comment__actions__reply"
@@ -142,7 +134,6 @@ function CommentComponent(props) {
                 <div />
               )}
 
-              {/* update and delete section here note that */}
               <Comment.Action className="comment__actions__options">
                 {user.user.username === comment.user.username ? (
                   <Popup
@@ -177,9 +168,8 @@ function CommentComponent(props) {
                 )}
               </Comment.Action>
               <div className={`comment__content--${toggleReplyComment ? "active" : "disabled"}`}>
-                {renderComments(props)}
+                {renderComments(replies, parent.props.articleSlug)}
               </div>
-              {/* update comment section */}
               <div className={`comment__content--${editCommentToggle ? "active" : "disabled"}`}>
                 <InputComponent
                   comment={replyComment}
