@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Link } from "react-router-dom";
 import {
   Menu,
   Container,
@@ -23,23 +24,28 @@ function UserPopup(props) {
   return (
     <Menu vertical secondary>
       <Menu.Item name="createArticle">
-        <a href="/create_article">
+        <Link to="/create_article">
           <Header as="h5">Create an Article</Header>
-        </a>
+        </Link>
       </Menu.Item>
+      <Divider />
       <Menu.Item name="users">
         <a href="/profiles">
           <Header as="h5">View Users</Header>
         </a>
       </Menu.Item>
-
-      <Divider horizontal />
-      <Menu.Item name="profile">
-        <a href="/profile">
-          <Header as="h5">Profile</Header>
-        </a>
+      <Menu.Item name="bookmarks">
+        <Link to="/bookmarks">
+          <Header as="h5">Bookmarks</Header>
+        </Link>
       </Menu.Item>
 
+      <Divider />
+      <Menu.Item name="profile">
+        <Link to="/profile">
+          <Header as="h5">Profile</Header>
+        </Link>
+      </Menu.Item>
       <Menu.Item name="profile">
         <Header
           as="h5"

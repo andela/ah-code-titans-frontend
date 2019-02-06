@@ -1,5 +1,6 @@
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
+
 import * as types from "../actionTypes";
 import * as bookmarkActions from "../bookmarkArticleActions";
 
@@ -8,6 +9,14 @@ const mockStore = configureMockStore(middlewares);
 
 const bookmarked = "Article bookmarked successfully.";
 const unbookmarked = "Article was unbookmarked successfully.";
+const allBookmarks = [
+  {
+    bookmark: "first bookmark"
+  },
+  {
+    bookmark: "second bookmark"
+  }
+];
 
 describe("bookmarking actions", () => {
   const store = mockStore({});
@@ -89,5 +98,16 @@ describe("bookmarking actions", () => {
       bookmarkActions.unBookmarkArticleFailure(unbookmarked)
     );
     expect(actionsDispatched.data).toEqual(expectedAction.unbookmarked);
+  });
+
+  it("returns all bookmarks ", () => {
+    const expectedAction = {
+      type: types.GET_ALL_BOOKMARKS_SUCCESS,
+      allBookmarks
+    };
+    const actionsDispatched = store.dispatch(
+      bookmarkActions.getBookmarkSuccess(allBookmarks)
+    );
+    expect(actionsDispatched.data).toEqual(expectedAction.allBookmarks);
   });
 });

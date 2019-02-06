@@ -12,6 +12,7 @@ import ProfilePage from "./containers/profile/Profile";
 import ArticleContainer from "./containers/articlesContainer";
 import SingleArticle from "./views/articles/SingleArticle";
 import DiscoverPage from "./containers/discoverPage";
+import Bookmarks from "./containers/Bookmarks";
 
 import "../assets/style/main.scss";
 import ViewUsersPage from "./containers/users/viewUsersPage";
@@ -43,6 +44,7 @@ class App extends React.Component {
           <Route path="/article/:slug" component={SingleArticle} />
           <Route path="/profiles" component={ViewUsersPage} />
           <Route path="/user/:username" component={viewOtherUserProfile} />
+          <Route path="/bookmarks" render={props => this.checkIfAuthenticated(Bookmarks, props)} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
