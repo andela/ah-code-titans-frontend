@@ -8,7 +8,7 @@ export const article = {
     image: "https://picsum.photos/100/100/?random"
   },
   favorite: false,
-  tag_list: [],
+  tag_list: ["kenya", "wildlife"],
   bookmarked: false,
   slug: "mouth-letter-commercial-happen-allow",
   title: "Mouth letter commercial happen allow.",

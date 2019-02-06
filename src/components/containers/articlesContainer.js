@@ -13,6 +13,7 @@ class ArticlesContainer extends Component {
     super(props);
     this.state = {
       title: "",
+      image: "",
       description: "",
       body: "",
       tag_list: ""
@@ -21,28 +22,18 @@ class ArticlesContainer extends Component {
 
   onHandleChange = (event) => {
     const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+    this.setState({ [name]: value });
   };
 
   onHandleEditorChange = (event) => {
     const content = event.editor.getData();
-    this.setState({
-      body: content
-    });
+    this.setState({ body: content });
   }
 
   onSubmit = (event) => {
     event.preventDefault();
-    const {
-      // eslint-disable-next-line camelcase
-      title, description, body, tag_list
-    } = this.state;
     const { actions } = this.props;
-    actions.article.createArticle({
-      title, description, body, tag_list
-    });
+    actions.article.createArticle({ ...this.state });
   }
 
   resetForm = () => {
@@ -110,7 +101,7 @@ class ArticlesContainer extends Component {
 
 const mapStateToProps = state => ({
   articles: state,
-  auth: state.loginReducer.auth
+  auth: state.login.auth
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -6,17 +6,18 @@ import { testDetails } from "../../actions/__tests__/authenticationActions.test"
 
 describe("reducer", () => {
   it("should return the initial state", () => {
-    expect(loginReducer(initialState.loginReducer, {})).toEqual(initialState.loginReducer);
+    expect(loginReducer(initialState.login, {})).toEqual(initialState.login);
   });
 
   it("should handle LOGIN_BY_EMAIL_SUCCESS ", () => {
     expect(
-      loginReducer(initialState.loginReducer, {
+      loginReducer(initialState.login, {
         type: types.LOGIN_BY_EMAIL_SUCCESS,
         payload: testDetails
       })
     ).toEqual({
       auth: { authentication: "email", isFetching: false, user: testDetails },
+      authPopup: false,
       login: { error: null, state: "" }
     });
   });
@@ -29,7 +30,18 @@ describe("reducer", () => {
     };
 
     expect(
-      loginReducer(initialState.loginReducer, {
+      loginReducer({
+        auth: {
+          authentication: "",
+          user: {},
+          isFetching: false
+        },
+        login: {
+          state: "",
+          error: null
+        },
+        authPopup: false
+      }, {
         type: types.LOGIN_BY_EMAIL_FAILURE,
         payload: details
       })
@@ -39,6 +51,7 @@ describe("reducer", () => {
         isFetching: false,
         user: {}
       },
+      authPopup: false,
       login: { error: { payload: { message: "Invalid Password!" } }, state: "error" }
     });
   });

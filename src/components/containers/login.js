@@ -86,7 +86,7 @@ Login.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  login: state.loginReducer
+  login: state.login
 });
 
 const mapDispatchToProps = dispatch => ({

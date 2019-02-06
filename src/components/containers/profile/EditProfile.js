@@ -123,8 +123,8 @@ EditProfile.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  profile: state.profileReducer.profile,
-  username: state.loginReducer.auth.user.username
+  profile: state.profile.profile,
+  username: state.login.auth.user.username
 });
 
 function mapDispatchToProps(dispatch) {

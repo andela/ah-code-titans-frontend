@@ -63,7 +63,7 @@ class ViewOtherUserProfile extends Component {
 const mapStateToProps = state => ({
   author: state.searchedProfile.user,
   article: state.article.singleArticle,
-  user: state.loginReducer.auth
+  user: state.login.auth
 });
 
 const mapDispatchToProps = dispatch => ({

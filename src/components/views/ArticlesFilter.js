@@ -12,26 +12,33 @@ function ArticlesFilter(props) {
     <div className="aFilter">
       <Container>
         <Header as="h4">Tags</Header>
-        {
-            filterOptions.tags.map(item => (
-              <Button
-                active={item.value === params.tag}
-                inverted
-                primary
-                key={cuid()}
-                size="tiny"
-                className="secondaryButton"
-                onClick={() => {
-                  parent.queryArticles(1, item);
-                }}
-              >
-                {item.value}
-              </Button>
-            ))
-        }
+        <div className="aFilter__tags">
+          {
+            filterOptions.tags.map((item) => {
+              const found = params.tags.find(tag => tag === item.value);
+
+              return (
+                <Button
+                  active={found !== undefined}
+                  inverted
+                  primary
+                  key={cuid()}
+                  size="tiny"
+                  className="secondaryButton"
+                  onClick={() => {
+                    parent.queryArticles(1, item);
+                  }}
+                >
+                  {item.value}
+                </Button>
+              );
+            })
+          }
+        </div>
 
         <Header as="h4">Authors</Header>
-        {
+        <div className="aFilter__authors">
+          {
             filterOptions.authors.map(author => (
               <Button
                 active={author.value.username === params.author}
@@ -51,7 +58,8 @@ function ArticlesFilter(props) {
                 {author.value.username}
               </Button>
             ))
-        }
+          }
+        </div>
       </Container>
     </div>
   );

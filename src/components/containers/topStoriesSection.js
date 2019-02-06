@@ -14,6 +14,7 @@ class TopStoriesSection extends Component {
 
   componentDidMount() {
     const { actions } = this.props;
+    // Load fresh set of articles
     actions.article.getArticles("topStoriesSection", true);
   }
 

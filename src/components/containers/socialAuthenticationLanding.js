@@ -52,7 +52,11 @@ export class SocialAuthentication extends Component {
     } = this.state;
 
     if (success === "true") {
-      actions.auth.loginBySocial({ username, token: accessToken, refreshToken });
+      actions.auth.loginBySocial({
+        username,
+        token: accessToken,
+        refresh_token: refreshToken
+      });
     }
   }
 
@@ -85,7 +89,7 @@ SocialAuthentication.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    settings: state.userSettingsReducer.settings
+    settings: state.userSettings.settings
   };
 }
 

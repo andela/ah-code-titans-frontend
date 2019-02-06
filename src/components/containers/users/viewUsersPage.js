@@ -87,7 +87,7 @@ class ViewUsersPage extends Component {
 }
 function mapStateToProps(state) {
   return {
-    user: state.loginReducer.auth
+    user: state.login.auth
   };
 }
 

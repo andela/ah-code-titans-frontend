@@ -1,6 +1,6 @@
 import * as types from "./actionTypes";
 import bookmarkArticleApi from "../api/bookmarkArticleApi";
-import { getSingleArticle } from "./articleActions";
+import { checkIfUnauthorized } from "./authenticationActions";
 
 export const bookmarkArticleSuccess = data => ({
   type: types.BOOKMARK_ARTICLE_SUCCESS,
@@ -35,26 +35,34 @@ export const getBookmarks = () => (dispatch) => {
   });
 };
 
-export const bookmarkArticle = slug => (dispatch) => {
+export const bookmarkArticle = (
+  slug,
+  onSuccess = () => { },
+  onFailure = () => { }
+) => (dispatch) => {
   bookmarkArticleApi.bookmarkApi(slug).then((response) => {
     if (response.success) {
       dispatch(bookmarkArticleSuccess(response.content));
-      dispatch(getSingleArticle(slug));
-      dispatch(getBookmarks());
+      onSuccess();
     } else {
-      dispatch(bookmarkArticleFailure(response.error.data.message));
+      checkIfUnauthorized(response, dispatch);
+      onFailure();
     }
   });
 };
 
-export const unBookmarkArticle = slug => (dispatch) => {
+export const unBookmarkArticle = (
+  slug,
+  onSuccess = () => { },
+  onFailure = () => { }
+) => (dispatch) => {
   bookmarkArticleApi.unBookmarkApi(slug).then((response) => {
     if (response.success) {
       dispatch(unBookmarkArticleSuccess(response.content));
-      dispatch(getSingleArticle(slug));
-      dispatch(getBookmarks());
+      onSuccess();
     } else {
-      dispatch(unBookmarkArticleFailure(response.error.message));
+      checkIfUnauthorized(response, dispatch, () => unBookmarkArticle(slug));
+      onFailure();
     }
   });
 };

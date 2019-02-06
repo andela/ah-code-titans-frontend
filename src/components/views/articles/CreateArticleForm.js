@@ -4,7 +4,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CKEditor from "react-ckeditor-component";
-import "../../../assets/style/articles/style.scss";
+import "../../../assets/style/pages/articlePage.scss";
 
 const CreateArticleForm = (props) => {
   const {
@@ -18,7 +18,7 @@ const CreateArticleForm = (props) => {
   } = props;
 
   return (
-    <div className="article__container">
+    <div className="article ui text container">
       { state.editing ? (<h2>Edit article.</h2>) : (<h2>Create your article.</h2>) }
       <div className="ui form">
         <form onSubmit={onSubmit}>
@@ -31,6 +31,19 @@ const CreateArticleForm = (props) => {
                 onChange={onHandleChange}
                 required
                 placeholder="Enter a title"
+              />
+            </label>
+          </div>
+          <br />
+          <div className="field">
+            <label htmlFor="image">Image URL
+              <input
+                type="text"
+                name="image"
+                value={state.image}
+                onChange={onHandleChange}
+                required
+                placeholder="Enter an image url eg. Google Drive URL, Dropbox URL ..."
               />
             </label>
           </div>

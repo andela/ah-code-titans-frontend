@@ -115,7 +115,7 @@ class Comment extends Component {
 
 const mapStateToProp = state => ({
   comments: state.comment,
-  user: state.loginReducer.auth
+  user: state.login.auth
 });
 
 const mapDispatchToProp = dispatch => ({

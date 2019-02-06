@@ -1,6 +1,8 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Transition } from "semantic-ui-react";
+import { Transition, List } from "semantic-ui-react";
 
 export default class TransitionDisplay extends Component {
   constructor(props) {
@@ -14,28 +16,29 @@ export default class TransitionDisplay extends Component {
   }
 
   setView(currentView) {
+    // Change the display to show specified view passed as child component
     this.setState({ currentView });
   }
 
   renderViews() {
     const { currentView } = this.state;
     const { children } = this.props;
+    // Render child components passed as props, with the addition of a link to
+    // this component
 
-    const views = React.Children.map(children, (child, index) => (
-      <Transition
-        unmountOnHide
-        transitionOnMount
-        visible={currentView === (index + 1)}
-        animation="fade"
-        duration={0}
-      >
-        {
-            React.cloneElement(child, {
-              parent: this
-            })
-        }
-      </Transition>
-    ));
+    const views = React.Children.map(children, (child, index) => {
+      if (currentView === (index + 1)) {
+        return (
+          <List.Item>
+            {
+              React.cloneElement(child, {
+                parent: this
+              })
+            }
+          </List.Item>
+        );
+      }
+    });
 
     return views;
   }
@@ -43,7 +46,13 @@ export default class TransitionDisplay extends Component {
   render() {
     return (
       <div>
-        {this.renderViews()}
+        <Transition.Group
+          as={List}
+          animation="horizontal flip"
+          duration={1000}
+        >
+          {this.renderViews()}
+        </Transition.Group>
       </div>
     );
   }

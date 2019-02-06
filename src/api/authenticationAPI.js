@@ -1,4 +1,4 @@
-import instance from "./axiosConfig";
+import instance, { axiosRefresh } from "./axiosConfig";
 import { MOCK } from "./config";
 import AuthenticationAPIMock from "./mock/authenticationAPI";
 
@@ -35,5 +35,25 @@ export default class AuthenticationAPI {
           };
         }
       });
+  }
+
+  static refreshToken() {
+    return axiosRefresh("/api/token/refresh").then((response) => {
+      if (response.status === 200) {
+        return ({
+          success: true,
+          accessToken: response.data.access_token
+        });
+      }
+    }).catch((response) => {
+      if (response.response.status !== 200) {
+        return ({
+          success: false,
+          error: {
+            status: response.response.status
+          }
+        });
+      }
+    });
   }
 }

@@ -18,27 +18,25 @@ class DiscoverPage extends Component {
 
     this.state = {
       storedArticles: [],
-      currentArticles: [],
-      selectedFilterOptions: {
-        tags: [],
-        authors: []
-      },
       filterOptions: {
         tags: [],
         authors: []
       },
       params: {
-        tag: params.get("tag"),
+        tags: [],
         title: params.get("title"),
-        author: params.get("author")
+        author: params.get("author"),
+        tag: params.get("tag")
       }
     };
+
     this.loadMore = this.loadMore.bind(this);
     this.fetchArticles = this.fetchArticles.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.queryArticles = this.queryArticles.bind(this);
     this.onNavTagClick = this.onNavTagClick.bind(this);
     this.updateFilterOptions = this.updateFilterOptions.bind(this);
+    this.resetQuery = this.resetQuery.bind(this);
   }
 
   componentDidMount() {
@@ -57,31 +55,30 @@ class DiscoverPage extends Component {
   onNavTagClick = (event) => {
     event.preventDefault();
     const navText = event.target.innerHTML;
-    const { actions } = this.props;
-    actions.article.searchForArticlesByTag(
-      "mainDiscoverSection",
-      navText.toLowerCase(),
-      true
-    );
+    const params = {
+      tag: "",
+      title: "",
+      author: "",
+      tags: [navText.toLowerCase()]
+    };
+
+    this.setState({ params });
+    this.fetchArticles(params, true);
   }
 
   onSearchSubmit(e, searchInput) {
     if (e.key === "Enter") {
       const { type, value } = searchInput.state;
-      const searchParams = {
-        tag: "",
-        title: "",
-        author: ""
-      };
+      const { params } = this.state;
 
       switch (type.toLowerCase()) {
-        case "article": searchParams.title = value; break;
-        case "author": searchParams.author = value; break;
-        case "tag": searchParams.tag = value; break;
+        case "article": params.title = value; break;
+        case "author": params.author = value; break;
+        case "tag": params.tag = value; break;
         default: break;
       }
-      this.setState({ params: searchParams });
-      this.fetchArticles(searchParams, true);
+      this.setState({ params });
+      this.fetchArticles(params, true);
     }
   }
 
@@ -127,18 +124,25 @@ class DiscoverPage extends Component {
   }
 
   queryArticles(type, selected) {
-    const searchParams = {
-      tag: "",
-      title: "",
-      author: ""
-    };
+    const { params } = this.state;
     switch (type) {
-      case 1: searchParams.tag = selected.value; break;
-      case 2: searchParams.author = selected.value.username; break;
+      case 1: {
+        const tagIndex = params.tags.findIndex(tag => tag === selected.value);
+
+        if (tagIndex < 0) {
+          params.tags.push(selected.value);
+        } else { params.tags.splice(tagIndex, 1); }
+        break;
+      }
+      case 2: {
+        const selectedValue = selected.value.username;
+        params.author = params.author === selectedValue ? "" : selectedValue;
+        break;
+      }
       default:
     }
-    this.setState({ params: searchParams });
-    this.fetchArticles(searchParams, true);
+    this.setState({ params });
+    this.fetchArticles(params, true);
   }
 
   loadMore() {
@@ -148,25 +152,30 @@ class DiscoverPage extends Component {
 
   fetchArticles(params, reset = false) {
     const { actions } = this.props;
-    const { tag, title, author } = params;
-    if (tag !== null && tag !== "") {
-      actions.article.searchForArticlesByTag(
-        "mainDiscoverSection",
-        tag.toLowerCase(),
-        reset
-      );
-    } else if (
-      (title !== null && title !== "")
-      || (author !== null && author !== "")
-    ) {
+
+    if (params.tags.length !== 0
+      || (params.tag !== null && params.tag !== "")
+      || (params.title !== null && params.title !== "")
+      || (params.author !== null && params.author !== "")) {
       actions.article.searchForArticles(
         "mainDiscoverSection",
-        { title, author },
+        params,
         reset
       );
     } else {
       actions.article.getArticles("mainDiscoverSection", reset);
     }
+  }
+
+  resetQuery() {
+    const params = {
+      tags: [],
+      title: "",
+      author: "",
+      tag: ""
+    };
+    this.setState({ params });
+    this.fetchArticles(params, true);
   }
 
   render() {

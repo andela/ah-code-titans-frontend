@@ -8,16 +8,12 @@ import {
   Container,
   Image,
   Header,
-  Responsive,
   Popup,
   Divider
 } from "semantic-ui-react";
 import * as AuthenticationActions from "../../../actions/authenticationActions";
-import { history } from "../../../store/configureStore";
-import SearchInput from "../../containers/searchInput";
 import DefaultUserPic from "../../../assets/img/person.png";
-
-import LOGO from "../../../assets/img/logo.png";
+import LogoSection, { HeaderMenu } from "./common";
 
 function UserPopup(props) {
   const { actions } = props;
@@ -77,40 +73,10 @@ function UserHeader(props) {
   return (
     <Menu borderless main="true" className="header--user">
       <Container>
-        <Menu.Item className="header__logo">
-          <a href="/">
-            <Image src={LOGO} />
-          </a>
-        </Menu.Item>
-
-        <Menu.Item className="header__text">
-          <Header>Authors Haven</Header>
-        </Menu.Item>
+        <LogoSection />
 
         <Menu.Menu position="right" className="secondary">
-          <Menu.Item className="item">
-            <SearchInput />
-          </Menu.Item>
-
-          <Responsive
-            as={Menu.Item}
-            minWidth={Responsive.onlyTablet.minWidth}
-            active={currentPath === "/"}
-            onClick={() => {
-              history.replace("/");
-            }}
-          >Home
-          </Responsive>
-
-          <Responsive
-            as={Menu.Item}
-            minWidth={Responsive.onlyTablet.minWidth}
-            active={currentPath === "/discover"}
-            onClick={() => {
-              history.replace("/discover");
-            }}
-          >Discover
-          </Responsive>
+          <HeaderMenu currentPath={currentPath} />
 
           <Menu.Item position="right" className="floated user">
             <span className="user__name">{auth.user.username}</span>

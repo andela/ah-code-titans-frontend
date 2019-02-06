@@ -36,6 +36,9 @@ export default (state = {}, action) => {
       auth.user = {};
       return { ...state, auth };
     }
+    case types.TOGGLE_AUTH_POPUP: {
+      return { ...state, authPopup: !state.authPopup };
+    }
     default:
       return state;
   }

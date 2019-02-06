@@ -1,0 +1,20 @@
+.tagSection {
+     &__tag {
+         &,
+         &--active {
+             cursor: pointer;
+             padding: 0 1rem;
+             line-height: 2rem;
+             height: 2rem;
+             border-radius: .5rem;
+         }
+         &--active {
+             color: white;
+             background-color: $primary__color;
+
+             &:hover {
+                 background-color: $primary__color--light;
+             }
+         }
+     }
+}

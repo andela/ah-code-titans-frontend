@@ -112,4 +112,27 @@ describe("Article Reducer :", () => {
       { type: types.GET_SPECIFIC_ARTICLE_SUCCESS, payload: newArticle })
       .singleArticle).toEqual(newArticle);
   });
+
+  it("should provide the initial state", () => {
+    expect(articleReducer(initialState.article, {})).toEqual(initialState.article);
+  });
+  it("should add a new article", () => {
+    expect(articleReducer(initialState.articles,
+      { type: types.CREATE_ARTICLE_SUCCESS, payload: newArticle }).article).toEqual(newArticle);
+  });
+  it("should add a specific article", () => {
+    expect(articleReducer(initialState.singleArticle,
+      { type: types.GET_SPECIFIC_ARTICLE_SUCCESS, payload: newArticle })
+      .singleArticle).toEqual(newArticle);
+  });
+  it("should add an edited article", () => {
+    expect(articleReducer(initialState.editedArticle,
+      { type: types.EDIT_ARTICLE_SUCCESS, payload: newArticle })
+      .editedArticle).toEqual(newArticle);
+  });
+  it("should add a deleted article", () => {
+    expect(articleReducer(initialState.deletedArticle,
+      { type: types.DELETE_ARTICLE_SUCCESS, payload: newArticle })
+      .deletedArticle).toEqual(newArticle);
+  });
 });

@@ -5,7 +5,7 @@ const initialArticlePaginationState = {
 };
 
 export default {
-  loginReducer: {
+  login: {
     auth: {
       authentication: "",
       user: {},
@@ -14,14 +14,15 @@ export default {
     login: {
       state: "",
       error: null
-    }
+    },
+    authPopup: false
   },
-  userSettingsReducer: {
+  userSettings: {
     settings: {
       walkThrough: true
     }
   },
-  profileReducer: {
+  profile: {
     profile: {}
   },
   article: {
@@ -47,9 +48,6 @@ export default {
     rate: {},
     rating: 0
   },
-  tag: {
-    articles: {}
-  },
   bookmarkArticle: {
     bookmark: "",
     bookmarks: []
@@ -59,5 +57,8 @@ export default {
   },
   searchedProfile: {
     user: {}
+  },
+  registration: {
+    isFetching: false
   }
 };

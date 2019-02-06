@@ -16,8 +16,8 @@ const data = {
 
 describe("reducer: ", () => {
   it("should return initial state", () => {
-    expect(profileReducer(initialState.profileReducer, {})).toEqual(
-      initialState.profileReducer
+    expect(profileReducer(initialState.profile, {})).toEqual(
+      initialState.profile
     );
   });
 

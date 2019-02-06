@@ -7,10 +7,10 @@ describe("reducer", () => {
   it("should return the initial state", () => {
     expect(
       userSettingsReducer(
-        initialState.userSettingsReducer,
+        initialState.userSettings,
         {}
       )
-    ).toEqual(initialState.userSettingsReducer);
+    ).toEqual(initialState.userSettings);
   });
 
   it("should handle SKIP_WALKTHROUGH ", () => {

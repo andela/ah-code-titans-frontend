@@ -20,11 +20,13 @@ class RecentStoriesSection extends Component {
 
   componentDidMount() {
     const { actions } = this.props;
+    // Load fresh set of articles
     actions.article.getArticles("recentStoriesSection", true);
   }
 
   loadMore() {
     const { actions } = this.props;
+    // Continue fetching more articles using the current article query params
     actions.article.getArticles("recentStoriesSection");
   }
 

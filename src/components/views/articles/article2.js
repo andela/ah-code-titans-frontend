@@ -1,11 +1,17 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Item } from "semantic-ui-react";
+import {
+  Item, List
+} from "semantic-ui-react";
 import { humanizeTime, humanizeTimeToRead } from "../../../helpers/time";
 
 const Article = (props) => {
-  const { article } = props;
+  const { article, parent } = props;
+
+  // Check if article data exist
   if (article.createdAt === undefined) return <div />;
 
   return (
@@ -22,6 +28,22 @@ const Article = (props) => {
         <Item.Description>
           {article.description}
         </Item.Description>
+        <Item.Extra>
+          <List horizontal floated="right">
+            <List.Item>
+              <div
+                role="button"
+                onClick={parent.toggleBookmarkArticle}
+              >
+                <i className={`bookmark icon ${parent.state.isBookmarked ? "yellow" : "grey outline"}`} />
+              </div>
+            </List.Item>
+            <List.Item>
+              <div>Rating: 0</div>
+            </List.Item>
+          </List>
+
+        </Item.Extra>
       </Item.Content>
       <Link to={`/article/${article.slug}`}>
         <Item.Image size="small" position="right" src={article.image} rounded alt={article.title} />
@@ -31,7 +53,8 @@ const Article = (props) => {
 };
 
 Article.propTypes = {
-  article: PropTypes.object
+  article: PropTypes.object,
+  parent: PropTypes.object.isRequired
 };
 
 Article.defaultProps = {

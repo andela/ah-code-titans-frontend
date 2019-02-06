@@ -2,7 +2,10 @@ import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { mount } from "enzyme";
 import React from "react";
+import { MemoryRouter } from "react-router";
+import { connectRouter } from "connected-react-router";
 import { Provider } from "react-redux";
+import { history } from "../../../../store/configureStore";
 import { Profile } from "../Profile";
 
 const middlewares = [thunk];
@@ -28,7 +31,8 @@ describe("profile with props: ", () => {
     };
 
     const store = mockStore({
-      loginReducer: {
+      router: connectRouter(history),
+      login: {
         auth: {
           authentication: "",
           user: {},
@@ -39,21 +43,25 @@ describe("profile with props: ", () => {
           error: null
         }
       },
-      userSettingsReducer: {
+      userSettings: {
         settings: {
           walkThrough: true
         }
       },
-      profileReducer: {
+      profile: {
         profile: {}
       }
     });
     const wrapper = mount(
       <Provider store={store}>
-        <Profile {...props} />
+        <MemoryRouter>
+          <Profile {...props} />
+        </MemoryRouter>
       </Provider>
     );
-    const firstButton = wrapper.find(".profile__editBtn").first();
+
+    const firstButton = wrapper.find(".profile__editBtn").at(0);
+
     firstButton.simulate("click");
     expect(wrapper.find("Form").hasClass("test-form")).toBe(true);
     const saveButton = wrapper.find(".ui.green.button");

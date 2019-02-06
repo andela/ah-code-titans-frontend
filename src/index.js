@@ -6,12 +6,10 @@ import { ConnectedRouter } from "connected-react-router";
 import { PersistGate } from "redux-persist/integration/react";
 
 import App from "./components/App";
-import configureStore, { history } from "./store/configureStore";
-import initialState from "./store/initialState";
+import { history } from "./store/configureStore";
+import { store, persistor } from "./store";
 
 import "semantic-ui-css/semantic.min.css";
-
-const { store, persistor } = configureStore(initialState);
 
 render(
   <Provider store={store}>

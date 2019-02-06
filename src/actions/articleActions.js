@@ -2,6 +2,7 @@
 import toastr from "toastr";
 import * as types from "./actionTypes";
 import ArticleAPI from "../api/articleAPI";
+import { checkIfUnauthorized } from "./authenticationActions";
 
 export const retrieveArticlesSuccess = (data = {}) => ({
   type: types.RETRIEVE_ALL_ARTICLES_SUCCESS,
@@ -44,8 +45,32 @@ export const getArticles = (articlesSection, reset = false) => (dispatch, getSta
   if (!isLoading) dispatch(retrieveArticlesIsLoading({ section: articlesSection }));
 
   ArticleAPI.getAllArticles(reset ? "api/articles/all" : next).then((response) => {
-    handleArticlePagination(articlesSection, response, dispatch, reset);
+    if (response.success) {
+      handleArticlePagination(articlesSection, response, dispatch, reset);
+    } else {
+      checkIfUnauthorized(response, dispatch, () => {
+        getArticles(articlesSection, reset);
+      });
+    }
   });
+};
+
+const getSearchLink = (params) => {
+  const titleIsValid = params.title !== null && params.title !== "";
+  const authorIsValid = params.author !== null && params.author !== "";
+
+  let tags = [];
+
+  if (params.tag !== "" && params.tag !== null) tags.push(params.tag);
+  tags = tags.concat(params.tags);
+
+  let link = titleIsValid ? `&search=${params.title}` : "";
+  link += authorIsValid ? `&${titleIsValid ? "author" : "search"}=${params.author}` : "";
+  link += tags.length !== 0 ? `&tags=${tags.join(",")}` : "";
+
+  if (link !== "") link = link.substr(1);
+
+  return link;
 };
 
 export const searchForArticles = (
@@ -56,28 +81,18 @@ export const searchForArticles = (
   const { next, isLoading } = getState().article.articles[articlesSection];
   if (!isLoading) dispatch(retrieveArticlesIsLoading({ section: articlesSection }));
 
-  let initialLink = query.title !== undefined && query.title !== "" ? `search=${query.title}` : "";
-  initialLink += query.author !== undefined && query.author !== "" ? `author=${query.author}` : "";
+  const initialLink = getSearchLink(query);
 
   ArticleAPI.getAllArticles(
     reset ? `api/search/articles/${initialLink === "" ? "" : `?${initialLink}`}` : next
   ).then((response) => {
-    handleArticlePagination(articlesSection, response, dispatch, reset);
-  });
-};
-
-export const searchForArticlesByTag = (
-  articlesSection,
-  tagName,
-  reset = false
-) => (dispatch, getState) => {
-  const { next, isLoading } = getState().article.articles[articlesSection];
-  if (!isLoading) dispatch(retrieveArticlesIsLoading({ section: articlesSection }));
-
-  ArticleAPI.getAllArticles(
-    reset ? `/api/tag/articles/?tags=${tagName}` : next
-  ).then((response) => {
-    handleArticlePagination(articlesSection, response, dispatch, reset);
+    if (response.success) {
+      handleArticlePagination(articlesSection, response, dispatch, reset);
+    } else {
+      checkIfUnauthorized(response, dispatch, () => {
+        searchForArticles(articlesSection, query, reset);
+      });
+    }
   });
 };
 
