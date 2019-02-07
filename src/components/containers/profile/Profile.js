@@ -29,7 +29,8 @@ export class Profile extends React.Component {
       myFollowers: [],
       following: [],
       showFollowInfo: false,
-      followdata: []
+      followdata: [],
+      heading: ""
     };
 
     this.toggleEditProfile = this.toggleEditProfile.bind(this);
@@ -64,7 +65,8 @@ export class Profile extends React.Component {
   handleFollowInfo =(e, data) => {
     this.setState({
       showFollowInfo: true,
-      followdata: data
+      followdata: data,
+      heading: e.target.innerHTML.slice(50)
     });
   }
 
@@ -76,7 +78,7 @@ export class Profile extends React.Component {
 
   render() {
     const {
-      editing, activeItem, myFollowers, following, showFollowInfo, followdata
+      editing, activeItem, myFollowers, following, showFollowInfo, followdata, heading
     } = this.state;
     const {
       getProfile,
@@ -86,7 +88,6 @@ export class Profile extends React.Component {
       createdArticles,
       createdArticleCount
     } = this.props;
-
     return (
       <div>
         <HeaderComponent location={location} />
@@ -122,7 +123,7 @@ export class Profile extends React.Component {
                 <div className="profile__follow" as={Link} to="/followers">
                   <div className="extra content" onClick={(event => this.handleFollowInfo(event, myFollowers))}>
                     <Icon className="users icon" />
-                    {`${myFollowers.length} Followers`}
+                    {myFollowers.length === 1 ? "1 Follower" : `${myFollowers.length} Followers`}
                   </div>
                 </div>
                 <div className="profile__follow" as={Link} to="/following">
@@ -171,7 +172,7 @@ export class Profile extends React.Component {
               </div>
             ) : (
               <div>
-                <ListFollowUnFollow profiles={followdata} />
+                <ListFollowUnFollow profiles={followdata} heading={heading} />
               </div>
             )}
 

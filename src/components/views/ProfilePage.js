@@ -5,7 +5,7 @@ import { Grid, Table, Header } from "semantic-ui-react";
 const ProfilePage = ({ profile }) => (
   <Grid>
     <Grid.Row className="profile__margin-left">
-      <Header className="info">Personal Information</Header>
+      <Header className="profile__info">Personal Information</Header>
       <Table basic="very">
         <Table.Body>
           <Table.Row />

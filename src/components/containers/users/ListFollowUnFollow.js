@@ -8,10 +8,12 @@ import * as profileSearchActions from "../../../actions/searchedProfileActions";
 import FollowersFollowingUsers from "../../views/users/FollowFollowers";
 
 const ListFollowUnFollow = (props) => {
-  const { profiles } = props;
+  const { profiles, heading } = props;
 
   return (
     <div>
+      <br />
+      <h2>{heading}</h2>
       {profiles.map(profile => <FollowersFollowingUsers key={profile.username} profile={profile} />)}
     </div>
   );
@@ -24,7 +26,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ListFollowUnFollow.propTypes = {
-  profiles: PropTypes.array.isRequired
+  profiles: PropTypes.array.isRequired,
+  heading: PropTypes.string.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(ListFollowUnFollow);

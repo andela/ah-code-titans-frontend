@@ -1,10 +1,10 @@
 /* eslint-disable consistent-return */
-import instance from "./axiosConfig";
+import { axiosProtected } from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
 
 export default class RetrieveUserProfilesAPI {
   static getUsers() {
-    return instance.get(
+    return axiosProtected.get(
       "/api/profiles/?limit=123456789"
     ).then((response) => {
       if (response.status === 200) {
@@ -23,7 +23,7 @@ export default class RetrieveUserProfilesAPI {
   }
 
   static followUser(username) {
-    return instance.post(
+    return axiosProtected.post(
       `/api/profiles/${username}/follow`
     ).then((response) => {
       if (response.status === 201) {
@@ -45,7 +45,7 @@ export default class RetrieveUserProfilesAPI {
   }
 
   static unFollowUser(username) {
-    return instance.delete(
+    return axiosProtected.delete(
       `/api/profiles/${username}/follow`
     ).then((response) => {
       if (response.status === 204) {
@@ -65,7 +65,7 @@ export default class RetrieveUserProfilesAPI {
   }
 
   static retrieveSpecificProfile(username) {
-    return instance.get(
+    return axiosProtected.get(
       `/api/profiles/${username}`
     ).then((response) => {
       if (response.status === 200) {
