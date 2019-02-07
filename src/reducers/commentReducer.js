@@ -61,20 +61,32 @@ const commentReducer = (state = initialState, action) => {
       }
       return { ...state, hasMore: false, comments };
     }
+    case "DELETE_COMMENT_SUCCESS": {
+      let newComments = objectAssign([], state.comments);
+      const { id } = action.payload;
+      const commentIndex = newComments.findIndex(comment => comment.id === id);
+
+      if (commentIndex >= 0) {
+        newComments.splice(commentIndex, 1);
+      }
+
+      return {
+        ...state,
+        comments: newComments
+      };
+    }
     case types.GET_REPLY_COMMENT_FAILURE: {
       const nextState = objectAssign({}, state);
       let newComments = nextState.comments;
       const { parentId } = action.payload;
-
       return {
         ...state,
         comments: newComments.map((comment) => {
           if (comment.id === parentId) {
             return Object.assign({}, comment, {
-              hasMore: true
+              hasMore: false
             });
           }
-
           return comment;
         })
       };

@@ -27,6 +27,11 @@ export const getReplyCommentFailure = payload => ({
   payload
 });
 
+export const deleteCommentSuccess = payload => ({
+  type: "DELETE_COMMENT_SUCCESS",
+  payload
+});
+
 export const getComments = (slug, reset = false) => (dispatch, getState) => {
   const offset = getState().comment.mainOffset.next;
   CommentsApi.getComments(slug, reset ? 0 : offset).then((response) => {
@@ -50,8 +55,8 @@ export const getReplyComment = (comment, reset = false) => (dispatch) => {
           reset
         })
       );
-    } else if (response.data.status === 404) {
-      dispatch(getReplyCommentFailure({ parentId: comment.comment.id }));
+    } else if (response.data.response.status === 404) {
+      dispatch(getReplyCommentFailure({ parentId: comment.id, reset }));
     }
   });
 };
@@ -73,7 +78,7 @@ export const deleteComment = comment => (dispatch) => {
       if (comment.parent === 0) {
         dispatch(getComments(comment.slug, true));
       } else {
-        dispatch(getReplyComment({ slug: comment.slug, id: comment.parent }, true));
+        dispatch(deleteCommentSuccess({ id: comment.id }));
       }
     }
   });
