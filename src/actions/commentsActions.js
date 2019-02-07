@@ -28,7 +28,7 @@ export const getReplyCommentFailure = payload => ({
 });
 
 export const deleteCommentSuccess = payload => ({
-  type: "DELETE_COMMENT_SUCCESS",
+  type: types.DELETE_COMMENT_SUCCESS,
   payload
 });
 

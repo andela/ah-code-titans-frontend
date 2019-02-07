@@ -61,7 +61,7 @@ const commentReducer = (state = initialState, action) => {
       }
       return { ...state, hasMore: false, comments };
     }
-    case "DELETE_COMMENT_SUCCESS": {
+    case types.DELETE_COMMENT_SUCCESS: {
       let newComments = objectAssign([], state.comments);
       const { id } = action.payload;
       const commentIndex = newComments.findIndex(comment => comment.id === id);
