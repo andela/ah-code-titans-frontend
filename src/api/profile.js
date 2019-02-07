@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import { axiosProtected } from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
+import { history } from "../store/configureStore";
 
 export default class profileApi {
   static profile(username) {
@@ -66,10 +67,10 @@ export default class profileApi {
       .catch((response) => {
         if (response.response.status === 401) {
           toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/login");
+          history.push("/");
+          history.go(0);
         } else if (response.response.status === 500 || response.response.status === 504) {
           toastr.info("Please try again after some time");
-          window.location.assign("/login");
         }
       });
   }
@@ -85,10 +86,10 @@ export default class profileApi {
       .catch((response) => {
         if (response.response.status === 401) {
           toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/login");
+          history.push("/");
+          history.go(0);
         } else if (response.response.status === 500 || response.response.status === 504) {
           toastr.info("Please try again after some time");
-          window.location.assign("/login");
         }
       });
   }

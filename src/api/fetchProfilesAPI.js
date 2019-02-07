@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import { axiosProtected } from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
+import { history } from "../store/configureStore";
 
 export default class RetrieveUserProfilesAPI {
   static getUsers() {
@@ -8,17 +9,23 @@ export default class RetrieveUserProfilesAPI {
       "/api/profiles/?limit=123456789"
     ).then((response) => {
       if (response.status === 200) {
-        return response;
+        return {
+          success: true,
+          content: response
+        };
       }
     })
       .catch((response) => {
-        if (response.response.status === 401) {
-          toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/");
-        } else if (response.response.status === 500 || response.response.status === 504) {
-          toastr.info("Please try again after some time");
-          window.location.assign("/profile");
+        if (response.response !== undefined && response.response.status !== 200) {
+          return {
+            success: false,
+            error: {
+              status: response.response.status
+            }
+          };
         }
+
+        return { success: false };
       });
   }
 
@@ -55,11 +62,11 @@ export default class RetrieveUserProfilesAPI {
     })
       .catch((response) => {
         if (response.response.status === 401) {
-          toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/");
+          toastr.error("You have been logged out. Please log in and try hhhhhhhagain");
+          history.push("/");
+          history.go(0);
         } else if (response.response.status === 500 || response.response.status === 504) {
           toastr.info("Please try again after some time");
-          window.location.assign("/profiles");
         }
       });
   }
@@ -75,10 +82,10 @@ export default class RetrieveUserProfilesAPI {
       .catch((response) => {
         if (response.response.status === 401) {
           toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/");
+          history.push("/");
+          history.go(0);
         } else if (response.response.status === 500 || response.response.status === 504) {
           toastr.info("Please try again after some time");
-          window.location.assign("/");
         }
       });
   }
