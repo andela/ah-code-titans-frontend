@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import {
   Header, Button, Grid, Image, Menu, Card, Icon
 } from "semantic-ui-react";
-import readingStatsAsync from "../../../actions/readingStatsAction";
+import { readingStatsAsync, articleReadStats } from "../../../actions/readingStatsAction";
 import * as profileActions from "../../../actions/profileActions";
 import ProfilePage from "../../views/ProfilePage";
 import EditProfile from "./EditProfile";
@@ -31,9 +31,12 @@ export class Profile extends React.Component {
   }
 
   componentDidMount() {
-    const { actions, username, getReadingStats } = this.props;
+    const {
+      actions, username, getReadingStats, getArticlesReadStats
+    } = this.props;
     actions.getProfile(username);
-    getReadingStats();
+    getArticlesReadStats();
+    getReadingStats(username);
 
     profileApi.retrieveUserFollowers().then((response) => {
       this.setState({
@@ -56,7 +59,12 @@ export class Profile extends React.Component {
       editing, activeItem, myFollowers, following
     } = this.state;
     const {
-      getProfile, location, readArticleCount, isFetching
+      getProfile,
+      location,
+      readArticleCount,
+      isFetching,
+      createdArticles,
+      createdArticleCount
     } = this.props;
 
     return (
@@ -100,7 +108,7 @@ export class Profile extends React.Component {
                 <div className="profile__follow" as={Link} to="/following">
                   <div className="extra content">
                     <Icon className="users icon" />
-                    { `Following ${following.length}`}
+                    {`Following ${following.length}`}
                   </div>
                 </div>
               </Grid.Column>
@@ -129,7 +137,12 @@ export class Profile extends React.Component {
             ) : (
               <Grid.Row>
                 <Grid.Column>
-                  <ReadStats readArticleCount={readArticleCount} isFetching={isFetching} />
+                  <ReadStats
+                    readArticleCount={readArticleCount}
+                    createdArticleCount={createdArticleCount}
+                    createdArticles={createdArticles}
+                    isFetching={isFetching}
+                  />
                 </Grid.Column>
               </Grid.Row>
             )}
@@ -147,15 +160,19 @@ Profile.propTypes = {
   location: PropTypes.object.isRequired,
   readArticleCount: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  getReadingStats: PropTypes.func.isRequired
+  getReadingStats: PropTypes.func.isRequired,
+  getArticlesReadStats: PropTypes.func.isRequired,
+  createdArticles: PropTypes.array.isRequired,
+  createdArticleCount: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     getProfile: state.profileReducer.profile,
     username: state.loginReducer.auth.user.username,
-    readingStats: state.readingStats.results,
-    readArticleCount: state.readingStats.count,
+    readArticleCount: state.readingStats.read.count,
+    createdArticleCount: state.readingStats.authored.count,
+    createdArticles: state.readingStats.authored.results,
     isFetching: state.readingStats.isFetching
   };
 }
@@ -163,7 +180,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(profileActions, dispatch),
-    getReadingStats: bindActionCreators(readingStatsAsync, dispatch)
+    getReadingStats: bindActionCreators(readingStatsAsync, dispatch),
+    getArticlesReadStats: bindActionCreators(articleReadStats, dispatch)
   };
 }
 
