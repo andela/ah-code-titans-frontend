@@ -57,7 +57,6 @@ export default class rateArticleApi {
           };
         }
         if (err.response.status === 404) {
-          toastr.error("Articte was not found");
           return {
             content: err.response.data
           };

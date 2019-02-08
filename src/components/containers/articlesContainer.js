@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+
 import * as ArticleActions from "../../actions/articleActions";
 import CreateArticleForm from "../views/articles/CreateArticleForm";
 import HeaderComponent from "./headers/index";
@@ -70,11 +71,12 @@ class ArticlesContainer extends Component {
   };
 
   handleCancelCreation = () => {
-    window.location.assign("/");
+    const { history } = this.props;
+    history.push("/");
   }
 
   render() {
-    const { location, auth } = this.props;
+    const { location, auth, articles } = this.props;
     return (
       <div>
         { auth.user.username !== undefined ? (
@@ -88,6 +90,7 @@ class ArticlesContainer extends Component {
               onSubmit={this.onSubmit}
               resetForm={this.resetForm}
               handleCancelCreation={this.handleCancelCreation}
+              isFetching={articles.article.isFetching}
             />
 
           </div>
@@ -122,7 +125,9 @@ const mapDispatchToProps = dispatch => ({
 ArticlesContainer.propTypes = {
   actions: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  articles: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesContainer);

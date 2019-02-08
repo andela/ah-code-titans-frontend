@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import {
-  Button, Popup, Divider
+  Button, Popup, Divider, Icon
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
@@ -35,6 +35,7 @@ import * as profileSearchActions from "../../../actions/searchedProfileActions";
 
 import "../../../assets/style/articles/style.scss";
 import "../../../assets/style/articles/bookmark.scss";
+import NotFoundPage from "../NotFoundPage";
 
 class SingleArticle extends Component {
   constructor(props, context) {
@@ -47,7 +48,8 @@ class SingleArticle extends Component {
       description: "",
       body: "",
       tag_list: "",
-      bookmarked: props.bookmarked
+      bookmarked: props.bookmarked,
+      articleIsUpdated: false
     };
     this.checkIsLoggedIn = this.checkIsLoggedIn.bind(this);
     this.checkIfIsAuthor = this.checkIfIsAuthor.bind(this);
@@ -60,6 +62,7 @@ class SingleArticle extends Component {
     actions.article.getSingleArticle(match.params.slug);
     this.checkIsLoggedIn();
     this.checkIfIsAuthor();
+    this.setState({ articleIsUpdated: true });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -145,7 +148,9 @@ class SingleArticle extends Component {
       title, description, body, tag_list
     } = this.state;
 
-    const { actions, match } = this.props;
+    const {
+      actions, match
+    } = this.props;
     actions.article.editArticle(match.params.slug, {
       title, description, body, tag_list: tag_list.split(",")
     });
@@ -176,8 +181,9 @@ class SingleArticle extends Component {
   };
 
   cancelEdit = () => {
-    const { match } = this.props;
-    window.location.assign(`/article/${match.params.slug}`);
+    this.setState(() => ({
+      editing: false
+    }));
   };
 
   handleSocialShare = (event) => {
@@ -238,12 +244,27 @@ class SingleArticle extends Component {
   }
 
   render() {
-    const { article, location, match } = this.props;
     const {
-      userIsAuthor, editing, isLoggedIn, bookmarked
+      article, articles, location, match
+    } = this.props;
+
+    const {
+      userIsAuthor, editing, isLoggedIn, bookmarked, articleIsUpdated
     } = this.state;
 
-    if (article.id === undefined) return <div />;
+    if (!articleIsUpdated) return <div />;
+
+    if (article.id === undefined) {
+      return (
+        <div>
+          <HeaderComponent location={location} />
+          <div className="article__container">
+            <NotFoundPage />
+          </div>
+        </div>
+
+      );
+    }
 
     return (
       <div>
@@ -259,6 +280,7 @@ class SingleArticle extends Component {
                 onSubmit={this.onSubmit}
                 resetForm={this.resetForm}
                 cancelEdit={this.cancelEdit}
+                isFetching={articles.article.isFetching}
               />
             </div>
 
@@ -324,7 +346,7 @@ class SingleArticle extends Component {
 
                   {userIsAuthor ? (
                     <div className="button__group">
-                      <Popup trigger={<Button>Update Article</Button>} flowing hoverable>
+                      <Popup trigger={<Button color="primary inverterd"><Icon name="cog" />Manage</Button>} flowing hoverable>
                         <Button icon="edit" positive onClick={this.handleEditArticle} />
                         <Button icon="trash" negative onClick={this.handleDeleteArticle} />
                       </Popup>
@@ -382,13 +404,15 @@ SingleArticle.propTypes = {
   dislikeArticle: PropTypes.func.isRequired,
   likeArticle: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  bookmarked: PropTypes.bool.isRequired
+  bookmarked: PropTypes.bool.isRequired,
+  articles: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   article: state.article.singleArticle,
   auth: state.loginReducer.auth,
-  bookmarked: state.article.singleArticle.bookmarked
+  bookmarked: state.article.singleArticle.bookmarked,
+  articles: state
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import toastr from "toastr";
+import { history } from "../store/configureStore";
 import * as types from "./actionTypes";
 import ArticleAPI from "../api/articleAPI";
 
@@ -96,7 +97,12 @@ export const getSpecificArticle = payload => ({
   payload
 });
 
+export const createArticleLoader = () => ({
+  type: types.CREATE_ARTICLE_LOADER
+});
+
 export const getSingleArticle = slug => (dispatch) => {
+  dispatch(createArticleLoader());
   ArticleAPI.getSingleArticle(slug)
     .then((response) => {
       if (response.success) {
@@ -108,10 +114,12 @@ export const getSingleArticle = slug => (dispatch) => {
 };
 
 export const createArticle = articleDetails => (dispatch) => {
+  dispatch(createArticleLoader());
   ArticleAPI.createArticle(articleDetails).then((response) => {
     if (response.success) {
       dispatch(createArticleSuccess(response.article));
       dispatch(getSpecificArticle(response.article.slug));
+      window.location.assign(`/article/${response.article.slug}`);
     } else {
       dispatch(createArticleFailure(response.error));
     }
@@ -140,6 +148,7 @@ export const deleteArticle = slug => (dispatch) => {
 };
 
 export const editArticle = (slug, articleDetails) => (dispatch) => {
+  dispatch(createArticleLoader());
   ArticleAPI.editArticle(slug, articleDetails).then((response) => {
     if (response.success) {
       dispatch(editSpecificArticle(response.article));
