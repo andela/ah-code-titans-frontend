@@ -5,21 +5,11 @@ import PropTypes from "prop-types";
 const SearchTypes = (props) => {
   const { parent } = props;
   const { type } = parent.state;
-  const options = {
-    Article: {
-      icon: "sticky note"
-    },
-    Author: {
-      icon: "write"
-    },
-    Tag: {
-      icon: "tags"
-    }
-  };
+
   return (
     <Dropdown
       text={type}
-      icon={options[type].icon}
+      icon="caret down"
       floating
       labeled
       button
@@ -72,8 +62,10 @@ function SearchInputView(props) {
         onChange={parent.onHandleChange}
         onKeyPress={(e) => {
           if (onKeyPress === undefined) {
+            // When on discover page, the articles instantly filter according to the input value
             parent.onKeyPress(e);
           } else {
+            // When not on discover page, user is redirected to the page.
             onKeyPress(e, parent);
           }
         }}

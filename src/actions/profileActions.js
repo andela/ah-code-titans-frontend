@@ -1,5 +1,6 @@
 import * as types from "./actionTypes";
-import profileApi from "../api/profile";
+import profileApi from "../api/profileAPI";
+import { checkIfUnauthorized } from "./authenticationActions";
 
 export const getprofileSuccess = data => ({
   type: types.GET_PROFILE_SUCCESS,
@@ -21,8 +22,10 @@ export const getProfile = username => (dispatch) => {
 
 export const updateProfile = (username, data) => (dispatch) => {
   profileApi.updateProfile(username, data).then((response) => {
-    if (response.content) {
+    if (response.success) {
       dispatch(updateprofileSuccess(response.content.profile));
+    } else {
+      checkIfUnauthorized(response, dispatch, () => updateProfile(username, data));
     }
   });
 };

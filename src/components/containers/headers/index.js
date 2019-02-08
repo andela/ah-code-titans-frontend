@@ -7,7 +7,6 @@ import UserHeader from "./userHeader";
 
 export function Header(props) {
   const { auth, location } = props;
-
   return (
     auth.authentication !== ""
       ? <UserHeader currentPath={location.pathname} />
@@ -21,7 +20,7 @@ Header.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.loginReducer.auth
+  auth: state.login.auth
 });
 
 export default connect(mapStateToProps)(Header);

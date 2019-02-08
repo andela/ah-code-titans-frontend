@@ -1,13 +1,12 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
-import loginReducer from "./loginReducer";
-import registrationReducer from "./registrationReducer";
+import login from "./loginReducer";
+import registration from "./registrationReducer";
 import likeDislike from "./likeDislikeReducer";
-import userSettingsReducer from "./userSettingsReducer";
+import userSettings from "./userSettingsReducer";
 import comment from "./commentReducer";
-import profileReducer from "./profileReducer";
+import profile from "./profileReducer";
 import article from "./articleReducer";
-import tag from "./tagSearchReducer";
 import rateArticle from "./rateArticleReducer";
 import bookmarkArticle from "./bookmarkArticleReducer";
 import readingStats from "./readingStatsReducer";
@@ -16,12 +15,11 @@ import searchedProfile from "./otherUserProfileReducer";
 
 export default history => combineReducers({
   router: connectRouter(history),
-  registrationReducer,
-  loginReducer,
-  userSettingsReducer,
-  profileReducer,
+  registration,
+  login,
+  userSettings,
+  profile,
   article,
-  tag,
   likeDislike,
   comment,
   rateArticle,

@@ -8,7 +8,7 @@ import {
   Header, Container, Item, Loader
 } from "semantic-ui-react";
 
-import Article from "./articles/article2";
+import Article from "../containers/articles/article2";
 
 export default function RecentStoriesSectionView(props) {
   const { articles, hasMore, parent } = props;

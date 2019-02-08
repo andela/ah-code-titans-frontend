@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -5,25 +7,42 @@ import { Menu } from "semantic-ui-react";
 import cuid from "cuid";
 
 function Tag(props) {
-  const { tag, onNavTagClick } = props;
+  const { tag, onNavTagClick, parent } = props;
+  let isActive = false;
+  const currentTag = tag.toLowerCase();
+
+  if (parent !== undefined) {
+    const tagFound = parent.state.params.tags.find(ptag => ptag === currentTag);
+    isActive = tagFound !== undefined || tag === parent.state.params.tag;
+  }
+
   return (
     onNavTagClick === undefined
       ? (
-        <Link to={`/discover?tag=${tag.toLowerCase()}`}>
+        <Link to={`/discover?tag=${currentTag}`}>
           <Menu.Item name={tag} />
         </Link>
       )
-      : <Menu.Item name={tag} onClick={onNavTagClick} />
+      : (
+        <span
+          role="button"
+          onClick={onNavTagClick}
+          className={`tagSection__tag${isActive ? "--active" : ""}`}
+        >{tag}
+        </span>
+      )
   );
 }
 
 Tag.propTypes = {
   tag: PropTypes.string.isRequired,
-  onNavTagClick: PropTypes.func
+  onNavTagClick: PropTypes.func,
+  parent: PropTypes.object
 };
 
 Tag.defaultProps = {
-  onNavTagClick: undefined
+  onNavTagClick: undefined,
+  parent: undefined
 };
 
 function TagSection(props) {

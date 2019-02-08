@@ -35,6 +35,7 @@ class LandingSection extends Component {
 
   componentDidMount() {
     const { actions } = this.props;
+    // Load fresh set of articles
     actions.article.getArticles("landingSection", true);
   }
 

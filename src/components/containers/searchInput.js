@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import SearchInputView from "../views/SearchInput";
+import { history } from "../../store/configureStore";
 
 class SearchInput extends Component {
   static propTypes = {
@@ -43,15 +44,15 @@ class SearchInput extends Component {
 
       switch (type) {
         case "Article": {
-          window.location.href = `/discover?title=${value}`;
+          history.push(`/discover?title=${value}`);
           return;
         }
         case "Author": {
-          window.location.href = `/discover?author=${value}`;
+          history.push(`/discover?author=${value}`);
           return;
         }
         case "Tag": {
-          window.location.href = `/discover?tag=${value}`;
+          history.push(`/discover?tag=${value}`);
           break;
         }
         default:

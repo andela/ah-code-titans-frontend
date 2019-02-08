@@ -1,5 +1,9 @@
-import * as ActionCreators from "../authenticationActions";
+import configureStore from "redux-mock-store";
+import * as AuthenticationActions from "../authenticationActions";
 import * as types from "../actionTypes";
+
+const middlewares = [];
+const mockStore = configureStore(middlewares);
 
 // eslint-disable-next-line import/prefer-default-export
 export const testDetails = {
@@ -12,14 +16,20 @@ export const testDetails = {
 };
 // describe creates a test suite
 // testing actions creators
-describe("action", () => {
+describe("Authentication actions: ", () => {
+  let store = {};
+
+  beforeAll(() => {
+    store = mockStore({});
+  });
+
   // action login success
   it("should create an action to update user login success", () => {
     const expectedAction = {
       type: types.LOGIN_BY_EMAIL_SUCCESS,
       payload: testDetails
     };
-    expect(ActionCreators.loginByEmailActionSuccess(testDetails)).toEqual(expectedAction);
+    expect(AuthenticationActions.loginByEmailActionSuccess(testDetails)).toEqual(expectedAction);
   });
 
   // action login failure
@@ -33,11 +43,16 @@ describe("action", () => {
       type: types.LOGIN_BY_EMAIL_FAILURE,
       payload: details
     };
-    expect(ActionCreators.loginByEmailActionFailure(details)).toEqual(expectedAction);
+    expect(AuthenticationActions.loginByEmailActionFailure(details)).toEqual(expectedAction);
+  });
+
+  it("should dispatch LOGIN_BY_SOCIAL type", () => {
+    expect(store.dispatch(AuthenticationActions.loginBySocial({})).type)
+      .toEqual(types.LOGIN_BY_SOCIAL);
+  });
+
+  it("should dispatch LOG_OUT type", () => {
+    expect(store.dispatch(AuthenticationActions.logoutSuccess({})).type)
+      .toEqual(types.LOG_OUT);
   });
 });
-
-// testing async action creators
-// describe("async action creators", () => {
-//   it("async", () => {});
-// });

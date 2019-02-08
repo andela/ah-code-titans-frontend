@@ -4,7 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Header, Container, Item } from "semantic-ui-react";
 
-import Article from "./articles/article2";
+import Article from "../containers/articles/article2";
 
 export default function TopStoriesSectionView(props) {
   const { articles } = props;

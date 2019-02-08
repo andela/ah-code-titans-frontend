@@ -57,7 +57,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.loginReducer.auth
+  auth: state.login.auth
 });
 
 export default connect(mapStateToProps)(App);

@@ -7,7 +7,10 @@ import { humanizeTime, humanizeTimeToRead } from "../../../helpers/time";
 
 const Article = (props) => {
   const { article } = props;
+
+  // Check if article data exists
   if (article.createdAt === undefined) return <div />;
+
   return (
     <Link to={`/article/${article.slug}`}>
       <Item className="article--1">

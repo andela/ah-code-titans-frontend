@@ -14,7 +14,7 @@ import * as profileActions from "../../../actions/profileActions";
 import ProfilePage from "../../views/ProfilePage";
 import EditProfile from "./EditProfile";
 import HeaderComponent from "../headers/index";
-import profileApi from "../../../api/profile";
+import profileApi from "../../../api/profileAPI";
 
 import ReadStats from "../../views/ReadStats";
 import "../../../assets/style/pages/profilePage.scss";
@@ -199,11 +199,12 @@ Profile.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    getProfile: state.profileReducer.profile,
-    username: state.loginReducer.auth.user.username,
     readArticleCount: state.readingStats.read.count,
     createdArticleCount: state.readingStats.authored.count,
     createdArticles: state.readingStats.authored.results,
+    getProfile: state.profile.profile,
+    username: state.login.auth.user.username,
+    readingStats: state.readingStats.results,
     isFetching: state.readingStats.isFetching
   };
 }

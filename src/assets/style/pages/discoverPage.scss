@@ -1,5 +1,7 @@
-@import "../abstract//mixins";
+@import "../abstract/mixins";
+@import "../abstract/variables";
 @import "../components/articleFilter";
+@import "../components/tagSection";
 
 .discoverPage {
     width: 80%;
@@ -25,7 +27,8 @@
     &__tags {
         overflow: auto;
         grid-area: tags;
-        margin: 1rem 0 3rem;
+        margin: 1rem 0 3rem 0;
+        padding: 0 1rem;
     }
     &__content{
         grid-area: articles;
@@ -37,5 +40,18 @@
     &__search {
         grid-area: search;
         margin-bottom: 3rem;
+    }
+}
+
+.searchStatus{
+    margin-top:1rem;
+    &__title{
+        float:left;
+        margin-right: 1rem;
+        line-height: 2rem;
+        color: grey;
+    }
+    &__content{
+        float: left;
     }
 }

@@ -1,6 +1,7 @@
 import * as types from "./actionTypes";
 import toastr from "../helpers/toastrConfig";
 import CommentsApi from "../api/commentsAPI";
+import { checkIfUnauthorized } from "./authenticationActions";
 
 export const getArticleCommentSuccess = payload => ({
   type: types.GET_ARTICLE_COMMENTS_SUCCESS,
@@ -92,7 +93,10 @@ export const createComment = comment => (dispatch) => {
   CommentsApi.createComments(comment).then((response) => {
     if (response.success) {
       dispatch(getComments(comment.articleSlug, true));
-    } else if (response.error.status === 401) {
+    } else {
+      checkIfUnauthorized(response, dispatch, () => {
+        dispatch(createComment(comment));
+      });
       toastr.error("Please login to comment on the article");
     }
   });

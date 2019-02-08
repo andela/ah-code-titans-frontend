@@ -1,0 +1,64 @@
+@import "../abstract/variables";
+@import "../components/bookmark";
+@import "../components/ck";
+
+.article {
+    margin: 5rem 0;
+    &__image {
+        width: 100%;
+        height: 40rem;
+        overflow: hidden;
+        object-fit: cover;
+        object-position: center;
+        position: relative;
+        img {
+            min-width: 100%;
+            min-height: 100%;
+        }
+    }
+
+    &__desc {
+        font-size: $s-size !important;
+        font-weight: 500 !important;
+    }
+
+    &__tags {
+        margin-left: 1em;
+    }
+}
+
+/* Read time styling  */
+.time_to_read {
+    color: #008080;
+    padding: .3rem 1rem;
+    float: left;
+    border: 1px solid #008080;
+    border-radius: 25px;
+    text-align: center;
+}
+
+#share-text {
+    padding-bottom: $ss-size;
+}
+
+.button__group {
+    margin-bottom: $ss-size;
+}
+
+.main__first {
+    margin-bottom: 2rem;
+}
+
+
+.spread__content {
+    display: flex;
+    justify-content: space-between;
+
+    .time_to_read {
+        float: right;
+    }
+}
+
+.ui.tag.label {
+    margin: 1em;
+}

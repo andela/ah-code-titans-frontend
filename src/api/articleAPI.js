@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import { MOCK } from "./config";
-import { axiosProtected, axiosUnprotected } from "./axiosConfig";
+import { axiosProtected } from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
 import articleAPIMock from "./mock/articleAPI";
 
@@ -8,19 +8,20 @@ export default class ArticleAPI {
   static createArticle(articleDetails) {
     const {
       // eslint-disable-next-line camelcase
-      title, description, body, tag_list
+      title, description, body, tag_list, image
     } = articleDetails;
     return axiosProtected.post("/api/articles/",
       {
         article: {
           title,
+          image,
           description,
           body,
           tag_list: tag_list.split(",")
         }
       }).then((response) => {
-      if (response) {
-        window.location.assign(`/article/${response.data.slug}`);
+      if (response.status === 200) {
+        // window.location.assign(`/article/${response.data.slug}`);
         return {
           success: true,
           article: response.data
@@ -38,7 +39,7 @@ export default class ArticleAPI {
   }
 
   static getSingleArticle(slug) {
-    return axiosUnprotected.get(`/api/article/${slug}`, {})
+    return axiosProtected.get(`/api/article/${slug}`, {})
       .then(response => ({
         success: true,
         content: response.data.articles
@@ -60,7 +61,7 @@ export default class ArticleAPI {
   static getAllArticles(link) {
     if (MOCK) return articleAPIMock.getAllArticles();
 
-    return axiosUnprotected.get(link === "" ? "/api/articles/all" : link)
+    return axiosProtected.get(link === "" ? "/api/articles/all" : link)
       .then((response) => {
         if (response.status === 200) {
           return {
@@ -74,6 +75,7 @@ export default class ArticleAPI {
           return {
             success: false,
             error: {
+              status: response.response !== undefined ? response.response.status : 500,
               message: "Failed to retrieve articles!"
             }
           };
@@ -96,7 +98,8 @@ export default class ArticleAPI {
       .catch(error => ({
         success: false,
         error: {
-          message: "Article was deleted"
+          message: "Article was deleted",
+          status: error.response.status
         }
       }));
   }
@@ -130,7 +133,9 @@ export default class ArticleAPI {
         toastr.warning("An error occurred. Please try again");
         return {
           success: false,
-          error: error.response.data
+          error: {
+            status: error.response.status
+          }
         };
       }
     });

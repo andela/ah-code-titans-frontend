@@ -1,23 +1,42 @@
 import axios from "axios";
+import { store } from "../store";
 
 export const axiosUnprotected = axios.create({
   baseURL: process.env.REACT_APP_API,
   headers: { "Content-Type": "application/json" }
 });
 
-export const axiosProtected = axios.create({
+const axiosProtected = axios.create({
   baseURL: process.env.REACT_APP_API,
   headers: { "Content-Type": "application/json" }
 });
 
-const user = JSON.parse(localStorage.getItem("user"));
+const axiosRefresh = axios.create({
+  baseURL: process.env.REACT_APP_API,
+  headers: { "Content-Type": "application/json" }
+});
 
-let authToken;
-if (user !== null) {
-  authToken = user.token.replace(/"/g, "");
-  axiosProtected.defaults.headers.common.Authorization = `Token ${authToken}`;
-} else {
-  delete axios.defaults.headers.common.Authorization;
-}
+axiosProtected.interceptors.request.use((config) => {
+  const loggedIn = store.getState().login.auth;
+  const { token } = loggedIn.user;
+  const newConfig = config;
+
+  if (token) { newConfig.headers.Authorization = `Token ${token}`; }
+  return newConfig;
+});
+
+axiosRefresh.interceptors.request.use((config) => {
+  const loggedIn = store.getState().login.auth;
+  const refreshToken = loggedIn.user.refresh_token;
+  const newConfig = config;
+
+  if (loggedIn.authentication !== "") { newConfig.headers.Authorization = `Token ${refreshToken}`; }
+  return newConfig;
+});
+
+export {
+  axiosProtected,
+  axiosRefresh
+};
 
 export default axiosUnprotected;

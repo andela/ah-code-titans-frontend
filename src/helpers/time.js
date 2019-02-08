@@ -5,15 +5,15 @@ export function humanizeTime(timestamp) {
   const createdTime = moment.duration(time.diff(moment()), "milliseconds");
   const sec = createdTime.minutes();
 
-  if (sec > -1) { return "less than a minute ago"; }
-  if (sec <= -1 && sec > -2) { return "a minute ago"; }
+  if (sec > -1) { return "Less than a minute ago"; }
+  if (sec <= -1 && sec > -2) { return "A minute ago"; }
 
   return `${createdTime.humanize()} ago`;
 }
 
 export function humanizeTimeToRead(time) {
-  if (time < 1) return "less than a minute read";
-  if (time >= 1 && time < 2) return "a minute read";
+  if (time < 1) return "Less than a minute read";
+  if (time >= 1 && time < 2) return "A minute read";
 
   return `${time} min read`;
 }

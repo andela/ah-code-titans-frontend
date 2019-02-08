@@ -62,7 +62,9 @@ function SocialAuthentication(props) {
         >
           <Icon name="mail" /><span>Use Email</span>
         </Button>
-        <p className="links--create">No account?  <a onClick={() => { parent.setView(3); }} className="links__link">Create one</a></p>
+        <p className="links--create">No account?
+          <a onClick={() => { parent.setView(3); }} className="links__link">Create one</a>
+        </p>
       </Container>
     </div>
   );

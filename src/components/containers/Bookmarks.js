@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { Item, Header } from "semantic-ui-react";
-import Article from "../views/articles/article2";
+import Article from "./articles/article2";
 import * as bookmarksAction from "../../actions/bookmarkArticleActions";
 import HeaderComponent from "./headers/index";
 import "../../assets/style/pages/bookmarkpage.scss";

@@ -176,9 +176,9 @@ class RegistrationContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  isFetching: state.registrationReducer.isFetching,
-  response: state.registrationReducer.response,
-  errors: state.registrationReducer.errors
+  isFetching: state.registration.isFetching,
+  response: state.registration.response,
+  errors: state.registration.errors
 });
 
 const mapDispatchToProps = dispatch => ({

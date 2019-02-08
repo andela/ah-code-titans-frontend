@@ -33,8 +33,7 @@ import ShareArticle from "./ShareArticle";
 import SocialShareAPI from "../../../api/socialShareAPI";
 import * as profileSearchActions from "../../../actions/searchedProfileActions";
 
-import "../../../assets/style/articles/style.scss";
-import "../../../assets/style/articles/bookmark.scss";
+import "../../../assets/style/pages/articlePage.scss";
 
 class SingleArticle extends Component {
   constructor(props, context) {
@@ -201,14 +200,18 @@ class SingleArticle extends Component {
     const { actions } = this.props;
     const slug = window.location.pathname.slice(9);
 
-    actions.bookmark.bookmarkArticle(slug);
+    actions.bookmark.bookmarkArticle(slug, () => {
+      actions.article.getSingleArticle(slug);
+    });
   }
 
   unBookmarkArticle() {
     const { actions } = this.props;
     const slug = window.location.pathname.slice(9);
 
-    actions.bookmark.unBookmarkArticle(slug);
+    actions.bookmark.unBookmarkArticle(slug, () => {
+      actions.article.getSingleArticle(slug);
+    });
   }
 
   handleAuthorClick(e) {
@@ -264,48 +267,59 @@ class SingleArticle extends Component {
 
           ) : (
             <div>
-              <div className="article__container">
+              <div className="article">
                 <br />
-                <h1 className="ui header centered">{article.title}</h1>
-                <p className="ui header centered article__desc"> {article.description}</p>
-                <Divider />
-                <div className="ui container spread__content">
-                  <p className="ui text right aligned">Authored by: <Link onClick={this.handleAuthorClick} to={`/user/${article.author.username}`}><i>{article.author.username} </i></Link></p>
+                <div className="ui text container">
+                  <h1 className="ui header centered">{article.title}</h1>
+                  <p className="ui header centered article__desc"> {article.description}</p>
+                  <Divider />
+                  <div className="ui container spread__content">
+                    <p className="ui text right aligned">Authored by: <Link onClick={this.handleAuthorClick} to={`/user/${article.author.username}`}><i>{article.author.username} </i></Link></p>
 
-                  <div className="spread__content">
-                    <div>
-                      <GetRates />
-                    </div>
-
-                    <div>
-
-                      <div className="ui time_to_read">
-                        <i className="clock icon" />
-                        {humanizeTimeToRead(article.time_to_read)}
+                    <div className="spread__content">
+                      <div>
+                        <GetRates />
                       </div>
-                      {
-                          bookmarked ? (
-                            <div onClick={this.unBookmarkArticle} className="bookmark__position">
-                              <i className="bookmark icon" />
-                              Unbookmark
-                            </div>
 
-                          ) : (
-                            <div onClick={this.bookmarkArticle} className="bookmark__position">
-                              <i className="bookmark outline icon" />
-                                Bookmark
-                            </div>
-                          )
-                        }
+                      <div>
 
+                        <div className="ui time_to_read">
+                          <i className="clock icon" />
+                          {humanizeTimeToRead(article.time_to_read)}
+                        </div>
+                        {
+                            bookmarked ? (
+                              <div onClick={this.unBookmarkArticle} className="bookmark__position">
+                                <i className="bookmark icon" />
+                                Unbookmark
+                              </div>
+
+                            ) : (
+                              <div onClick={this.bookmarkArticle} className="bookmark__position">
+                                <i className="bookmark outline icon" />
+                                  Bookmark
+                              </div>
+                            )
+                          }
+
+                      </div>
                     </div>
+                    <br />
+
                   </div>
-                  <br />
 
                 </div>
+
+                <div className="ui article__image">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                  />
+                </div>
+
                 <br />
-                <div className="main__first">
-                  <div className="ui container article__body" dangerouslySetInnerHTML={{ __html: article.body }} />
+                <div className="main__first ui text container">
+                  <div className="ui container article__body ck" dangerouslySetInnerHTML={{ __html: article.body }} />
                   <br />
                   <div className="article__tags">
                     {article.tag_list.map((tag, i) => <a onClick={this.onTagClick} name={tag} className="ui tag label" key={i}>{tag}</a>)}
@@ -387,7 +401,7 @@ SingleArticle.propTypes = {
 
 const mapStateToProps = state => ({
   article: state.article.singleArticle,
-  auth: state.loginReducer.auth,
+  auth: state.login.auth,
   bookmarked: state.article.singleArticle.bookmarked
 });
 
