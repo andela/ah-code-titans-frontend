@@ -41,16 +41,20 @@ export default (state = {}, action) => {
       return { ...state, articles };
     }
     case types.CREATE_ARTICLE_SUCCESS: {
-      return { ...state, article: action.payload };
+      return { ...state, article: action.payload, isFetching: false };
     }
     case (types.GET_SPECIFIC_ARTICLE_SUCCESS): {
-      return { ...state, singleArticle: action.payload };
+      return { ...state, singleArticle: action.payload, isFetching: false };
     }
     case (types.EDIT_ARTICLE_SUCCESS): {
-      return { ...state, editedArticle: action.payload };
+      return { ...state, editedArticle: action.payload, isFetching: false };
     }
     case (types.DELETE_ARTICLE_SUCCESS): {
-      return { ...state, deletedArticle: action.payload };
+      return { ...state, deletedArticle: action.payload, isFetching: false, singleArticle: {}
+      };
+    }
+    case (types.CREATE_ARTICLE_LOADER): {
+      return { ...state, isFetching: true };
     }
     default:
       return state;

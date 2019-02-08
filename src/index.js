@@ -11,7 +11,7 @@ import initialState from "./store/initialState";
 
 import "semantic-ui-css/semantic.min.css";
 
-const { store, persistor } = configureStore(initialState);
+export const { store, persistor } = configureStore(initialState);
 
 render(
   <Provider store={store}>

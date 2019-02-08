@@ -4,6 +4,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CKEditor from "react-ckeditor-component";
+import { Dimmer, Loader } from "semantic-ui-react";
 import "../../../assets/style/articles/style.scss";
 
 const CreateArticleForm = (props) => {
@@ -14,12 +15,18 @@ const CreateArticleForm = (props) => {
     resetForm,
     handleCancelCreation,
     onSubmit,
-    cancelEdit
+    cancelEdit,
+    isFetching
   } = props;
 
   return (
     <div className="article__container">
+      <Dimmer active={isFetching} page>
+        <Loader size="large">Loading</Loader>
+      </Dimmer>
+
       { state.editing ? (<h2>Edit article.</h2>) : (<h2>Create your article.</h2>) }
+
       <div className="ui form">
         <form onSubmit={onSubmit}>
           <div className="field">

@@ -19,21 +19,25 @@ export default class ArticleAPI {
           tag_list: tag_list.split(",")
         }
       }).then((response) => {
-      if (response) {
-        window.location.assign(`/article/${response.data.slug}`);
+      if (response.status === 201) {
+        toastr.success("Article successfully created.");
         return {
           success: true,
           article: response.data
         };
       }
     }).catch((error) => {
-      if (error.response) {
+      if (error.response !== undefined && error.response.status !== 200) {
         toastr.warning("Please login to post an article");
         return {
           success: false,
-          error: error.response.data
+          error: {
+            status: error.response.status
+          }
         };
       }
+
+      return { success: false };
     });
   }
 
@@ -45,8 +49,6 @@ export default class ArticleAPI {
       }))
       .catch((response) => {
         if (response.response.status !== 200) {
-          toastr.error("Article was not found");
-          setTimeout(() => { window.location.assign("/profile"); }, 1000);
           return {
             success: false,
             error: {
@@ -85,12 +87,9 @@ export default class ArticleAPI {
     return axiosProtected.delete(`/api/article/${slug}`)
       .then((response) => {
         toastr.success("Article has been deleted.");
-        setTimeout(() => {
-          window.location.assign("/profile");
-        }, 2000);
         return {
           success: true,
-          content: response.date.article
+          content: response.data.article
         };
       })
       .catch(error => ({
@@ -119,7 +118,7 @@ export default class ArticleAPI {
         toastr.success("Article details updated");
         setTimeout(() => {
           window.location.assign(`/article/${response.data.articles.article.slug}`);
-        }, 2000);
+        }, 1000);
         return {
           success: true,
           article: response.data

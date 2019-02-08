@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Link } from "react-router-dom";
 import {
   Menu,
   Container,
@@ -9,7 +10,9 @@ import {
   Header,
   Responsive,
   Popup,
-  Divider
+  Divider,
+  Button,
+  Icon
 } from "semantic-ui-react";
 import * as AuthenticationActions from "../../../actions/authenticationActions";
 import { history } from "../../../store/configureStore";
@@ -19,25 +22,37 @@ import DefaultUserPic from "../../../assets/img/person.png";
 import LOGO from "../../../assets/img/logo.png";
 
 function UserPopup(props) {
-  const { actions } = props;
+  const { actions, auth } = props;
   return (
     <Menu vertical secondary>
+      <Menu.Item name="user">
+        <Header as="h5">
+          <Image className="user__image" src={DefaultUserPic} />
+          {auth.user.username}
+        </Header>
+      </Menu.Item>
+      <Divider />
       <Menu.Item name="createArticle">
-        <a href="/create_article">
-          <Header as="h5">Create an Article</Header>
-        </a>
+        <Link to="/create_article">
+          <Header as="h5"><Icon name="write square" />Create an Article</Header>
+        </Link>
       </Menu.Item>
       <Menu.Item name="users">
-        <a href="/profiles">
-          <Header as="h5">View Users</Header>
-        </a>
+        <Link to="/profiles">
+          <Header as="h5"><Icon name="users" />View Users</Header>
+        </Link>
+      </Menu.Item>
+      <Menu.Item name="bookmarks">
+        <Link to="/bookmarks">
+          <Header as="h5"><Icon name="bookmark" />Bookmarks</Header>
+        </Link>
       </Menu.Item>
 
-      <Divider horizontal />
+      <Divider />
       <Menu.Item name="profile">
-        <a href="/profile">
-          <Header as="h5">Profile</Header>
-        </a>
+        <Link to="/profile">
+          <Header as="h5"><Icon name="user circle" />Profile</Header>
+        </Link>
       </Menu.Item>
 
       <Menu.Item name="profile">
@@ -46,7 +61,8 @@ function UserPopup(props) {
           onClick={() => {
             actions.auth.logout();
           }}
-        >Log out
+        ><Icon name="sign out" />
+      Log out
         </Header>
       </Menu.Item>
     </Menu>
@@ -76,7 +92,6 @@ function UserHeader(props) {
             <Image src={LOGO} />
           </a>
         </Menu.Item>
-
         <Menu.Item className="header__text">
           <Header>Authors Haven</Header>
         </Menu.Item>
@@ -107,7 +122,11 @@ function UserHeader(props) {
           </Responsive>
 
           <Menu.Item position="right" className="floated user">
-            <span className="user__name">{auth.user.username}</span>
+            <Link to="/create_article">
+              <Button size="mini" color="primary inverted">
+                <Icon name="plus" />New Article
+              </Button>
+            </Link>
 
             <Popup
               trigger={<Image className="user__image" src={DefaultUserPic} avatar />}
@@ -125,6 +144,10 @@ function UserHeader(props) {
 UserHeader.propTypes = {
   auth: PropTypes.object.isRequired,
   currentPath: PropTypes.string.isRequired
+};
+
+UserPopup.propTypes = {
+  auth: PropTypes.object.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(UserHeader);
