@@ -13,15 +13,11 @@ class CommentsContainer extends Component {
     super(props);
     this.state = {
       comment: "",
-      enableCommentButton: true
+      enableCommentButton: true,
+      updated: false
     };
 
     this.loadMore = this.loadMore.bind(this);
-  }
-
-  componentDidMount() {
-    const { actions, articleSlug } = this.props;
-    actions.comment.getComments(articleSlug, true);
   }
 
   onHandleChange = (event) => {
@@ -60,13 +56,20 @@ class CommentsContainer extends Component {
   }
 
   render() {
-    const { comments } = this.props;
+    const { comments, actions, articleSlug } = this.props;
+    const { updated } = this.state;
+    if (!updated) {
+      actions.comment.getComments(articleSlug, true);
+      this.setState({ updated: true });
+      return <div />;
+    }
+
     return <CommentsView parent={this} comments={comments} />;
   }
 }
 CommentsContainer.propTypes = {
   actions: PropTypes.object.isRequired,
-  comments: PropTypes.object.isRequired,
+  comments: PropTypes.array.isRequired,
   articleSlug: PropTypes.string.isRequired
 };
 

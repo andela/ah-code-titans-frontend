@@ -14,33 +14,38 @@
 
 
 .ui {
-  &.primary{
-    &.button{
-        background-color: $primary__color !important;
+  &.primary {
+    &.button {
+      background-color: $primary__color !important;
     }
   }
-   &.secondary {
-     &.button{
-       background-color: $secondary__color !important;
-     }
-   }
+
+  &.secondary {
+    &.button {
+      background-color: $secondary__color !important;
+    }
+  }
+
   &.inverted {
     &.primary {
       &.button {
         background-color: transparent !important;
+
         &.active {
           color: #FFF !important;
           background-color: $primary__color !important;
         }
+
         &:hover {
           color: #FFF !important;
           background-color: $primary__color--light !important;
         }
-        
+
       }
     }
-    &.secondary{
-      &.button{
+
+    &.secondary {
+      &.button {
         color: #FFF !important;
         box-shadow: 0 0 0 .1rem #FFF inset !important;
         background-color: transparent !important;
@@ -82,7 +87,8 @@
     background-color: $secondary__color;
     outline: .1rem solid $secondary__color--light;
     width: .2rem;
-    &:hover{
+
+    &:hover {
       background-color: $secondary__color--light;
     }
   }
@@ -114,10 +120,12 @@
 
     &__reply {
       float: left;
+      color: $secondary__color !important;
     }
 
-    &__options {
+    &__reply--button {
       float: right;
+      margin-top: 10px !important;
     }
   }
 
@@ -131,6 +139,7 @@
 
     &--active {
       height: auto;
+      margin-top: 20px;
     }
 
     &--disabled {
@@ -150,4 +159,17 @@
 
 .likedislike {
   float: right;
+}
+
+.react-confirm-alert-button-group>button:first-child {
+  background: red !important;
+}
+
+.react-confirm-alert-button-group>button:last-child {
+  background: green !important;
+}
+
+.ui.grid>.column:not(.row) {
+  padding-top: .5rem !important;
+  padding-bottom: .5rem !important;
 }

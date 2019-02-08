@@ -3,20 +3,17 @@ import React from "react";
 import { configure, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { Provider } from "react-redux";
-import { ConnectedRouter } from "connected-react-router";
-
-import configureStoreDev, { history } from "./store/configureStore";
+import { MemoryRouter } from "react-router";
+import configureStore from "./store/configureStore";
 import initialState from "./store/initialState";
 
 configure({ adapter: new Adapter() });
 
 export function setup(Component, state = initialState) {
-  const { store } = configureStoreDev(state);
+  const { store } = configureStore(state);
   const enzymeWrapper = mount(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        {Component}
-      </ConnectedRouter>
+      <MemoryRouter>{Component}</MemoryRouter>
     </Provider>
   );
 

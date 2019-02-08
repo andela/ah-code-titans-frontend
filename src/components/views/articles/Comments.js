@@ -3,7 +3,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button, Comment, Form, Header, Container, Loader
+  Button,
+  Comment,
+  Form,
+  Header,
+  Container,
+  Loader,
+  Transition,
+  List
 } from "semantic-ui-react";
 import InfiniteScroll from "react-infinite-scroller";
 import "../../../assets/style/main.scss";
@@ -13,29 +20,10 @@ const CommentsView = (props) => {
   const { parent, comments } = props;
   return (
     <div>
-      <Comment.Group id="comment-section" threaded size="tiny">
+      <Comment.Group id="comment-section" threaded size="large">
         <Header as="h2" dividing>
           Comments
         </Header>
-
-        <Form reply onSubmit={parent.onSubmit} size="large">
-          <Form.TextArea
-            autoHeight
-            id="comment-textarea"
-            value={parent.state.comment}
-            onChange={parent.onHandleChange}
-          />
-          <Button
-            id="btn-add__comment"
-            size="large"
-            content="Add Comment"
-            labelPosition="left"
-            icon="edit"
-            primary
-            disabled={parent.state.enableCommentButton}
-          />
-        </Form>
-
         <InfiniteScroll
           pageStart={0}
           loadMore={parent.loadMore}
@@ -46,16 +34,33 @@ const CommentsView = (props) => {
             </Container>
 )}
         >
-          {comments.comments.map((comment, i) =>
-            (comment.parent === 0
-              ? (
-                <NewComment
-                  articleSlug={parent.props.articleSlug}
-                  comment={comment}
-                  key={i}
-                />
+          <Transition.Group duration={1800} as={List}>
+            {comments.comments.map((comment, i) =>
+              (comment.parent === 0 ? (
+                <List.Item>
+                  <NewComment articleSlug={parent.props.articleSlug} comment={comment} key={i} />
+                </List.Item>
               ) : null))}
+          </Transition.Group>
         </InfiniteScroll>
+
+        <Form reply onSubmit={parent.onSubmit} size="large">
+          <Form.TextArea
+            autoHeight
+            id="comment-textarea"
+            value={parent.state.comment}
+            onChange={parent.onHandleChange}
+          />
+          <Button
+            className="comment__actions__reply--button"
+            size="large"
+            content="Add Comment"
+            labelPosition="left"
+            icon="edit"
+            primary
+            disabled={parent.state.enableCommentButton}
+          />
+        </Form>
       </Comment.Group>
     </div>
   );
@@ -63,7 +68,7 @@ const CommentsView = (props) => {
 
 CommentsView.propTypes = {
   parent: PropTypes.object.isRequired,
-  comments: PropTypes.object.isRequired
+  comments: PropTypes.array.isRequired
 };
 
 export default CommentsView;
