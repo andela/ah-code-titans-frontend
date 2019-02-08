@@ -34,7 +34,7 @@ export class LikeDislikeButtons extends Component {
       <div className="likedislike">
         <Button as="div" labelPosition="right">
           <Button icon loading={isLiking} onClick={this.handleLike}>
-            <Icon name={liked === true ? "thumbs up" : "thumbs up outline"} />
+            <Icon color="blue" name={liked === true ? "thumbs up" : "thumbs up outline"} />
           </Button>
           <Label basic pointing="left">
             {likes}
@@ -42,7 +42,7 @@ export class LikeDislikeButtons extends Component {
         </Button>
         <Button as="div" labelPosition="right">
           <Button icon loading={isDisliking} onClick={this.handleDislike}>
-            <Icon name={disliked === true ? "thumbs down" : "thumbs down outline"} />
+            <Icon color="red" name={disliked === true ? "thumbs down" : "thumbs down outline"} />
           </Button>
           <Label basic pointing="left">
             {dislikes}
