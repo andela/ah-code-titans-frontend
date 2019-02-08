@@ -7,7 +7,6 @@ const commentReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.GET_ARTICLE_COMMENTS_SUCCESS: {
       let newState = objectAssign({}, state);
-
       if (action.payload.reset) {
         newState.comments = action.payload.comments.reverse();
       } else {

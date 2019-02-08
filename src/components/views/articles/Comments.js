@@ -3,7 +3,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Button, Comment, Form, Header, Container, Loader
+  Button,
+  Comment,
+  Form,
+  Header,
+  Container,
+  Loader,
+  Transition,
+  List
 } from "semantic-ui-react";
 import InfiniteScroll from "react-infinite-scroller";
 import "../../../assets/style/main.scss";
@@ -27,10 +34,14 @@ const CommentsView = (props) => {
             </Container>
 )}
         >
-          {comments.comments.map((comment, i) =>
-            (comment.parent === 0 ? (
-              <NewComment articleSlug={parent.props.articleSlug} comment={comment} key={i} />
-            ) : null))}
+          <Transition.Group duration={1800} as={List}>
+            {comments.comments.map((comment, i) =>
+              (comment.parent === 0 ? (
+                <List.Item>
+                  <NewComment articleSlug={parent.props.articleSlug} comment={comment} key={i} />
+                </List.Item>
+              ) : null))}
+          </Transition.Group>
         </InfiniteScroll>
 
         <Form reply onSubmit={parent.onSubmit} size="large">
@@ -57,7 +68,7 @@ const CommentsView = (props) => {
 
 CommentsView.propTypes = {
   parent: PropTypes.object.isRequired,
-  comments: PropTypes.object.isRequired
+  comments: PropTypes.array.isRequired
 };
 
 export default CommentsView;

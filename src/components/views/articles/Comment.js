@@ -9,7 +9,9 @@ import {
   Popup,
   Grid,
   TextArea,
-  Button
+  Button,
+  List,
+  Transition
 } from "semantic-ui-react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -50,16 +52,25 @@ InputComponent.propTypes = {
 };
 
 function renderComments(comments, slug) {
-  return comments.map((item, i) => <NewComment articleSlug={slug} comment={item} key={i} />);
+  return (
+    <Transition.Group duration={1800} as={List}>
+      {comments.map((item, i) => (
+        <List.Item>
+          <NewComment articleSlug={slug} comment={item} key={i} />
+        </List.Item>
+      ))}
+    </Transition.Group>
+  );
 }
 
 export const confirmDelete = (props) => {
   confirmAlert({
     title: "Confirm delete",
-    message: "Are you sure you want to delete this comment",
+    message: "Are you sure you want to delete this comment?",
     buttons: [
       {
         label: "Yes",
+        className: "btn__hover",
         onClick: () => {
           props();
         }
@@ -145,7 +156,8 @@ function CommentComponent(props) {
                     <Grid centered divided columns={2}>
                       <Grid.Column textAlign="center">
                         <Icon
-                          size="small"
+                          size="large"
+                          link
                           name="pencil alternate"
                           onClick={() => {
                             parent.toggleEditComments();
@@ -154,7 +166,8 @@ function CommentComponent(props) {
                       </Grid.Column>
                       <Grid.Column textAlign="center">
                         <Icon
-                          size="small"
+                          size="large"
+                          link
                           name="trash alternate"
                           onClick={() => {
                             confirmDelete(parent.deleteComment);
@@ -196,10 +209,10 @@ function CommentComponent(props) {
 }
 
 CommentComponent.propTypes = {
-  comment: PropTypes.array.isRequired,
-  parent: PropTypes.array.isRequired,
+  comment: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired,
   toggleReply: PropTypes.bool.isRequired,
-  replyComment: PropTypes.array.isRequired,
+  replyComment: PropTypes.string.isRequired,
   toggleReplyComment: PropTypes.bool.isRequired,
   editCommentToggle: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired

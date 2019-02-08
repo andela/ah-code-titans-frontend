@@ -160,3 +160,16 @@
 .likedislike {
   float: right;
 }
+
+.react-confirm-alert-button-group>button:first-child {
+  background: red !important;
+}
+
+.react-confirm-alert-button-group>button:last-child {
+  background: green !important;
+}
+
+.ui.grid>.column:not(.row) {
+  padding-top: .5rem !important;
+  padding-bottom: .5rem !important;
+}

@@ -69,7 +69,7 @@ class CommentsContainer extends Component {
 }
 CommentsContainer.propTypes = {
   actions: PropTypes.object.isRequired,
-  comments: PropTypes.object.isRequired,
+  comments: PropTypes.array.isRequired,
   articleSlug: PropTypes.string.isRequired
 };
 

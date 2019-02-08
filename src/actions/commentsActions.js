@@ -32,18 +32,6 @@ export const deleteCommentSuccess = payload => ({
   payload
 });
 
-export const getComments = (slug, reset = false) => (dispatch, getState) => {
-  const offset = getState().comment.mainOffset.next;
-  CommentsApi.getComments(slug, reset ? 0 : offset).then((response) => {
-    response.data = { ...response.data, reset };
-    if (response.success) {
-      dispatch(getArticleCommentSuccess(response.data));
-    } else if (response.error.status === 404) {
-      dispatch(getArticleCommentFailure({ reset }));
-    }
-  });
-};
-
 export const getReplyComment = (comment, reset = false) => (dispatch) => {
   CommentsApi.getReplyComment({ slug: comment.slug, id: comment.id }).then((response) => {
     if (response.success) {
@@ -60,6 +48,22 @@ export const getReplyComment = (comment, reset = false) => (dispatch) => {
     }
   });
 };
+
+export const getComments = (slug, reset = false) => (dispatch, getState) => {
+  const offset = getState().comment.mainOffset.next;
+  CommentsApi.getComments(slug, reset ? 0 : offset).then((response) => {
+    response.data = { ...response.data, reset };
+    if (response.success) {
+      dispatch(getArticleCommentSuccess(response.data));
+      response.data.comments.map((comment) => {
+        dispatch(getReplyComment({ slug, id: comment.id }));
+      });
+    } else if (response.error.status === 404) {
+      dispatch(getArticleCommentFailure({ reset }));
+    }
+  });
+};
+
 export const updateComment = comment => (dispatch) => {
   CommentsApi.updateComment(comment).then((response) => {
     if (response.success) {
@@ -76,7 +80,7 @@ export const deleteComment = comment => (dispatch) => {
   CommentsApi.deleteComment(comment).then((response) => {
     if (response.success) {
       if (comment.parent === 0) {
-        dispatch(getComments(comment.slug, true));
+        dispatch(deleteCommentSuccess({ id: comment.id }));
       } else {
         dispatch(deleteCommentSuccess({ id: comment.id }));
       }

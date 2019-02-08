@@ -26,6 +26,16 @@ class Comment extends Component {
     actions.getReplyComment({ slug: articleSlug, id: comment.id }, true);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      comments: newComments, comment, actions, articleSlug
+    } = this.props;
+    const { comments: prevComments } = prevProps;
+    if (newComments.comments.length !== prevComments.comments.length) {
+      actions.getReplyComment({ slug: articleSlug, id: comment.id }, true);
+    }
+  }
+
   onHandleChange = (event) => {
     this.setState({
       replyComment: event.target.value
@@ -116,7 +126,8 @@ Comment.propTypes = {
   comment: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  articleSlug: PropTypes.string.isRequired
+  articleSlug: PropTypes.string.isRequired,
+  comments: PropTypes.array.isRequired
 };
 
 export default connect(
