@@ -4,7 +4,7 @@ import { configure, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
-import configureStore, { configureStoreTest } from "./store/configureStore";
+import configureStore from "./store/configureStore";
 import initialState from "./store/initialState";
 
 configure({ adapter: new Adapter() });
