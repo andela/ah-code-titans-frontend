@@ -50,8 +50,9 @@ export default {
   tag: {
     articles: {}
   },
-  bookmarkedReducer: {
-    bookmark: ""
+  bookmarkArticle: {
+    bookmark: "",
+    bookmarks: []
   },
   profiles: {
     users: []

@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import instance from "./axiosConfig";
+import { axiosProtected as instance } from "./axiosConfig";
 
 export default class bookmarkArticleApi {
   static bookmarkApi(slug) {
@@ -35,6 +35,28 @@ export default class bookmarkArticleApi {
         }
       }).catch((err) => {
         if (err.response.status !== 204) {
+          return {
+            success: false,
+            error: {
+              status: err.response.status,
+              data: err.response.data
+            }
+          };
+        }
+      });
+  }
+
+  static getBookmarksApi() {
+    return instance.get("/api/articles/all/bookmarks")
+      .then((response) => {
+        if (response.status === 200) {
+          return {
+            content: response.data.bookmarks.results,
+            success: true
+          };
+        }
+      }).catch((err) => {
+        if (err.response.status !== 200) {
           return {
             success: false,
             error: {
