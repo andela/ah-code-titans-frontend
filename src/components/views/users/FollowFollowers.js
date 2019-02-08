@@ -1,25 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import {
-  Card, Image, Grid, Header, Icon
+  Card, Image, Grid, Header
 } from "semantic-ui-react";
+import PropTypes from "prop-types";
 
-const ViewUsers = (props) => {
-  const { onUserNameClick, profile } = props;
+const FollowersFollowingUsers = (props) => {
+  const { profile } = props;
   return (
     <div>
       <div className="ui text container font">
         <Grid columns="equal">
           <Grid.Row className="profile__pa">
             <Grid.Column>
-              <Header as={Link} to={`/user/${profile.username}`} onClick={(event => onUserNameClick(event, profile))}>
+              <Header as={Link} to={`/user/${profile.username}`}>
                 {profile.username}
               </Header>
-              <Card.Meta>
-                <Icon className="map marker alternate" />
-                <span>{profile.location}</span>
-              </Card.Meta>
               <Card.Description>{profile.bio}</Card.Description>
             </Grid.Column>
             <Grid.Column>
@@ -37,9 +33,8 @@ const ViewUsers = (props) => {
   );
 };
 
-ViewUsers.propTypes = {
-  profile: PropTypes.object.isRequired,
-  onUserNameClick: PropTypes.func.isRequired
+FollowersFollowingUsers.propTypes = {
+  profile: PropTypes.object.isRequired
 };
 
-export default ViewUsers;
+export default FollowersFollowingUsers;

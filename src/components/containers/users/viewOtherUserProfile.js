@@ -11,14 +11,14 @@ class ViewOtherUserProfile extends Component {
   constructor(props) {
     const { author } = props;
     super(props);
-    this.state = {
-      follow: author.searchedProfile.following
-    };
+
+    const follow = author === undefined ? false : author.following;
+    this.state = { follow };
   }
 
   componentDidMount() {
-    const { actions, article } = this.props;
-    actions.author.fetchOtherProfile(article.author.username);
+    const { actions, match } = this.props;
+    actions.author.fetchOtherProfile(match.params.username);
   }
 
   onFollowUnfollowClick = () => {
@@ -45,11 +45,12 @@ class ViewOtherUserProfile extends Component {
     const { author, user, location } = this.props;
     const { follow } = this.state;
 
+    if (author.username === undefined) return <div />;
     return (
       <div>
         <HeaderComponent location={location} />
         <ViewUserProfile
-          profile={author.searchedProfile}
+          profile={author}
           user={user}
           onFollowUnfollowClick={this.onFollowUnfollowClick}
           follow={follow}
@@ -60,7 +61,7 @@ class ViewOtherUserProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-  author: state.searchedProfile,
+  author: state.searchedProfile.user,
   article: state.article.singleArticle,
   user: state.loginReducer.auth
 });
@@ -73,7 +74,7 @@ const mapDispatchToProps = dispatch => ({
 
 ViewOtherUserProfile.propTypes = {
   actions: PropTypes.object.isRequired,
-  article: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   author: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired

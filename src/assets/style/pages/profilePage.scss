@@ -3,7 +3,6 @@
     margin: 0 auto;
   }
   &__follow {
-    text-decoration: underline;
     cursor: pointer;
     float:left;
     margin-right:2rem;
@@ -18,7 +17,7 @@
   }
 
   &__info {
-    padding-top: 1rem !important;
+    padding-top: 1.5rem !important;
   }
   &__margin-left {
     margin: 0 1rem;

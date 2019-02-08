@@ -1,29 +1,36 @@
 /* eslint-disable consistent-return */
-import instance from "./axiosConfig";
+import { axiosProtected } from "./axiosConfig";
 import toastr from "../helpers/toastrConfig";
+import { history } from "../store/configureStore";
 
 export default class RetrieveUserProfilesAPI {
   static getUsers() {
-    return instance.get(
+    return axiosProtected.get(
       "/api/profiles/?limit=123456789"
     ).then((response) => {
       if (response.status === 200) {
-        return response;
+        return {
+          success: true,
+          content: response
+        };
       }
     })
       .catch((response) => {
-        if (response.response.status === 401) {
-          toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/");
-        } else if (response.response.status === 500 || response.response.status === 504) {
-          toastr.info("Please try again after some time");
-          window.location.assign("/profile");
+        if (response.response !== undefined && response.response.status !== 200) {
+          return {
+            success: false,
+            error: {
+              status: response.response.status
+            }
+          };
         }
+
+        return { success: false };
       });
   }
 
   static followUser(username) {
-    return instance.post(
+    return axiosProtected.post(
       `/api/profiles/${username}/follow`
     ).then((response) => {
       if (response.status === 201) {
@@ -45,7 +52,7 @@ export default class RetrieveUserProfilesAPI {
   }
 
   static unFollowUser(username) {
-    return instance.delete(
+    return axiosProtected.delete(
       `/api/profiles/${username}/follow`
     ).then((response) => {
       if (response.status === 204) {
@@ -55,23 +62,31 @@ export default class RetrieveUserProfilesAPI {
     })
       .catch((response) => {
         if (response.response.status === 401) {
-          toastr.error("You have been logged out. Please log in and try again");
-          window.location.assign("/");
+          toastr.error("You have been logged out. Please log in and try hhhhhhhagain");
+          history.push("/");
+          history.go(0);
         } else if (response.response.status === 500 || response.response.status === 504) {
           toastr.info("Please try again after some time");
-          window.location.assign("/profiles");
         }
       });
   }
 
   static retrieveSpecificProfile(username) {
-    return instance.get(
+    return axiosProtected.get(
       `/api/profiles/${username}`
     ).then((response) => {
       if (response.status === 200) {
-        // console.log(response.data.data);
         return response;
       }
-    });
+    })
+      .catch((response) => {
+        if (response.response.status === 401) {
+          toastr.error("You have been logged out. Please log in and try again");
+          history.push("/");
+          history.go(0);
+        } else if (response.response.status === 500 || response.response.status === 504) {
+          toastr.info("Please try again after some time");
+        }
+      });
   }
 }
