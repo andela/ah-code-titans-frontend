@@ -58,7 +58,7 @@ export class Profile extends React.Component {
     });
   }
 
-  toggleEditProfile = editing => this.setState({ editing });
+  toggleEditProfile = editing => this.setState({ editing, showFollowInfo: false, activeItem: "profile" });
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name, showFollowInfo: false });
 
@@ -66,7 +66,8 @@ export class Profile extends React.Component {
     this.setState({
       showFollowInfo: true,
       followdata: data,
-      heading: e.target.innerHTML.slice(50)
+      heading: e.target.innerHTML.slice(50),
+      activeItem: ""
     });
   }
 

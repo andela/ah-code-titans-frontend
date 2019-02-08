@@ -49,7 +49,7 @@ class EditProfile extends React.Component {
   render() {
     const { form } = this.state;
     return (
-      <Grid.Row className="ui container">
+      <Grid.Row className="ui text container">
         <Header className="profile__info">Edit Your Profile Details</Header>
         <Form onSubmit={this.onSubmit} className="test-form">
           <Form.Field>
